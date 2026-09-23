@@ -1,0 +1,406 @@
+[
+  {
+    "case": "violet-cube",
+    "group": "new color",
+    "seed": 331100,
+    "instruction": "lift the violet cube",
+    "target_slot": "red_cube",
+    "condition": {
+      "object": [
+        "red_cube",
+        "box",
+        [
+          0.015,
+          0.015,
+          0.015
+        ],
+        0.015,
+        [
+          0.42,
+          0.18,
+          0.72,
+          1
+        ]
+      ]
+    },
+    "mask_count_initial": 4,
+    "mask_areas_initial": [
+      775,
+      446,
+      1075,
+      500
+    ],
+    "predictions": [
+      [
+        "reach",
+        null
+      ],
+      [
+        "lower",
+        null
+      ],
+      [
+        "close",
+        null
+      ],
+      [
+        "lift",
+        null
+      ],
+      [
+        "done",
+        null
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "lower",
+      "close",
+      "lift"
+    ],
+    "selected_slot": "red_cube",
+    "target_confidence": 0.6990554332733154,
+    "target_uv": [
+      192.316,
+      294.406
+    ],
+    "expected_target_initial_xyz": [
+      -0.0379,
+      -0.2828,
+      0.0249
+    ],
+    "grasp_estimates": [
+      {
+        "retry": false,
+        "xyz": [
+          -0.0374,
+          -0.2828,
+          0.025
+        ],
+        "yaw_deg": 23.9
+      }
+    ],
+    "grasp_xyz": [
+      -0.0374,
+      -0.2828,
+      0.025
+    ],
+    "expected_target_peak_rise_mm": 57.1,
+    "expected_target_final_rise_mm": 57.1,
+    "jaw": 0.223,
+    "grasp_retries": 0,
+    "status": "Plan complete",
+    "exception": null,
+    "lift_unverified": false,
+    "finished": true,
+    "failed": false,
+    "pass": true,
+    "image": "violet-cube.jpg",
+    "video": "violet-cube.mp4"
+  },
+  {
+    "case": "coral-block",
+    "group": "new color",
+    "seed": 331101,
+    "instruction": "pick up the coral block",
+    "target_slot": "yellow_block",
+    "condition": {
+      "object": [
+        "yellow_block",
+        "box",
+        [
+          0.012,
+          0.022,
+          0.015
+        ],
+        0.015,
+        [
+          0.92,
+          0.3,
+          0.28,
+          1
+        ]
+      ]
+    },
+    "mask_count_initial": 4,
+    "mask_areas_initial": [
+      853,
+      513,
+      1098,
+      376
+    ],
+    "predictions": [
+      [
+        "reach",
+        null
+      ],
+      [
+        "lower",
+        null
+      ],
+      [
+        "close",
+        null
+      ],
+      [
+        "lift",
+        null
+      ],
+      [
+        "done",
+        null
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "lower",
+      "close",
+      "lift"
+    ],
+    "selected_slot": "green_cylinder",
+    "target_confidence": 0.33352306485176086,
+    "target_uv": [
+      194.48936170212767,
+      294.76329787234044
+    ],
+    "expected_target_initial_xyz": [
+      0.0388,
+      -0.2787,
+      0.0249
+    ],
+    "grasp_estimates": [
+      {
+        "retry": false,
+        "xyz": [
+          -0.0367,
+          -0.2778,
+          0.025
+        ],
+        "yaw_deg": 0.0
+      }
+    ],
+    "grasp_xyz": [
+      -0.0367,
+      -0.2778,
+      0.025
+    ],
+    "expected_target_peak_rise_mm": 0.0,
+    "expected_target_final_rise_mm": 0.0,
+    "jaw": 0.149,
+    "grasp_retries": 0,
+    "status": "Plan complete",
+    "exception": null,
+    "lift_unverified": false,
+    "finished": true,
+    "failed": false,
+    "pass": false,
+    "image": "coral-block.jpg",
+    "video": "coral-block.mp4"
+  },
+  {
+    "case": "blue-capsule",
+    "group": "new shape",
+    "seed": 331104,
+    "instruction": "lift the blue capsule",
+    "target_slot": "blue_cube",
+    "condition": {
+      "object": [
+        "blue_cube",
+        "capsule",
+        [
+          0.011,
+          0.012,
+          0
+        ],
+        0.023,
+        null
+      ]
+    },
+    "mask_count_initial": 4,
+    "mask_areas_initial": [
+      1099,
+      611,
+      569,
+      360
+    ],
+    "predictions": [
+      [
+        "reach",
+        null
+      ],
+      [
+        "lower",
+        null
+      ],
+      [
+        "close",
+        null
+      ],
+      [
+        "lift",
+        null
+      ],
+      [
+        "done",
+        null
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "lower",
+      "close",
+      "lift"
+    ],
+    "selected_slot": "blue_cube",
+    "target_confidence": 0.9103309512138367,
+    "target_uv": [
+      191.53333333333333,
+      294.5416666666667
+    ],
+    "expected_target_initial_xyz": [
+      -0.0387,
+      -0.2824,
+      0.0251
+    ],
+    "grasp_estimates": [
+      {
+        "retry": false,
+        "xyz": [
+          -0.0446,
+          -0.2838,
+          0.025
+        ],
+        "yaw_deg": 0.8
+      }
+    ],
+    "grasp_xyz": [
+      -0.0446,
+      -0.2838,
+      0.025
+    ],
+    "expected_target_peak_rise_mm": 57.2,
+    "expected_target_final_rise_mm": 57.2,
+    "jaw": 0.124,
+    "grasp_retries": 0,
+    "status": "Plan complete",
+    "exception": null,
+    "lift_unverified": false,
+    "finished": true,
+    "failed": false,
+    "pass": true,
+    "image": "blue-capsule.jpg",
+    "video": "blue-capsule.mp4"
+  },
+  {
+    "case": "tall-cyan-tube",
+    "group": "new shape + height",
+    "seed": 331105,
+    "instruction": "pick up the cyan tube",
+    "target_slot": "green_cylinder",
+    "condition": {
+      "object": [
+        "green_cylinder",
+        "cylinder",
+        [
+          0.012,
+          0.028,
+          0
+        ],
+        0.028,
+        [
+          0.08,
+          0.62,
+          0.7,
+          1
+        ]
+      ]
+    },
+    "mask_count_initial": 4,
+    "mask_areas_initial": [
+      926,
+      570,
+      911,
+      587
+    ],
+    "predictions": [
+      [
+        "reach",
+        null
+      ],
+      [
+        "lower",
+        null
+      ],
+      [
+        "close",
+        null
+      ],
+      [
+        "lift",
+        null
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "lower",
+      "close"
+    ],
+    "selected_slot": "green_cylinder",
+    "target_confidence": 0.7764372825622559,
+    "target_uv": [
+      123.81327800829875,
+      297.60165975103735
+    ],
+    "expected_target_initial_xyz": [
+      -0.0303,
+      -0.3419,
+      0.0302
+    ],
+    "grasp_estimates": [
+      {
+        "retry": false,
+        "xyz": [
+          -0.0546,
+          -0.3487,
+          0.025
+        ],
+        "yaw_deg": 13.5
+      },
+      {
+        "retry": true,
+        "xyz": [
+          -0.0529,
+          -0.3629,
+          0.025
+        ],
+        "yaw_deg": -3.9
+      },
+      {
+        "retry": true,
+        "xyz": [
+          -0.0298,
+          -0.3699,
+          0.025
+        ],
+        "yaw_deg": 16.4
+      }
+    ],
+    "grasp_xyz": [
+      -0.0298,
+      -0.3699,
+      0.025
+    ],
+    "expected_target_peak_rise_mm": 5.7,
+    "expected_target_final_rise_mm": 3.3,
+    "jaw": 1.549,
+    "grasp_retries": 2,
+    "status": "RGB grasp retry failed",
+    "exception": null,
+    "lift_unverified": false,
+    "finished": false,
+    "failed": true,
+    "pass": false,
+    "image": "tall-cyan-tube.jpg",
+    "video": "tall-cyan-tube.mp4"
+  }
+]

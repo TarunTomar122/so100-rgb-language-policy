@@ -1,7 +1,7 @@
 """Calibrated single-RGB grasp estimate for the colored tabletop prototype.
 
 Only the RGB frame, fixed camera calibration, and table height enter here.
-The saturated-object mask is a temporary stand-in for a language-selected mask.
+The mask comes from an RGB language-selected object proposal.
 """
 
 from __future__ import annotations

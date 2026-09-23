@@ -1,4 +1,4 @@
-"""One-pass image/text target selector over RGB object masks."""
+"""RGB object proposals and the historical learned target head."""
 
 from __future__ import annotations
 
@@ -8,10 +8,19 @@ import torch
 from torch import nn
 
 
-def candidate_masks(image: np.ndarray, count: int = 4) -> list[np.ndarray]:
+def candidate_masks(image: np.ndarray, count: int = 4,
+                    background: np.ndarray | None = None) -> list[np.ndarray]:
     """Split saturated tabletop objects by color without object names or poses."""
     hsv = cv2.cvtColor(image, cv2.COLOR_RGB2HSV)
     visible = (hsv[:, :, 1] > 110) & (hsv[:, :, 2] > 45)
+    if background is not None:
+        current = cv2.GaussianBlur(image, (5, 5), 0).astype(np.int16)
+        empty = cv2.GaussianBlur(background, (5, 5), 0).astype(np.int16)
+        changed = (np.max(np.abs(current - empty), axis=2) > 28).astype(np.uint8)
+        changed = cv2.morphologyEx(changed, cv2.MORPH_OPEN, np.ones((3, 3), np.uint8))
+        # ponytail: a fixed camera needs an empty-table frame at the same pose/light.
+        if count * 80 <= int(changed.sum()) < image.shape[0] * image.shape[1] // 4:
+            visible &= changed.astype(bool)
     ys, xs = np.nonzero(visible)
     if len(xs) < count * 80:
         return []

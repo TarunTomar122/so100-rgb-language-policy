@@ -1,22 +1,24 @@
-# SO-100 RGB + language tabletop demo
+# SO-100 RGB + language tabletop policy
 
-A MuJoCo SO-100 arm receives a free-text instruction, sees a **single fixed RGB camera**, and tries to reach, grasp, lift, move, or release one of four colored tabletop objects. The browser UI is the simulator, a text box, Run, and a speed slider.
+A MuJoCo SO-100 arm takes free-text commands and a **single fixed RGB camera** image, chooses a tabletop object, estimates a grasp, and executes skills through IK. This is a simulation experiment. It has **not** been tested on a physical SO-100 or arbitrary household objects.
 
-This is a simulation prototype. It has **not** been tested on a physical SO-100 or on arbitrary household objects.
+## Watch actual policy runs
 
-## Watch real policy runs
+Every MP4 below records the arm executing the current policy in MuJoCo. The stills show the initial RGB observation and final scene. Failures are included deliberately.
 
-These videos were recorded from the same `ActionDemo` policy and MuJoCo simulation used by the browser. The linked stills show the first and last frames; the recordings include the arm's actual movement.
-
-| Instruction | Recording |
+| Command and outcome | Recording |
 | --- | --- |
-| “go near the blue cube” | [![First and last frames](media/go-near-blue.jpg)](media/go-near-blue.mp4) |
-| “please grab the red block and hold it up” | [![First and last frames](media/lift-red.jpg)](media/lift-red.mp4) |
-| “lift the green tube and put it down on the right” | [![First and last frames](media/move-green-right.jpg)](media/move-green-right.mp4) |
+| “go near the blue cube” — approaches with jaws open | [![Approach](media/go-near-blue.jpg)](media/go-near-blue.mp4) |
+| “lift the green tube and put it down on the right” — compound instruction | [![Move and release](media/move-green-right.jpg)](media/move-green-right.mp4) |
+| “lift the violet cube” — unseen color, succeeds | [![Violet cube](eval/ood-v2/clips/holdout/violet-cube.jpg)](eval/ood-v2/clips/holdout/violet-cube.mp4) |
+| “lift the blue capsule” — unseen shape, succeeds | [![Blue capsule](eval/ood-v2/clips/holdout/blue-capsule.jpg)](eval/ood-v2/clips/holdout/blue-capsule.mp4) |
+| “lift the green cylinder” on a teal table — succeeds; held object becomes occluded | [![Teal table](eval/ood-v2/clips/stress/teal-table.jpg)](eval/ood-v2/clips/stress/teal-table.mp4) |
+| “pick up the coral block” — fails by selecting another object | [![Coral failure](eval/ood-v2/clips/holdout/coral-block.jpg)](eval/ood-v2/clips/holdout/coral-block.mp4) |
+| “pick up the cyan tube” — fails at contact | [![Tube failure](eval/ood-v2/clips/holdout/tall-cyan-tube.jpg)](eval/ood-v2/clips/holdout/tall-cyan-tube.mp4) |
 
-## Run it
+## Run
 
-On Apple Silicon macOS with Homebrew and [uv](https://docs.astral.sh/uv/):
+Tested on a 32 GB Apple Silicon Mac with Homebrew, [uv](https://docs.astral.sh/uv/), and MoltenVK:
 
 ```bash
 git clone https://github.com/TarunTomar122/so100-rgb-language-policy.git
@@ -24,49 +26,41 @@ cd so100-rgb-language-policy
 brew install molten-vk
 uv sync
 source scripts/vulkan_env.sh
-uv run python -m so100.action_demo
+uv run --frozen python -m so100.action_demo
 ```
 
-Open **http://127.0.0.1:8772/**. The first run downloads pretrained SigLIP 2 and MiniLM weights from Hugging Face; the two small trained heads are already in `data/`. On another platform, provide a working MuJoCo renderer and skip the macOS Vulkan script.
+Open **http://127.0.0.1:8772/**. The first run downloads frozen [SigLIP 2](https://huggingface.co/google/siglip2-base-patch16-256) and [Qwen3-4B-Instruct](https://huggingface.co/Qwen/Qwen3-4B-Instruct-2507) weights; they are not stored in this repo. The local language planner requires substantially more memory than the earlier tiny action head.
 
-To check the end-to-end policy or regenerate the recordings:
+## How the current policy works
+
+1. The simulator captures an **empty-table RGB reference** with the same fixed camera before placing objects. Foreground change filters table pixels; color clustering proposes visible object masks.
+2. Frozen SigLIP 2 compares crops of those masks with the full instruction and chooses one. RGB pixels, camera calibration, and an assumed 30 mm object height provide a 3D grasp estimate. **No depth image or simulator object pose is used for motion selection.**
+3. Frozen Qwen3-4B plans a sequence from the existing `reach`, `lower`, `close`, `lift`, `left`, `right`, `up`, `down`, `open`, `done` skills. IK and the MuJoCo controller execute them. RGB and jaw opening check the lift; if the camera loses sight of a held object, the policy records that uncertainty.
+
+The earlier trained target and GRU action heads are retained in `data/` and their training scripts, but the current browser policy does **not** load or retrain them. The planner receives skill meanings in its prompt. Unsupported instructions can lead to an empty, invalid, or unhelpful model plan; there is no special `unsupported` action or phrase-specific rule.
+
+## Measured results and limits
+
+| Scene set | Completed correctly |
+| --- | ---: |
+| Original frozen policy stress test | 16 / 28 |
+| Revised policy on those same, already inspected scenes | **21 / 28** |
+| New holdout scenes | **8 / 13** |
+| Second fresh set | **6 / 10** |
+
+These are seeded simulation scenes, not real-world success rates. The detailed [evaluation report](eval/ood-v2/REPORT.md) links every result, failure frame, and recorded video; [research notes](docs/robustness-research.md) cite the primary sources and tested alternatives.
+
+The current proposal stage still expects four mostly distinct, saturated objects. Similar colors can merge, flat/tall objects break the fixed-height grasp, and the gripper can miss even when target selection and IK are correct. The single view can also lose sight of an object inside the jaws. The browser marks completion of the **plan**, not a verified physical success. An external simulator grader uses object poses only to score these experiments.
+
+Reproduce the checks and recordings:
 
 ```bash
-uv run python -m so100.action_demo --check
-uv run python -m so100.eval_action_demo --near
-uv run python -m so100.eval_action_demo --final
-uv run python -m scripts.record_demos  # also needs ffmpeg on PATH
+source scripts/vulkan_env.sh
+uv run --frozen python -m so100.action_demo --check
+uv run --frozen python -m scripts.eval_ood --output eval/ood-v2/stress
+uv run --frozen python -m scripts.eval_ood --mode holdout --output eval/ood-v2/holdout
+uv run --frozen python -m scripts.eval_ood --mode fresh --output eval/ood-v2/fresh
+uv run --frozen python -m scripts.record_demos  # ffmpeg required
 ```
 
-## How it works
-
-```mermaid
-flowchart LR
-  A[RGB frame + instruction] --> B[Color-based object masks]
-  A --> C[Frozen SigLIP 2]
-  B --> D[Learned target head]
-  C --> D
-  D --> E[Chosen object mask]
-  E --> F[Calibrated RGB grasp estimate]
-  A --> G[MiniLM text embeddings]
-  G --> H[Learned action head]
-  I[Arm height, gripper, action history] --> H
-  H --> J[Next skill]
-  F --> K[IK + MuJoCo controller]
-  J --> K
-```
-
-The target head chooses among **four RGB color clusters**. The grasp estimator uses the calibrated side camera, known table plane, and an assumed object top height to turn image pixels into a 3D grasp point and orientation. It does not consume a depth image. The action head predicts one of `reach`, `lower`, `close`, `lift`, `left`, `right`, `up`, `down`, `open`, and `done` from text embeddings, arm state, and prior skills. IK turns the chosen skill into joint targets. A fresh RGB frame checks the lift and triggers a limited grasp retry when needed.
-
-The skills and geometry are engineered; **target choice and skill choice are learned**. Simulator object positions are used for scene generation, training labels, and evaluation, not for runtime motion selection.
-
-## Current boundary
-
-- The four objects have distinct saturated colors and approximately known 30 mm height. RGB clustering, fixed camera calibration, and known table geometry are part of this prototype.
-- Free text is accepted, but the head only has ten skills. It can choose an unhelpful skill or `done` for a command it cannot express. There is no rule that rejects “unsupported” sentences.
-- “Drop” currently means open the gripper; it does not plan a stable placement. “Move left/right” uses fixed 3 cm steps in the camera's frame.
-- No real camera calibration, actuator calibration, or sim-to-real transfer has been verified yet.
-
-See [EXPERIMENTS.md](EXPERIMENTS.md) for the path from click-to-IK to this demo, the recorded test results, and the main failures. The SO-100 model attribution and pretrained model links are in [NOTICE.md](NOTICE.md).
-
-The frozen policy's [unfamiliar-object, environment, and image-noise stress test](eval/ood-v1/REPORT.md) includes every trial result, same-seed controls, failure images, and videos. No retraining was done for that test.
+See [EXPERIMENTS.md](EXPERIMENTS.md) for the path from click-to-IK to this policy and [NOTICE.md](NOTICE.md) for model and robot attribution.

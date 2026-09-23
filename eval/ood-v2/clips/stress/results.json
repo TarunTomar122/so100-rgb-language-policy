@@ -1,0 +1,198 @@
+[
+  {
+    "case": "blue-tube",
+    "group": "new shape",
+    "seed": 321011,
+    "instruction": "lift the blue cylinder",
+    "target_slot": "blue_cube",
+    "condition": {
+      "object": [
+        "blue_cube",
+        "cylinder",
+        [
+          0.011,
+          0.021,
+          0
+        ],
+        0.021,
+        null
+      ]
+    },
+    "mask_count_initial": 4,
+    "mask_areas_initial": [
+      1089,
+      363,
+      739,
+      316
+    ],
+    "predictions": [
+      [
+        "reach",
+        null
+      ],
+      [
+        "lower",
+        null
+      ],
+      [
+        "close",
+        null
+      ],
+      [
+        "lift",
+        null
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "lower",
+      "close"
+    ],
+    "selected_slot": "blue_cube",
+    "target_confidence": 0.9953333735466003,
+    "target_uv": [
+      75.25078369905957,
+      253.24451410658307
+    ],
+    "expected_target_initial_xyz": [
+      -0.0323,
+      -0.2783,
+      0.025
+    ],
+    "grasp_estimates": [
+      {
+        "retry": false,
+        "xyz": [
+          -0.048,
+          -0.2813,
+          0.025
+        ],
+        "yaw_deg": 0.0
+      },
+      {
+        "retry": true,
+        "xyz": [
+          -0.1468,
+          -0.3086,
+          0.025
+        ],
+        "yaw_deg": -28.6
+      },
+      {
+        "retry": true,
+        "xyz": [
+          -0.2017,
+          -0.5027,
+          0.025
+        ],
+        "yaw_deg": -21.8
+      }
+    ],
+    "grasp_xyz": [
+      -0.2017,
+      -0.5027,
+      0.025
+    ],
+    "expected_target_peak_rise_mm": 0.2,
+    "expected_target_final_rise_mm": -14.2,
+    "jaw": 1.549,
+    "grasp_retries": 2,
+    "status": "RGB grasp retry failed",
+    "exception": null,
+    "lift_unverified": false,
+    "finished": false,
+    "failed": true,
+    "pass": false,
+    "image": "blue-tube.jpg",
+    "video": "blue-tube.mp4"
+  },
+  {
+    "case": "teal-table",
+    "group": "environment",
+    "seed": 321042,
+    "instruction": "lift the green cylinder",
+    "target_slot": "green_cylinder",
+    "condition": {
+      "table": [
+        0.18,
+        0.42,
+        0.34,
+        1
+      ]
+    },
+    "mask_count_initial": 4,
+    "mask_areas_initial": [
+      591,
+      731,
+      965,
+      666
+    ],
+    "predictions": [
+      [
+        "reach",
+        null
+      ],
+      [
+        "lower",
+        null
+      ],
+      [
+        "close",
+        null
+      ],
+      [
+        "lift",
+        null
+      ],
+      [
+        "done",
+        null
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "lower",
+      "close",
+      "lift"
+    ],
+    "selected_slot": "green_cylinder",
+    "target_confidence": 0.98385089635849,
+    "target_uv": [
+      134.21150592216583,
+      316.5431472081218
+    ],
+    "expected_target_initial_xyz": [
+      0.0334,
+      -0.3434,
+      0.0248
+    ],
+    "grasp_estimates": [
+      {
+        "retry": false,
+        "xyz": [
+          0.0343,
+          -0.3433,
+          0.025
+        ],
+        "yaw_deg": 0.0
+      }
+    ],
+    "grasp_xyz": [
+      0.0343,
+      -0.3433,
+      0.025
+    ],
+    "expected_target_peak_rise_mm": 58.3,
+    "expected_target_final_rise_mm": 58.3,
+    "jaw": 0.144,
+    "grasp_retries": 0,
+    "status": "Plan complete",
+    "exception": null,
+    "lift_unverified": true,
+    "finished": true,
+    "failed": false,
+    "pass": true,
+    "image": "teal-table.jpg",
+    "video": "teal-table.mp4"
+  }
+]

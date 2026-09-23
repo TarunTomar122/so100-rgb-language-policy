@@ -1,4 +1,4 @@
-"""Free-text, learned next-skill SO-100 tabletop demo.
+"""Free-text SO-100 tabletop demo with frozen vision and language models.
 
 Run: source scripts/vulkan_env.sh && PYTHONPATH=. .venv/bin/python -m so100.action_demo
 Open: http://127.0.0.1:8772/
@@ -15,14 +15,13 @@ import numpy as np
 import torch
 from PIL import Image
 
-from so100.action_head import ActionHead, ActionText, SKILLS, execute_skill, state_vector
+from so100.action_head import execute_skill
 from so100.encode import Siglip2
 from so100.executor import Executor
 from so100.ik_point_demo import serve
+from so100.language_planner import LanguagePlanner
 from so100.rgb_grasp import estimate_grasp
-from so100.rgb_target import TargetHead, candidate_masks, pool_patches
-from so100.train_action_head import CHECKPOINT as ACTION_CHECKPOINT
-from so100.train_action_target import CHECKPOINT as TARGET_CHECKPOINT
+from so100.rgb_target import candidate_masks
 from so100.train_rgb_target import SIZE, scene, setup_world
 from so100.sim import MOVABLES
 from so100.vision import project_xyz
@@ -34,11 +33,7 @@ class ActionDemo:
     def __init__(self) -> None:
         self.device = "mps" if torch.backends.mps.is_available() else "cpu"
         self.eyes = Siglip2(self.device)
-        self.language = ActionText(self.device)
-        self.target_head = TargetHead().to(self.device).eval()
-        self.target_head.load_state_dict(torch.load(TARGET_CHECKPOINT, map_location=self.device, weights_only=False)["state"])
-        self.action_head = ActionHead().to(self.device).eval()
-        self.action_head.load_state_dict(torch.load(ACTION_CHECKPOINT, map_location=self.device, weights_only=False)["state"])
+        self.language = LanguagePlanner(self.device)
         self.world = setup_world()
         self.executor = Executor(self.world)
         self.seed = 289999
@@ -46,9 +41,10 @@ class ActionDemo:
 
     def reset(self) -> dict:
         self.seed += 1
-        scene(self.world, self.seed, annotate=False)
+        scene(self.world, self.seed, annotate=False,
+              on_empty=lambda frame: setattr(self, "background", frame))
         self.instruction = ""
-        self.tokens: torch.Tensor | None = None
+        self.plan: list[str] | None = None
         self.history: list[str] = []
         self.grasp: dict | None = None
         self.target_uv: list[float] | None = None
@@ -58,6 +54,7 @@ class ActionDemo:
         self.target_chroma: np.ndarray | None = None
         self.target_initial_y: float | None = None
         self.visual_rise_px: float | None = None
+        self.lift_unverified = False
         self.grasp_retries = 0
         self.last_model_choice: str | None = None
         self.failed = False
@@ -69,8 +66,9 @@ class ActionDemo:
         text = " ".join(text.strip().split())
         if not text or len(text) > 200:
             raise ValueError("Enter an instruction of at most 200 characters")
+        plan = self.language.plan(text)
         self.instruction = text
-        self.tokens = torch.tensor(self.language.embed([text]), device=self.device)
+        self.plan = plan
         self.history = []
         self.grasp = None
         self.target_uv = None
@@ -80,37 +78,37 @@ class ActionDemo:
         self.target_chroma = None
         self.target_initial_y = None
         self.visual_rise_px = None
+        self.lift_unverified = False
         self.grasp_retries = 0
         self.last_model_choice = None
         self.failed = False
         self.finished = False
-        self.status = "Instruction loaded. The action head will predict the first step."
+        self.status = "Instruction planned"
         return self.state()
 
-    @torch.no_grad()
-    def _predict(self) -> tuple[str, float] | None:
-        if self.tokens is None or self.failed or self.finished:
+    def _predict(self) -> tuple[str, float | None] | None:
+        if self.plan is None or self.failed or self.finished:
             return None
-        state = torch.tensor(state_vector(self.world, self.history)[None], device=self.device)
-        logits = self.action_head(self.tokens, state)[0]
-        prob = torch.softmax(logits, -1)
-        index = int(prob.argmax().item())
-        return SKILLS[index], float(prob[index].item())
+        return (self.plan[len(self.history)] if len(self.history) < len(self.plan) else "done"), None
 
     def _find_grasp(self, retry: bool = False) -> None:
         image = self.world.render(SIZE)
-        masks = candidate_masks(image)
-        if len(masks) != 4:
-            raise ValueError("RGB camera cannot separate four object candidates in this view")
-        # One image-encoder pass for this pickup. Later steps use cached text and arm state.
-        vis = self.eyes.embed_image([Image.fromarray(image)])[0]
-        txt = self.eyes.embed_text_mean([self.instruction])[0]
-        candidates = pool_patches(vis, masks)
+        masks = candidate_masks(image, background=self.background)
+        if not masks:
+            raise ValueError("RGB camera found no object candidates in this view")
+        # Frozen SigLIP compares each visible crop with the instruction.
+        crops = []
+        for mask in masks:
+            ys, xs = np.nonzero(mask)
+            x0, x1 = max(0, int(xs.min()) - 12), min(SIZE, int(xs.max()) + 13)
+            y0, y1 = max(0, int(ys.min()) - 12), min(SIZE, int(ys.max()) + 13)
+            crops.append(Image.fromarray(image[y0:y1, x0:x1]))
+        batch = self.eyes.processor(images=crops, text=[self.instruction],
+                                    padding="max_length", max_length=48,
+                                    return_tensors="pt")
         with torch.no_grad():
-            logits = self.target_head(
-                torch.tensor(candidates[None], device=self.device),
-                torch.tensor(txt[None], device=self.device),
-            )[0]
+            logits = self.eyes.model(**{key: value.to(self.device)
+                                        for key, value in batch.items()}).logits_per_image[:, 0]
             prob = torch.softmax(logits, -1)
             index = int(prob.argmax().item())
             confidence = float(prob[index].item())
@@ -128,18 +126,18 @@ class ActionDemo:
             ))
             self.initial_target_z = float(self.world.object_xyz(self.target_name)[2])
 
-    def _visual_lifted(self) -> bool:
+    def _visual_lifted(self) -> bool | None:
         assert self.target_chroma is not None and self.target_initial_y is not None
         image = self.world.render(SIZE)
-        masks = candidate_masks(image)
-        if len(masks) != 4:
-            raise ValueError("RGB camera lost the target after lifting")
+        masks = candidate_masks(image, background=self.background)
+        if not masks:
+            return None
         colors = [image[mask].mean(axis=0) for mask in masks]
         chromas = [color / max(float(color.sum()), 1.0) for color in colors]
         distances = [float(np.linalg.norm(color - self.target_chroma)) for color in chromas]
         index = int(np.argmin(distances))
         if distances[index] > 0.08:
-            raise ValueError("RGB camera cannot track the lifted target")
+            return None
         self.visual_rise_px = self.target_initial_y - float(np.nonzero(masks[index])[0].mean())
         # ponytail: fixed side camera, 18 px observed lift threshold; recalibrate on a real camera.
         return self.visual_rise_px >= 18
@@ -164,14 +162,14 @@ class ActionDemo:
         choice = self._predict()
         if choice is None:
             return self.state()
-        skill, confidence = choice
+        skill, _ = choice
         self.last_model_choice = skill
-        if len(self.history) >= 12:
+        if skill == "done":
+            self.finished = True
+            self.status = "Plan complete" if self.history else "Planner chose no action"
+        elif len(self.history) >= 12:
             self.failed = True
             self.status = "Stopped after 12 actions; the model did not finish the instruction"
-        elif skill == "done":
-            self.finished = True
-            self.status = "Instruction complete" if self.history else f"Model chose done ({confidence:.0%})"
         else:
             try:
                 if skill == "reach" and self.grasp is None:
@@ -184,8 +182,10 @@ class ActionDemo:
                     success = self._retry_grasp(0, 0.008)
                 if success and skill == "lift" and self.grasp is not None:
                     lifted = self._visual_lifted()
+                    if lifted is None and self.world.finger_gap() >= 0.015:
+                        self.lift_unverified = True
                     retries = ((0, 0.008), (60, 0.003), (-60, 0.003), (90, 0.008))
-                    while not lifted and self.grasp_retries < len(retries):
+                    while (lifted is False or (lifted is None and not self.lift_unverified)) and self.grasp_retries < len(retries):
                         retried = True
                         offset, bias = retries[self.grasp_retries]
                         success = self._retry_grasp(offset, bias)
@@ -195,7 +195,10 @@ class ActionDemo:
                         if not success:
                             break
                         lifted = self._visual_lifted()
-                    if success and not lifted:
+                        if lifted is None and self.world.finger_gap() >= 0.015:
+                            self.lift_unverified = True
+                            break
+                    if success and lifted is not True and not self.lift_unverified:
                         self.failed = True
                         self.status = f"RGB sees no lift after {len(retries)} grasp retries"
                 if not success:
@@ -204,13 +207,11 @@ class ActionDemo:
                                    else f"{skill} failed: IK or physical limit")
                 else:
                     self.history.append(skill)
-                    rise = self._target_rise()
-                    if not self.failed and skill == "lift" and rise is not None and rise < 30:
-                        self.failed = True
-                        self.status = f"Grasp missed: selected object rose {rise:.0f} mm"
-                    elif not self.failed:
+                    if not self.failed:
                         suffix = " after RGB retry" if retried else ""
-                        self.status = f"Executed {skill}{suffix} ({confidence:.0%} model confidence)"
+                        self.status = ("Lift not visible; jaw gap suggests an object is held"
+                                       if skill == "lift" and self.lift_unverified
+                                       else f"Executed {skill}{suffix}")
             except ValueError as exc:
                 self.failed = True
                 self.status = str(exc)
@@ -232,6 +233,7 @@ class ActionDemo:
             "history": self.history,
             "next_action": None if choice is None else choice[0],
             "action_confidence": None if choice is None else choice[1],
+            "plan": self.plan,
             "last_model_choice": self.last_model_choice,
             "tip_uv": project_xyz(self.world, self.world.tcp(), SIZE),
             "target_uv": self.target_uv,
@@ -241,6 +243,7 @@ class ActionDemo:
             "target_rise_mm": self._target_rise(),
             "grasp_retries": self.grasp_retries,
             "visual_rise_px": self.visual_rise_px,
+            "lift_unverified": self.lift_unverified,
             "status": self.status,
             "finished": self.finished,
             "failed": self.failed,

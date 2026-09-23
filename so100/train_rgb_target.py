@@ -37,7 +37,8 @@ def setup_world() -> Tabletop:
     return world
 
 
-def scene(world: Tabletop, seed: int, annotate: bool = True, wide: bool = False) -> tuple[np.ndarray, list[np.ndarray], list[int] | None]:
+def scene(world: Tabletop, seed: int, annotate: bool = True, wide: bool = False,
+          on_empty=None) -> tuple[np.ndarray, list[np.ndarray], list[int] | None]:
     rng = np.random.default_rng(seed)
     for _ in range(100 if wide else 30):
         world.home()
@@ -64,10 +65,13 @@ def scene(world: Tabletop, seed: int, annotate: bool = True, wide: bool = False)
                 yaw = float(rng.uniform(0, np.pi / 2))
                 x, y = ax + float(rng.uniform(-0.005, 0.005)), ay + float(rng.uniform(-0.005, 0.005))
                 placements.append((name, x, y, yaw))
+        world.set_camera(np.array([0.75, -0.13, 0.34]), np.array([0.0, -0.19, 0.10]))
+        mujoco.mj_forward(world.model, world.data)
+        if on_empty is not None:
+            on_empty(world.render(SIZE))
         for name, x, y, yaw in placements:
             world.set_object(name, np.array([x, y, TABLE_TOP + 0.020]), np.array([np.cos(yaw / 2), 0, 0, np.sin(yaw / 2)]))
         world.step(80)
-        world.set_camera(np.array([0.75, -0.13, 0.34]), np.array([0.0, -0.19, 0.10]))
         mujoco.mj_forward(world.model, world.data)
         image = world.render(SIZE)
         masks = candidate_masks(image)

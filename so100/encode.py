@@ -1,4 +1,4 @@
-"""Frozen SigLIP 2 tokens. The decision head is the only thing we train."""
+"""Frozen SigLIP 2 image and text encoder."""
 
 from __future__ import annotations
 
