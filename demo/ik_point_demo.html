@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SO-100 · Click a 3D point</title>
+<style>
+  :root { color-scheme:dark; font-family:ui-sans-serif,system-ui,-apple-system,sans-serif; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:#101514; color:#eef5ef; }
+  main { max-width:1120px; margin:auto; padding:26px 18px 40px; }
+  h1 { margin:0 0 5px; font-size:clamp(25px,4vw,38px); letter-spacing:-.04em; }
+  p { color:#aebdb3; line-height:1.5; }
+  .intro { margin:0 0 20px; }
+  .layout { display:grid; grid-template-columns:minmax(360px,1.25fr) minmax(270px,.75fr); gap:18px; }
+  .card { border:1px solid #34443b; background:#19211d; border-radius:17px; padding:15px; }
+  .stage { position:relative; width:100%; aspect-ratio:1; background:#303b38; border-radius:11px; overflow:hidden; }
+  #frame { position:absolute; inset:0; width:100%; height:100%; }
+  #targets { position:absolute; inset:0; }
+  .point { position:absolute; transform:translate(-50%,-50%); width:31px; height:31px; border-radius:50%; border:2px solid #102721; font-weight:700; font-size:12px; cursor:pointer; box-shadow:0 2px 10px #0009; }
+  .point.table { background:#a8f3c2; color:#163225; }
+  .point.above { background:#ffd28d; color:#4c2e08; }
+  .point.selected { outline:3px solid white; outline-offset:2px; }
+  .point:disabled { cursor:wait; opacity:.85; }
+  #tip { position:absolute; width:19px; height:19px; border:3px solid #6fddff; border-radius:50%; transform:translate(-50%,-50%); pointer-events:none; box-shadow:0 0 0 3px #082c36; }
+  .legend { display:flex; flex-wrap:wrap; gap:18px; margin:12px 0 0; color:#bfcdc3; font-size:13px; }
+  .legend span { display:flex; align-items:center; gap:7px; }
+  .dot { width:12px; height:12px; border-radius:50%; display:inline-block; }
+  .dot.table { background:#a8f3c2; } .dot.above { background:#ffd28d; } .dot.tip { border:3px solid #6fddff; }
+  .side { padding:22px; }
+  .side h2 { margin:0 0 9px; font-size:19px; }
+  .side p { margin:0 0 20px; font-size:14px; }
+  .status { padding:16px; background:#101814; border:1px solid #3f5749; border-radius:12px; font-weight:650; }
+  .status.good { border-color:#62b779; color:#b6fac8; }
+  .status.bad { border-color:#d88570; color:#ffc3b4; }
+  .readout { margin-top:12px; padding:12px 0; border-bottom:1px solid #334139; display:flex; justify-content:space-between; gap:14px; }
+  .readout label { color:#aab9ae; } .readout strong { text-align:right; font-variant-numeric:tabular-nums; }
+  button.reset { margin-top:22px; padding:11px 17px; border:1px solid #678272; border-radius:9px; background:#273a2e; color:#f2fff4; font:inherit; font-weight:650; cursor:pointer; }
+  button.reset:hover { background:#355442; }
+  .note { margin:16px 2px 0; font-size:13px; }
+  @media(max-width:760px) { .layout { grid-template-columns:1fr; } main { padding:18px 12px 32px; } .side { padding:17px; } }
+</style>
+</head>
+<body>
+<main>
+  <h1>Click a point. Watch the fingertip reach it.</h1>
+  <p class="intro">A side view of the simulated SO-100 arm. Each numbered dot is a real 3D position; the arm moves there using inverse kinematics.</p>
+  <div class="layout">
+    <section class="card" aria-label="Live robot view">
+      <div class="stage"><img id="frame" alt="Side view of the simulated arm and table"><div id="targets"></div><div id="tip" aria-hidden="true"></div></div>
+      <div class="legend"><span><i class="dot table"></i>Near table · 3 mm clearance</span><span><i class="dot above"></i>Raised · 55 mm</span><span><i class="dot tip"></i>Actual fingertip</span></div>
+    </section>
+    <section class="card side">
+      <h2>Choose a dot</h2>
+      <p>Click any green or orange point. The blue ring tracks the fixed jaw tip as the arm moves.</p>
+      <div class="status" id="status">Loading simulation…</div>
+      <div class="readout"><label>Selected point</label><strong id="selected">—</strong></div>
+      <div class="readout"><label>Target (X, Y, Z)</label><strong id="target">—</strong></div>
+      <div class="readout"><label>Tip distance to target</label><strong id="error">—</strong></div>
+      <div class="readout"><label>Move stage</label><strong id="step">—</strong></div>
+      <button class="reset" id="reset">Reset arm</button>
+      <p class="note">The dots are preset positions in the simulator. This checks 3D IK motion; it does not estimate object positions from a camera.</p>
+    </section>
+  </div>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+let moving = false;
+let generation = 0;
+async function api(path, body) {
+  const res = await fetch(path, body === undefined ? {} : {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body)});
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || 'Request failed');
+  return data;
+}
+function draw(s) {
+  $('frame').src = s.frame;
+  $('tip').style.left = `${s.tip_uv[0] / 512 * 100}%`;
+  $('tip').style.top = `${s.tip_uv[1] / 512 * 100}%`;
+  $('targets').replaceChildren(...s.points.map(p => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = `point ${p.layer}${s.selected === p.id ? ' selected' : ''}`;
+    b.style.left = `${p.uv[0] / 512 * 100}%`;
+    b.style.top = `${p.uv[1] / 512 * 100}%`;
+    b.textContent = String(p.id + 1);
+    b.setAttribute('aria-label', `Point ${p.id + 1}, ${p.layer === 'table' ? 'near table' : 'raised'}`);
+    b.title = `${p.layer === 'table' ? 'Near table' : 'Raised'} · point ${p.id + 1}`;
+    b.disabled = moving;
+    b.onclick = () => move(p.id);
+    return b;
+  }));
+  const p = s.selected == null ? null : s.points[s.selected];
+  $('selected').textContent = p ? `${p.layer === 'table' ? 'Near table' : 'Raised'} · ${p.id + 1}` : '—';
+  $('target').textContent = p ? p.xyz.map(v => (v * 100).toFixed(1)).join(', ') + ' cm' : '—';
+  $('error').textContent = s.error_mm == null ? '—' : `${s.error_mm.toFixed(1)} mm`;
+  $('step').textContent = p ? `${s.step} / 4` : '—';
+  $('status').textContent = s.status;
+  $('status').className = 'status' + (s.status.includes('reached') ? ' good' : s.status.includes('could not') || s.status.includes('short') ? ' bad' : '');
+}
+async function move(id) {
+  if (moving) return;
+  moving = true;
+  const run = ++generation;
+  try {
+    let s = await api('/api/select', {id});
+    draw(s);
+    while (s.moving && run === generation) {
+      await new Promise(resolve => setTimeout(resolve, 230));
+      s = await api('/api/step', {});
+      draw(s);
+    }
+  } catch (e) { $('status').textContent = e.message; $('status').className = 'status bad'; }
+  finally { moving = false; if (run === generation) draw(await api('/api/state')); }
+}
+$('reset').onclick = async () => {
+  generation++;
+  moving = false;
+  try { draw(await api('/api/reset', {})); }
+  catch (e) { $('status').textContent = e.message; $('status').className = 'status bad'; }
+};
+api('/api/state').then(draw).catch(e => { $('status').textContent = e.message; $('status').className = 'status bad'; });
+</script>
+</body>
+</html>
