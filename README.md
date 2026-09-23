@@ -35,7 +35,7 @@ To check the end-to-end policy or regenerate the recordings:
 uv run python -m so100.action_demo --check
 uv run python -m so100.eval_action_demo --near
 uv run python -m so100.eval_action_demo --final
-uv run python scripts/record_demos.py  # also needs ffmpeg on PATH
+uv run python -m scripts.record_demos  # also needs ffmpeg on PATH
 ```
 
 ## How it works
@@ -68,3 +68,5 @@ The skills and geometry are engineered; **target choice and skill choice are lea
 - No real camera calibration, actuator calibration, or sim-to-real transfer has been verified yet.
 
 See [EXPERIMENTS.md](EXPERIMENTS.md) for the path from click-to-IK to this demo, the recorded test results, and the main failures. The SO-100 model attribution and pretrained model links are in [NOTICE.md](NOTICE.md).
+
+The frozen policy's [unfamiliar-object, environment, and image-noise stress test](eval/ood-v1/REPORT.md) includes every trial result, same-seed controls, failure images, and videos. No retraining was done for that test.

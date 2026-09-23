@@ -1,0 +1,245 @@
+[
+  {
+    "case": "control-blue-tube",
+    "group": "control",
+    "seed": 321011,
+    "instruction": "lift the blue cube",
+    "target_slot": "blue_cube",
+    "condition": {},
+    "mask_count_initial": 4,
+    "mask_areas_initial": [
+      1087,
+      361,
+      737,
+      472
+    ],
+    "predictions": [
+      [
+        "reach",
+        1.0
+      ],
+      [
+        "lower",
+        0.99
+      ],
+      [
+        "close",
+        1.0
+      ],
+      [
+        "lift",
+        1.0
+      ],
+      [
+        "done",
+        1.0
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "lower",
+      "close",
+      "lift"
+    ],
+    "selected_slot": "blue_cube",
+    "target_confidence": 0.9964148998260498,
+    "target_uv": [
+      194.36864406779662,
+      295.3686440677966
+    ],
+    "expected_target_initial_xyz": [
+      -0.0323,
+      -0.2783,
+      0.0248
+    ],
+    "grasp_estimates": [
+      {
+        "retry": false,
+        "xyz": [
+          -0.0311,
+          -0.2782,
+          0.025
+        ],
+        "yaw_deg": 0.8
+      }
+    ],
+    "grasp_xyz": [
+      -0.0311,
+      -0.2782,
+      0.025
+    ],
+    "expected_target_peak_rise_mm": 58.2,
+    "expected_target_final_rise_mm": 58.2,
+    "jaw": 0.225,
+    "grasp_retries": 0,
+    "status": "Instruction complete",
+    "exception": null,
+    "finished": true,
+    "failed": false,
+    "pass": true,
+    "image": "control-blue-tube.jpg",
+    "video": null
+  },
+  {
+    "case": "control-teal-table",
+    "group": "control",
+    "seed": 321042,
+    "instruction": "lift the green cylinder",
+    "target_slot": "green_cylinder",
+    "condition": {},
+    "mask_count_initial": 4,
+    "mask_areas_initial": [
+      565,
+      731,
+      946,
+      682
+    ],
+    "predictions": [
+      [
+        "reach",
+        1.0
+      ],
+      [
+        "lower",
+        0.992
+      ],
+      [
+        "close",
+        1.0
+      ],
+      [
+        "lift",
+        1.0
+      ],
+      [
+        "done",
+        1.0
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "lower",
+      "close",
+      "lift"
+    ],
+    "selected_slot": "green_cylinder",
+    "target_confidence": 0.9994688630104065,
+    "target_uv": [
+      134.0070796460177,
+      316.353982300885
+    ],
+    "expected_target_initial_xyz": [
+      0.0334,
+      -0.3434,
+      0.0248
+    ],
+    "grasp_estimates": [
+      {
+        "retry": false,
+        "xyz": [
+          0.0339,
+          -0.3434,
+          0.025
+        ],
+        "yaw_deg": 0.0
+      }
+    ],
+    "grasp_xyz": [
+      0.0339,
+      -0.3434,
+      0.025
+    ],
+    "expected_target_peak_rise_mm": 58.3,
+    "expected_target_final_rise_mm": 58.3,
+    "jaw": 0.144,
+    "grasp_retries": 0,
+    "status": "Instruction complete",
+    "exception": null,
+    "finished": true,
+    "failed": false,
+    "pass": true,
+    "image": "control-teal-table.jpg",
+    "video": null
+  },
+  {
+    "case": "control-jpeg-25",
+    "group": "control",
+    "seed": 321053,
+    "instruction": "lift the yellow block",
+    "target_slot": "yellow_block",
+    "condition": {},
+    "mask_count_initial": 4,
+    "mask_areas_initial": [
+      573,
+      697,
+      1075,
+      518
+    ],
+    "predictions": [
+      [
+        "reach",
+        1.0
+      ],
+      [
+        "lower",
+        0.982
+      ],
+      [
+        "close",
+        1.0
+      ],
+      [
+        "lift",
+        1.0
+      ],
+      [
+        "done",
+        1.0
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "lower",
+      "close",
+      "lift"
+    ],
+    "selected_slot": "yellow_block",
+    "target_confidence": 0.9995951056480408,
+    "target_uv": [
+      182.34418604651162,
+      319.37767441860467
+    ],
+    "expected_target_initial_xyz": [
+      0.0373,
+      -0.2802,
+      0.0248
+    ],
+    "grasp_estimates": [
+      {
+        "retry": false,
+        "xyz": [
+          0.038,
+          -0.2803,
+          0.025
+        ],
+        "yaw_deg": 15.1
+      }
+    ],
+    "grasp_xyz": [
+      0.038,
+      -0.2803,
+      0.025
+    ],
+    "expected_target_peak_rise_mm": 56.6,
+    "expected_target_final_rise_mm": 56.6,
+    "jaw": 0.123,
+    "grasp_retries": 0,
+    "status": "Instruction complete",
+    "exception": null,
+    "finished": true,
+    "failed": false,
+    "pass": true,
+    "image": "control-jpeg-25.jpg",
+    "video": null
+  }
+]

@@ -1,0 +1,803 @@
+[
+  {
+    "case": "known-word-red-ball",
+    "group": "known-word",
+    "seed": 321010,
+    "instruction": "lift the red cube",
+    "target_slot": "red_cube",
+    "condition": {
+      "object": [
+        "red_cube",
+        "sphere",
+        [
+          0.018,
+          0,
+          0
+        ],
+        0.018,
+        null
+      ]
+    },
+    "mask_count_initial": 4,
+    "predictions": [
+      [
+        "reach",
+        1.0
+      ],
+      [
+        "lower",
+        0.99
+      ],
+      [
+        "close",
+        1.0
+      ],
+      [
+        "lift",
+        1.0
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "lower",
+      "close"
+    ],
+    "selected_slot": "red_cube",
+    "target_confidence": 0.9853698015213013,
+    "expected_target_peak_rise_mm": 2.6,
+    "expected_target_final_rise_mm": 2.6,
+    "jaw": 1.551,
+    "grasp_retries": 3,
+    "status": "RGB grasp retry failed",
+    "exception": null,
+    "finished": false,
+    "failed": true,
+    "pass": false,
+    "image": "known-word-red-ball.jpg"
+  },
+  {
+    "case": "known-word-blue-tube",
+    "group": "known-word",
+    "seed": 321011,
+    "instruction": "lift the blue cube",
+    "target_slot": "blue_cube",
+    "condition": {
+      "object": [
+        "blue_cube",
+        "cylinder",
+        [
+          0.011,
+          0.021,
+          0
+        ],
+        0.021,
+        null
+      ]
+    },
+    "mask_count_initial": 4,
+    "predictions": [
+      [
+        "reach",
+        1.0
+      ],
+      [
+        "lower",
+        0.99
+      ],
+      [
+        "close",
+        1.0
+      ],
+      [
+        "lift",
+        1.0
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "lower",
+      "close"
+    ],
+    "selected_slot": "blue_cube",
+    "target_confidence": 0.9992271661758423,
+    "expected_target_peak_rise_mm": 0.2,
+    "expected_target_final_rise_mm": -14.2,
+    "jaw": 1.549,
+    "grasp_retries": 2,
+    "status": "RGB grasp retry failed",
+    "exception": null,
+    "finished": false,
+    "failed": true,
+    "pass": false,
+    "image": "known-word-blue-tube.jpg"
+  },
+  {
+    "case": "known-word-green-ball",
+    "group": "known-word",
+    "seed": 321012,
+    "instruction": "lift the green cylinder",
+    "target_slot": "green_cylinder",
+    "condition": {
+      "object": [
+        "green_cylinder",
+        "sphere",
+        [
+          0.017,
+          0,
+          0
+        ],
+        0.017,
+        null
+      ]
+    },
+    "mask_count_initial": 4,
+    "predictions": [
+      [
+        "reach",
+        1.0
+      ],
+      [
+        "lower",
+        0.992
+      ],
+      [
+        "close",
+        1.0
+      ],
+      [
+        "lift",
+        1.0
+      ],
+      [
+        "done",
+        1.0
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "lower",
+      "close",
+      "lift"
+    ],
+    "selected_slot": "green_cylinder",
+    "target_confidence": 0.9682074189186096,
+    "expected_target_peak_rise_mm": 58.7,
+    "expected_target_final_rise_mm": 58.7,
+    "jaw": 0.147,
+    "grasp_retries": 0,
+    "status": "Instruction complete",
+    "exception": null,
+    "finished": true,
+    "failed": false,
+    "pass": true,
+    "image": "known-word-green-ball.jpg"
+  },
+  {
+    "case": "known-word-yellow-bar",
+    "group": "known-word",
+    "seed": 321013,
+    "instruction": "lift the yellow block",
+    "target_slot": "yellow_block",
+    "condition": {
+      "object": [
+        "yellow_block",
+        "box",
+        [
+          0.01,
+          0.024,
+          0.012
+        ],
+        0.012,
+        null
+      ]
+    },
+    "mask_count_initial": 4,
+    "predictions": [
+      [
+        "reach",
+        1.0
+      ],
+      [
+        "lower",
+        0.982
+      ],
+      [
+        "close",
+        1.0
+      ],
+      [
+        "lift",
+        1.0
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "lower",
+      "close"
+    ],
+    "selected_slot": "yellow_block",
+    "target_confidence": 0.9992355108261108,
+    "expected_target_peak_rise_mm": 0.0,
+    "expected_target_final_rise_mm": -2.0,
+    "jaw": 1.55,
+    "grasp_retries": 3,
+    "status": "RGB grasp retry failed",
+    "exception": null,
+    "finished": false,
+    "failed": true,
+    "pass": false,
+    "image": "known-word-yellow-bar.jpg"
+  },
+  {
+    "case": "known-word-red-egg",
+    "group": "known-word",
+    "seed": 321014,
+    "instruction": "lift the red cube",
+    "target_slot": "red_cube",
+    "condition": {
+      "object": [
+        "red_cube",
+        "ellipsoid",
+        [
+          0.013,
+          0.013,
+          0.02
+        ],
+        0.02,
+        null
+      ]
+    },
+    "mask_count_initial": 4,
+    "predictions": [
+      [
+        "reach",
+        1.0
+      ],
+      [
+        "lower",
+        0.99
+      ],
+      [
+        "close",
+        1.0
+      ],
+      [
+        "lift",
+        1.0
+      ],
+      [
+        "done",
+        0.999
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "lower",
+      "close",
+      "lift"
+    ],
+    "selected_slot": "red_cube",
+    "target_confidence": 0.9999315738677979,
+    "expected_target_peak_rise_mm": 47.8,
+    "expected_target_final_rise_mm": 47.8,
+    "jaw": -0.014,
+    "grasp_retries": 3,
+    "status": "Instruction complete",
+    "exception": null,
+    "finished": true,
+    "failed": false,
+    "pass": true,
+    "image": "known-word-red-egg.jpg"
+  },
+  {
+    "case": "known-word-purple-cube",
+    "group": "known-word",
+    "seed": 321020,
+    "instruction": "lift the red cube",
+    "target_slot": "red_cube",
+    "condition": {
+      "object": [
+        "red_cube",
+        "box",
+        [
+          0.015,
+          0.015,
+          0.015
+        ],
+        0.015,
+        [
+          0.55,
+          0.2,
+          0.65,
+          1
+        ]
+      ]
+    },
+    "mask_count_initial": 4,
+    "predictions": [
+      [
+        "reach",
+        1.0
+      ],
+      [
+        "lower",
+        0.99
+      ],
+      [
+        "close",
+        1.0
+      ],
+      [
+        "lift",
+        1.0
+      ],
+      [
+        "done",
+        1.0
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "lower",
+      "close",
+      "lift"
+    ],
+    "selected_slot": "yellow_block",
+    "target_confidence": 0.5914874076843262,
+    "expected_target_peak_rise_mm": 0.0,
+    "expected_target_final_rise_mm": 0.0,
+    "jaw": 0.125,
+    "grasp_retries": 0,
+    "status": "Instruction complete",
+    "exception": null,
+    "finished": true,
+    "failed": false,
+    "pass": false,
+    "image": "known-word-purple-cube.jpg"
+  },
+  {
+    "case": "known-word-orange-cube",
+    "group": "known-word",
+    "seed": 321021,
+    "instruction": "lift the blue cube",
+    "target_slot": "blue_cube",
+    "condition": {
+      "object": [
+        "blue_cube",
+        "box",
+        [
+          0.015,
+          0.015,
+          0.015
+        ],
+        0.015,
+        [
+          0.92,
+          0.35,
+          0.08,
+          1
+        ]
+      ]
+    },
+    "mask_count_initial": 4,
+    "predictions": [
+      [
+        "reach",
+        1.0
+      ],
+      [
+        "lower",
+        0.99
+      ],
+      [
+        "close",
+        1.0
+      ],
+      [
+        "lift",
+        1.0
+      ],
+      [
+        "done",
+        1.0
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "lower",
+      "close",
+      "lift"
+    ],
+    "selected_slot": "blue_cube",
+    "target_confidence": 0.5486425757408142,
+    "expected_target_peak_rise_mm": 53.9,
+    "expected_target_final_rise_mm": 53.9,
+    "jaw": 0.23,
+    "grasp_retries": 0,
+    "status": "Instruction complete",
+    "exception": null,
+    "finished": true,
+    "failed": false,
+    "pass": true,
+    "image": "known-word-orange-cube.jpg"
+  },
+  {
+    "case": "known-word-cyan-cylinder",
+    "group": "known-word",
+    "seed": 321022,
+    "instruction": "lift the green cylinder",
+    "target_slot": "green_cylinder",
+    "condition": {
+      "object": [
+        "green_cylinder",
+        "cylinder",
+        [
+          0.013,
+          0.015,
+          0
+        ],
+        0.015,
+        [
+          0.08,
+          0.62,
+          0.7,
+          1
+        ]
+      ]
+    },
+    "mask_count_initial": 4,
+    "predictions": [
+      [
+        "reach",
+        1.0
+      ],
+      [
+        "lower",
+        0.992
+      ],
+      [
+        "close",
+        1.0
+      ],
+      [
+        "lift",
+        1.0
+      ],
+      [
+        "done",
+        1.0
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "lower",
+      "close",
+      "lift"
+    ],
+    "selected_slot": "green_cylinder",
+    "target_confidence": 0.9626876711845398,
+    "expected_target_peak_rise_mm": 60.3,
+    "expected_target_final_rise_mm": 60.3,
+    "jaw": 0.14,
+    "grasp_retries": 0,
+    "status": "Instruction complete",
+    "exception": null,
+    "finished": true,
+    "failed": false,
+    "pass": true,
+    "image": "known-word-cyan-cylinder.jpg"
+  },
+  {
+    "case": "known-word-pink-block",
+    "group": "known-word",
+    "seed": 321023,
+    "instruction": "lift the yellow block",
+    "target_slot": "yellow_block",
+    "condition": {
+      "object": [
+        "yellow_block",
+        "box",
+        [
+          0.012,
+          0.022,
+          0.015
+        ],
+        0.015,
+        [
+          0.86,
+          0.32,
+          0.58,
+          1
+        ]
+      ]
+    },
+    "mask_count_initial": 4,
+    "predictions": [
+      [
+        "reach",
+        1.0
+      ],
+      [
+        "lower",
+        0.982
+      ],
+      [
+        "close",
+        1.0
+      ],
+      [
+        "lift",
+        1.0
+      ],
+      [
+        "done",
+        1.0
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "lower",
+      "close",
+      "lift"
+    ],
+    "selected_slot": "yellow_block",
+    "target_confidence": 0.7594401240348816,
+    "expected_target_peak_rise_mm": 58.9,
+    "expected_target_final_rise_mm": 58.9,
+    "jaw": 0.125,
+    "grasp_retries": 0,
+    "status": "Instruction complete",
+    "exception": null,
+    "finished": true,
+    "failed": false,
+    "pass": true,
+    "image": "known-word-pink-block.jpg"
+  },
+  {
+    "case": "known-word-purple-ball",
+    "group": "known-word",
+    "seed": 321030,
+    "instruction": "lift the red cube",
+    "target_slot": "red_cube",
+    "condition": {
+      "object": [
+        "red_cube",
+        "sphere",
+        [
+          0.018,
+          0,
+          0
+        ],
+        0.018,
+        [
+          0.55,
+          0.2,
+          0.65,
+          1
+        ]
+      ]
+    },
+    "mask_count_initial": 4,
+    "predictions": [
+      [
+        "reach",
+        1.0
+      ],
+      [
+        "lower",
+        0.99
+      ],
+      [
+        "close",
+        1.0
+      ],
+      [
+        "lift",
+        1.0
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "lower",
+      "close",
+      "lift"
+    ],
+    "selected_slot": "red_cube",
+    "target_confidence": 0.852882444858551,
+    "expected_target_peak_rise_mm": 0.0,
+    "expected_target_final_rise_mm": -7.4,
+    "jaw": -0.1,
+    "grasp_retries": 1,
+    "status": "Grasp missed: selected object rose -7 mm",
+    "exception": null,
+    "finished": false,
+    "failed": true,
+    "pass": false,
+    "image": "known-word-purple-ball.jpg"
+  },
+  {
+    "case": "known-word-cyan-puck",
+    "group": "known-word",
+    "seed": 321031,
+    "instruction": "lift the green cylinder",
+    "target_slot": "green_cylinder",
+    "condition": {
+      "object": [
+        "green_cylinder",
+        "cylinder",
+        [
+          0.018,
+          0.007,
+          0
+        ],
+        0.007,
+        [
+          0.08,
+          0.62,
+          0.7,
+          1
+        ]
+      ]
+    },
+    "mask_count_initial": 4,
+    "predictions": [
+      [
+        "reach",
+        1.0
+      ],
+      [
+        "lower",
+        0.992
+      ]
+    ],
+    "actual_actions": [
+      "reach"
+    ],
+    "selected_slot": "green_cylinder",
+    "target_confidence": 0.8384944796562195,
+    "expected_target_peak_rise_mm": 0.0,
+    "expected_target_final_rise_mm": 0.0,
+    "jaw": 1.4,
+    "grasp_retries": 0,
+    "status": "lower failed: IK or physical limit",
+    "exception": null,
+    "finished": false,
+    "failed": true,
+    "pass": false,
+    "image": "known-word-cyan-puck.jpg"
+  },
+  {
+    "case": "known-word-orange-capsule",
+    "group": "known-word",
+    "seed": 321032,
+    "instruction": "lift the blue cube",
+    "target_slot": "blue_cube",
+    "condition": {
+      "object": [
+        "blue_cube",
+        "capsule",
+        [
+          0.011,
+          0.012,
+          0
+        ],
+        0.023,
+        [
+          0.92,
+          0.35,
+          0.08,
+          1
+        ]
+      ]
+    },
+    "mask_count_initial": 4,
+    "predictions": [
+      [
+        "reach",
+        1.0
+      ],
+      [
+        "lower",
+        0.99
+      ],
+      [
+        "close",
+        1.0
+      ],
+      [
+        "lift",
+        1.0
+      ],
+      [
+        "done",
+        1.0
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "lower",
+      "close",
+      "lift"
+    ],
+    "selected_slot": "red_cube",
+    "target_confidence": 0.38130030035972595,
+    "expected_target_peak_rise_mm": 0.1,
+    "expected_target_final_rise_mm": 0.0,
+    "jaw": 0.212,
+    "grasp_retries": 0,
+    "status": "Instruction complete",
+    "exception": null,
+    "finished": true,
+    "failed": false,
+    "pass": false,
+    "image": "known-word-orange-capsule.jpg"
+  },
+  {
+    "case": "known-word-purple-ball-dim-jpeg",
+    "group": "known-word",
+    "seed": 321061,
+    "instruction": "lift the red cube",
+    "target_slot": "red_cube",
+    "condition": {
+      "object": [
+        "red_cube",
+        "sphere",
+        [
+          0.018,
+          0,
+          0
+        ],
+        0.018,
+        [
+          0.55,
+          0.2,
+          0.65,
+          1
+        ]
+      ],
+      "light": 0.35,
+      "noise": "jpeg25"
+    },
+    "mask_count_initial": 4,
+    "predictions": [
+      [
+        "reach",
+        1.0
+      ],
+      [
+        "lower",
+        0.99
+      ],
+      [
+        "close",
+        1.0
+      ],
+      [
+        "lift",
+        1.0
+      ],
+      [
+        "done",
+        1.0
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "lower",
+      "close",
+      "lift"
+    ],
+    "selected_slot": "red_cube",
+    "target_confidence": 0.37413859367370605,
+    "expected_target_peak_rise_mm": 38.7,
+    "expected_target_final_rise_mm": 38.7,
+    "jaw": 0.205,
+    "grasp_retries": 0,
+    "status": "Instruction complete",
+    "exception": null,
+    "finished": true,
+    "failed": false,
+    "pass": true,
+    "image": "known-word-purple-ball-dim-jpeg.jpg"
+  }
+]

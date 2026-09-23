@@ -1,0 +1,364 @@
+[
+  {
+    "case": "blue-tube",
+    "group": "new shape",
+    "seed": 321011,
+    "instruction": "lift the blue cylinder",
+    "target_slot": "blue_cube",
+    "condition": {
+      "object": [
+        "blue_cube",
+        "cylinder",
+        [
+          0.011,
+          0.021,
+          0
+        ],
+        0.021,
+        null
+      ]
+    },
+    "mask_count_initial": 4,
+    "mask_areas_initial": [
+      1089,
+      363,
+      739,
+      316
+    ],
+    "predictions": [
+      [
+        "reach",
+        1.0
+      ],
+      [
+        "lower",
+        0.984
+      ],
+      [
+        "close",
+        1.0
+      ],
+      [
+        "lift",
+        1.0
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "lower",
+      "close"
+    ],
+    "selected_slot": "blue_cube",
+    "target_confidence": 0.7306779623031616,
+    "target_uv": [
+      75.25078369905957,
+      253.24451410658307
+    ],
+    "expected_target_initial_xyz": [
+      -0.0323,
+      -0.2783,
+      0.025
+    ],
+    "grasp_estimates": [
+      {
+        "retry": false,
+        "xyz": [
+          -0.048,
+          -0.2813,
+          0.025
+        ],
+        "yaw_deg": 0.0
+      },
+      {
+        "retry": true,
+        "xyz": [
+          -0.1468,
+          -0.3086,
+          0.025
+        ],
+        "yaw_deg": -28.6
+      },
+      {
+        "retry": true,
+        "xyz": [
+          -0.2017,
+          -0.5027,
+          0.025
+        ],
+        "yaw_deg": -21.8
+      }
+    ],
+    "grasp_xyz": [
+      -0.2017,
+      -0.5027,
+      0.025
+    ],
+    "expected_target_peak_rise_mm": 0.2,
+    "expected_target_final_rise_mm": -14.2,
+    "jaw": 1.549,
+    "grasp_retries": 2,
+    "status": "RGB grasp retry failed",
+    "exception": null,
+    "finished": false,
+    "failed": true,
+    "pass": false,
+    "image": "blue-tube.jpg",
+    "video": null
+  },
+  {
+    "case": "teal-table",
+    "group": "environment",
+    "seed": 321042,
+    "instruction": "lift the green cylinder",
+    "target_slot": "green_cylinder",
+    "condition": {
+      "table": [
+        0.18,
+        0.42,
+        0.34,
+        1
+      ]
+    },
+    "mask_count_initial": 4,
+    "mask_areas_initial": [
+      731,
+      31449,
+      955,
+      662
+    ],
+    "predictions": [
+      [
+        "reach",
+        1.0
+      ],
+      [
+        "lower",
+        0.992
+      ],
+      [
+        "close",
+        1.0
+      ],
+      [
+        "lift",
+        1.0
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "lower",
+      "close"
+    ],
+    "selected_slot": "blue_cube",
+    "target_confidence": 0.9956877827644348,
+    "target_uv": [
+      177.85369255150556,
+      350.3492234548336
+    ],
+    "expected_target_initial_xyz": [
+      0.0334,
+      -0.3434,
+      0.0248
+    ],
+    "grasp_estimates": [
+      {
+        "retry": false,
+        "xyz": [
+          0.1071,
+          -0.2999,
+          0.025
+        ],
+        "yaw_deg": -0.0
+      },
+      {
+        "retry": true,
+        "xyz": [
+          0.1071,
+          -0.2999,
+          0.025
+        ],
+        "yaw_deg": -0.0
+      },
+      {
+        "retry": true,
+        "xyz": [
+          0.1071,
+          -0.2999,
+          0.025
+        ],
+        "yaw_deg": -0.0
+      }
+    ],
+    "grasp_xyz": [
+      0.1071,
+      -0.2999,
+      0.025
+    ],
+    "expected_target_peak_rise_mm": 0.5,
+    "expected_target_final_rise_mm": 0.1,
+    "jaw": 1.551,
+    "grasp_retries": 3,
+    "status": "RGB grasp retry failed",
+    "exception": null,
+    "finished": false,
+    "failed": true,
+    "pass": false,
+    "image": "teal-table.jpg",
+    "video": null
+  },
+  {
+    "case": "wide-placement",
+    "group": "environment",
+    "seed": 321044,
+    "instruction": "lift the red cube",
+    "target_slot": "red_cube",
+    "condition": {
+      "wide": true
+    },
+    "mask_count_initial": 4,
+    "mask_areas_initial": [
+      891,
+      628,
+      1190,
+      420
+    ],
+    "predictions": [
+      [
+        "reach",
+        1.0
+      ],
+      [
+        "lower",
+        0.989
+      ],
+      [
+        "close",
+        1.0
+      ],
+      [
+        "lift",
+        1.0
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "lower",
+      "close"
+    ],
+    "selected_slot": "red_cube",
+    "target_confidence": 0.999901533126831,
+    "target_uv": [
+      120.66105499438832,
+      312.86531986531986
+    ],
+    "expected_target_initial_xyz": [
+      0.0235,
+      -0.3642,
+      0.0248
+    ],
+    "grasp_estimates": [
+      {
+        "retry": false,
+        "xyz": [
+          0.0238,
+          -0.3642,
+          0.025
+        ],
+        "yaw_deg": -40.1
+      },
+      {
+        "retry": true,
+        "xyz": [
+          0.0237,
+          -0.364,
+          0.025
+        ],
+        "yaw_deg": -40.9
+      }
+    ],
+    "grasp_xyz": [
+      0.0237,
+      -0.364,
+      0.025
+    ],
+    "expected_target_peak_rise_mm": 0.1,
+    "expected_target_final_rise_mm": 0.1,
+    "jaw": 1.725,
+    "grasp_retries": 1,
+    "status": "RGB grasp retry failed",
+    "exception": null,
+    "finished": false,
+    "failed": true,
+    "pass": false,
+    "image": "wide-placement.jpg",
+    "video": null
+  },
+  {
+    "case": "jpeg-25",
+    "group": "image noise",
+    "seed": 321053,
+    "instruction": "lift the yellow block",
+    "target_slot": "yellow_block",
+    "condition": {
+      "noise": "jpeg25"
+    },
+    "mask_count_initial": 4,
+    "mask_areas_initial": [
+      532,
+      667,
+      1283,
+      504
+    ],
+    "predictions": [
+      [
+        "reach",
+        1.0
+      ],
+      [
+        "lower",
+        0.982
+      ]
+    ],
+    "actual_actions": [
+      "reach"
+    ],
+    "selected_slot": "yellow_block",
+    "target_confidence": 0.9995414018630981,
+    "target_uv": [
+      181.94933749025722,
+      319.1348402182385
+    ],
+    "expected_target_initial_xyz": [
+      0.0373,
+      -0.2802,
+      0.0248
+    ],
+    "grasp_estimates": [
+      {
+        "retry": false,
+        "xyz": [
+          0.0164,
+          -0.2833,
+          0.025
+        ],
+        "yaw_deg": 13.2
+      }
+    ],
+    "grasp_xyz": [
+      0.0164,
+      -0.2833,
+      0.025
+    ],
+    "expected_target_peak_rise_mm": 0.1,
+    "expected_target_final_rise_mm": -2.3,
+    "jaw": 1.4,
+    "grasp_retries": 0,
+    "status": "lower failed: IK or physical limit",
+    "exception": null,
+    "finished": false,
+    "failed": true,
+    "pass": false,
+    "image": "jpeg-25.jpg",
+    "video": null
+  }
+]

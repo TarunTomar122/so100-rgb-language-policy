@@ -1,0 +1,1266 @@
+[
+  {
+    "case": "control-red-ball",
+    "group": "control",
+    "seed": 321010,
+    "instruction": "lift the red cube",
+    "target_slot": "red_cube",
+    "condition": {},
+    "mask_count_initial": 4,
+    "predictions": [
+      [
+        "reach",
+        1.0
+      ],
+      [
+        "lower",
+        0.99
+      ],
+      [
+        "close",
+        1.0
+      ],
+      [
+        "lift",
+        1.0
+      ],
+      [
+        "done",
+        1.0
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "lower",
+      "close",
+      "lift"
+    ],
+    "selected_slot": "red_cube",
+    "target_confidence": 0.9994080066680908,
+    "expected_target_peak_rise_mm": 57.5,
+    "expected_target_final_rise_mm": 57.5,
+    "jaw": 0.217,
+    "grasp_retries": 0,
+    "status": "Instruction complete",
+    "exception": null,
+    "finished": true,
+    "failed": false,
+    "pass": true,
+    "image": "control-red-ball.jpg"
+  },
+  {
+    "case": "control-blue-tube",
+    "group": "control",
+    "seed": 321011,
+    "instruction": "lift the blue cube",
+    "target_slot": "blue_cube",
+    "condition": {},
+    "mask_count_initial": 4,
+    "predictions": [
+      [
+        "reach",
+        1.0
+      ],
+      [
+        "lower",
+        0.99
+      ],
+      [
+        "close",
+        1.0
+      ],
+      [
+        "lift",
+        1.0
+      ],
+      [
+        "done",
+        1.0
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "lower",
+      "close",
+      "lift"
+    ],
+    "selected_slot": "blue_cube",
+    "target_confidence": 0.9964148998260498,
+    "expected_target_peak_rise_mm": 58.2,
+    "expected_target_final_rise_mm": 58.2,
+    "jaw": 0.225,
+    "grasp_retries": 0,
+    "status": "Instruction complete",
+    "exception": null,
+    "finished": true,
+    "failed": false,
+    "pass": true,
+    "image": "control-blue-tube.jpg"
+  },
+  {
+    "case": "control-green-ball",
+    "group": "control",
+    "seed": 321012,
+    "instruction": "lift the green cylinder",
+    "target_slot": "green_cylinder",
+    "condition": {},
+    "mask_count_initial": 4,
+    "predictions": [
+      [
+        "reach",
+        1.0
+      ],
+      [
+        "lower",
+        0.992
+      ],
+      [
+        "close",
+        1.0
+      ],
+      [
+        "lift",
+        1.0
+      ],
+      [
+        "done",
+        1.0
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "lower",
+      "close",
+      "lift"
+    ],
+    "selected_slot": "green_cylinder",
+    "target_confidence": 0.9997624754905701,
+    "expected_target_peak_rise_mm": 61.7,
+    "expected_target_final_rise_mm": 61.7,
+    "jaw": 0.149,
+    "grasp_retries": 0,
+    "status": "Instruction complete",
+    "exception": null,
+    "finished": true,
+    "failed": false,
+    "pass": true,
+    "image": "control-green-ball.jpg"
+  },
+  {
+    "case": "control-yellow-bar",
+    "group": "control",
+    "seed": 321013,
+    "instruction": "lift the yellow block",
+    "target_slot": "yellow_block",
+    "condition": {},
+    "mask_count_initial": 4,
+    "predictions": [
+      [
+        "reach",
+        1.0
+      ],
+      [
+        "lower",
+        0.982
+      ],
+      [
+        "close",
+        1.0
+      ],
+      [
+        "lift",
+        1.0
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "lower",
+      "close"
+    ],
+    "selected_slot": "yellow_block",
+    "target_confidence": 0.9998395442962646,
+    "expected_target_peak_rise_mm": 0.1,
+    "expected_target_final_rise_mm": -2.9,
+    "jaw": 1.55,
+    "grasp_retries": 3,
+    "status": "RGB grasp retry failed",
+    "exception": null,
+    "finished": false,
+    "failed": true,
+    "pass": false,
+    "image": "control-yellow-bar.jpg"
+  },
+  {
+    "case": "control-red-egg",
+    "group": "control",
+    "seed": 321014,
+    "instruction": "lift the red cube",
+    "target_slot": "red_cube",
+    "condition": {},
+    "mask_count_initial": 4,
+    "predictions": [
+      [
+        "reach",
+        1.0
+      ],
+      [
+        "lower",
+        0.99
+      ],
+      [
+        "close",
+        1.0
+      ],
+      [
+        "lift",
+        1.0
+      ],
+      [
+        "done",
+        1.0
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "lower",
+      "close",
+      "lift"
+    ],
+    "selected_slot": "red_cube",
+    "target_confidence": 0.9995844960212708,
+    "expected_target_peak_rise_mm": 56.7,
+    "expected_target_final_rise_mm": 56.7,
+    "jaw": 0.226,
+    "grasp_retries": 0,
+    "status": "Instruction complete",
+    "exception": null,
+    "finished": true,
+    "failed": false,
+    "pass": true,
+    "image": "control-red-egg.jpg"
+  },
+  {
+    "case": "control-purple-cube",
+    "group": "control",
+    "seed": 321020,
+    "instruction": "lift the red cube",
+    "target_slot": "red_cube",
+    "condition": {},
+    "mask_count_initial": 4,
+    "predictions": [
+      [
+        "reach",
+        1.0
+      ],
+      [
+        "lower",
+        0.99
+      ],
+      [
+        "close",
+        1.0
+      ],
+      [
+        "lift",
+        1.0
+      ],
+      [
+        "done",
+        1.0
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "lower",
+      "close",
+      "lift"
+    ],
+    "selected_slot": "red_cube",
+    "target_confidence": 0.9994634985923767,
+    "expected_target_peak_rise_mm": 59.0,
+    "expected_target_final_rise_mm": 59.0,
+    "jaw": 0.212,
+    "grasp_retries": 0,
+    "status": "Instruction complete",
+    "exception": null,
+    "finished": true,
+    "failed": false,
+    "pass": true,
+    "image": "control-purple-cube.jpg"
+  },
+  {
+    "case": "control-orange-cube",
+    "group": "control",
+    "seed": 321021,
+    "instruction": "lift the blue cube",
+    "target_slot": "blue_cube",
+    "condition": {},
+    "mask_count_initial": 4,
+    "predictions": [
+      [
+        "reach",
+        1.0
+      ],
+      [
+        "lower",
+        0.99
+      ],
+      [
+        "close",
+        1.0
+      ],
+      [
+        "lift",
+        1.0
+      ],
+      [
+        "done",
+        1.0
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "lower",
+      "close",
+      "lift"
+    ],
+    "selected_slot": "blue_cube",
+    "target_confidence": 0.9994720816612244,
+    "expected_target_peak_rise_mm": 53.8,
+    "expected_target_final_rise_mm": 53.8,
+    "jaw": 0.223,
+    "grasp_retries": 0,
+    "status": "Instruction complete",
+    "exception": null,
+    "finished": true,
+    "failed": false,
+    "pass": true,
+    "image": "control-orange-cube.jpg"
+  },
+  {
+    "case": "control-cyan-cylinder",
+    "group": "control",
+    "seed": 321022,
+    "instruction": "lift the green cylinder",
+    "target_slot": "green_cylinder",
+    "condition": {},
+    "mask_count_initial": 4,
+    "predictions": [
+      [
+        "reach",
+        1.0
+      ],
+      [
+        "lower",
+        0.992
+      ],
+      [
+        "close",
+        1.0
+      ],
+      [
+        "lift",
+        1.0
+      ],
+      [
+        "done",
+        1.0
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "lower",
+      "close",
+      "lift"
+    ],
+    "selected_slot": "green_cylinder",
+    "target_confidence": 0.9993587136268616,
+    "expected_target_peak_rise_mm": 60.5,
+    "expected_target_final_rise_mm": 60.5,
+    "jaw": 0.138,
+    "grasp_retries": 0,
+    "status": "Instruction complete",
+    "exception": null,
+    "finished": true,
+    "failed": false,
+    "pass": true,
+    "image": "control-cyan-cylinder.jpg"
+  },
+  {
+    "case": "control-pink-block",
+    "group": "control",
+    "seed": 321023,
+    "instruction": "lift the yellow block",
+    "target_slot": "yellow_block",
+    "condition": {},
+    "mask_count_initial": 4,
+    "predictions": [
+      [
+        "reach",
+        1.0
+      ],
+      [
+        "lower",
+        0.982
+      ],
+      [
+        "close",
+        1.0
+      ],
+      [
+        "lift",
+        1.0
+      ],
+      [
+        "done",
+        1.0
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "lower",
+      "close",
+      "lift"
+    ],
+    "selected_slot": "yellow_block",
+    "target_confidence": 0.9998161196708679,
+    "expected_target_peak_rise_mm": 58.9,
+    "expected_target_final_rise_mm": 58.9,
+    "jaw": 0.119,
+    "grasp_retries": 0,
+    "status": "Instruction complete",
+    "exception": null,
+    "finished": true,
+    "failed": false,
+    "pass": true,
+    "image": "control-pink-block.jpg"
+  },
+  {
+    "case": "control-purple-ball",
+    "group": "control",
+    "seed": 321030,
+    "instruction": "lift the red cube",
+    "target_slot": "red_cube",
+    "condition": {},
+    "mask_count_initial": 4,
+    "predictions": [
+      [
+        "reach",
+        1.0
+      ],
+      [
+        "lower",
+        0.99
+      ],
+      [
+        "close",
+        1.0
+      ],
+      [
+        "lift",
+        1.0
+      ],
+      [
+        "done",
+        1.0
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "lower",
+      "close",
+      "lift"
+    ],
+    "selected_slot": "red_cube",
+    "target_confidence": 0.9981268048286438,
+    "expected_target_peak_rise_mm": 58.2,
+    "expected_target_final_rise_mm": 58.2,
+    "jaw": 0.216,
+    "grasp_retries": 0,
+    "status": "Instruction complete",
+    "exception": null,
+    "finished": true,
+    "failed": false,
+    "pass": true,
+    "image": "control-purple-ball.jpg"
+  },
+  {
+    "case": "control-cyan-puck",
+    "group": "control",
+    "seed": 321031,
+    "instruction": "lift the green cylinder",
+    "target_slot": "green_cylinder",
+    "condition": {},
+    "mask_count_initial": 4,
+    "predictions": [
+      [
+        "reach",
+        1.0
+      ],
+      [
+        "lower",
+        0.992
+      ],
+      [
+        "close",
+        1.0
+      ],
+      [
+        "lift",
+        1.0
+      ],
+      [
+        "done",
+        1.0
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "lower",
+      "close",
+      "lift"
+    ],
+    "selected_slot": "green_cylinder",
+    "target_confidence": 0.9979428648948669,
+    "expected_target_peak_rise_mm": 61.7,
+    "expected_target_final_rise_mm": 61.7,
+    "jaw": 0.145,
+    "grasp_retries": 0,
+    "status": "Instruction complete",
+    "exception": null,
+    "finished": true,
+    "failed": false,
+    "pass": true,
+    "image": "control-cyan-puck.jpg"
+  },
+  {
+    "case": "control-orange-capsule",
+    "group": "control",
+    "seed": 321032,
+    "instruction": "lift the blue cube",
+    "target_slot": "blue_cube",
+    "condition": {},
+    "mask_count_initial": 4,
+    "predictions": [
+      [
+        "reach",
+        1.0
+      ],
+      [
+        "lower",
+        0.99
+      ],
+      [
+        "close",
+        1.0
+      ],
+      [
+        "lift",
+        1.0
+      ],
+      [
+        "done",
+        1.0
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "lower",
+      "close",
+      "lift"
+    ],
+    "selected_slot": "blue_cube",
+    "target_confidence": 0.9994346499443054,
+    "expected_target_peak_rise_mm": 57.4,
+    "expected_target_final_rise_mm": 57.4,
+    "jaw": 0.238,
+    "grasp_retries": 0,
+    "status": "Instruction complete",
+    "exception": null,
+    "finished": true,
+    "failed": false,
+    "pass": true,
+    "image": "control-orange-capsule.jpg"
+  },
+  {
+    "case": "control-camera-shift",
+    "group": "control",
+    "seed": 321040,
+    "instruction": "lift the red cube",
+    "target_slot": "red_cube",
+    "condition": {},
+    "mask_count_initial": 4,
+    "predictions": [
+      [
+        "reach",
+        1.0
+      ],
+      [
+        "lower",
+        0.99
+      ],
+      [
+        "close",
+        1.0
+      ],
+      [
+        "lift",
+        1.0
+      ],
+      [
+        "done",
+        1.0
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "lower",
+      "close",
+      "lift"
+    ],
+    "selected_slot": "red_cube",
+    "target_confidence": 0.9990180730819702,
+    "expected_target_peak_rise_mm": 58.1,
+    "expected_target_final_rise_mm": 58.1,
+    "jaw": 0.211,
+    "grasp_retries": 0,
+    "status": "Instruction complete",
+    "exception": null,
+    "finished": true,
+    "failed": false,
+    "pass": true,
+    "image": "control-camera-shift.jpg"
+  },
+  {
+    "case": "control-camera-low",
+    "group": "control",
+    "seed": 321041,
+    "instruction": "lift the blue cube",
+    "target_slot": "blue_cube",
+    "condition": {},
+    "mask_count_initial": 4,
+    "predictions": [
+      [
+        "reach",
+        1.0
+      ],
+      [
+        "lower",
+        0.99
+      ],
+      [
+        "close",
+        1.0
+      ],
+      [
+        "lift",
+        1.0
+      ],
+      [
+        "done",
+        1.0
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "lower",
+      "close",
+      "lift"
+    ],
+    "selected_slot": "blue_cube",
+    "target_confidence": 0.9999160766601562,
+    "expected_target_peak_rise_mm": 55.3,
+    "expected_target_final_rise_mm": 55.3,
+    "jaw": 0.24,
+    "grasp_retries": 0,
+    "status": "Instruction complete",
+    "exception": null,
+    "finished": true,
+    "failed": false,
+    "pass": true,
+    "image": "control-camera-low.jpg"
+  },
+  {
+    "case": "control-teal-table",
+    "group": "control",
+    "seed": 321042,
+    "instruction": "lift the green cylinder",
+    "target_slot": "green_cylinder",
+    "condition": {},
+    "mask_count_initial": 4,
+    "predictions": [
+      [
+        "reach",
+        1.0
+      ],
+      [
+        "lower",
+        0.992
+      ],
+      [
+        "close",
+        1.0
+      ],
+      [
+        "lift",
+        1.0
+      ],
+      [
+        "done",
+        1.0
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "lower",
+      "close",
+      "lift"
+    ],
+    "selected_slot": "green_cylinder",
+    "target_confidence": 0.9994688630104065,
+    "expected_target_peak_rise_mm": 58.3,
+    "expected_target_final_rise_mm": 58.3,
+    "jaw": 0.144,
+    "grasp_retries": 0,
+    "status": "Instruction complete",
+    "exception": null,
+    "finished": true,
+    "failed": false,
+    "pass": true,
+    "image": "control-teal-table.jpg"
+  },
+  {
+    "case": "control-dim-light",
+    "group": "control",
+    "seed": 321043,
+    "instruction": "lift the yellow block",
+    "target_slot": "yellow_block",
+    "condition": {},
+    "mask_count_initial": 4,
+    "predictions": [
+      [
+        "reach",
+        1.0
+      ],
+      [
+        "lower",
+        0.982
+      ],
+      [
+        "close",
+        1.0
+      ],
+      [
+        "lift",
+        1.0
+      ],
+      [
+        "done",
+        1.0
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "lower",
+      "close",
+      "lift"
+    ],
+    "selected_slot": "yellow_block",
+    "target_confidence": 0.9986518025398254,
+    "expected_target_peak_rise_mm": 55.7,
+    "expected_target_final_rise_mm": 55.7,
+    "jaw": 0.286,
+    "grasp_retries": 0,
+    "status": "Instruction complete",
+    "exception": null,
+    "finished": true,
+    "failed": false,
+    "pass": true,
+    "image": "control-dim-light.jpg"
+  },
+  {
+    "case": "control-wide-placement",
+    "group": "control",
+    "seed": 321044,
+    "instruction": "lift the red cube",
+    "target_slot": "red_cube",
+    "condition": {},
+    "mask_count_initial": 4,
+    "predictions": [
+      [
+        "reach",
+        1.0
+      ],
+      [
+        "lower",
+        0.99
+      ],
+      [
+        "close",
+        1.0
+      ],
+      [
+        "lift",
+        1.0
+      ],
+      [
+        "done",
+        1.0
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "lower",
+      "close",
+      "lift"
+    ],
+    "selected_slot": "red_cube",
+    "target_confidence": 0.9984001517295837,
+    "expected_target_peak_rise_mm": 57.1,
+    "expected_target_final_rise_mm": 57.1,
+    "jaw": 0.207,
+    "grasp_retries": 0,
+    "status": "Instruction complete",
+    "exception": null,
+    "finished": true,
+    "failed": false,
+    "pass": true,
+    "image": "control-wide-placement.jpg"
+  },
+  {
+    "case": "control-extra-distractor",
+    "group": "control",
+    "seed": 321045,
+    "instruction": "lift the blue cube",
+    "target_slot": "blue_cube",
+    "condition": {},
+    "mask_count_initial": 4,
+    "predictions": [
+      [
+        "reach",
+        1.0
+      ],
+      [
+        "lower",
+        0.99
+      ],
+      [
+        "close",
+        1.0
+      ],
+      [
+        "lift",
+        1.0
+      ],
+      [
+        "done",
+        1.0
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "lower",
+      "close",
+      "lift"
+    ],
+    "selected_slot": "blue_cube",
+    "target_confidence": 0.9998282194137573,
+    "expected_target_peak_rise_mm": 57.9,
+    "expected_target_final_rise_mm": 57.9,
+    "jaw": 0.218,
+    "grasp_retries": 0,
+    "status": "Instruction complete",
+    "exception": null,
+    "finished": true,
+    "failed": false,
+    "pass": true,
+    "image": "control-extra-distractor.jpg"
+  },
+  {
+    "case": "control-low-friction",
+    "group": "control",
+    "seed": 321046,
+    "instruction": "lift the green cylinder",
+    "target_slot": "green_cylinder",
+    "condition": {},
+    "mask_count_initial": 4,
+    "predictions": [
+      [
+        "reach",
+        1.0
+      ],
+      [
+        "lower",
+        0.992
+      ],
+      [
+        "close",
+        1.0
+      ],
+      [
+        "lift",
+        1.0
+      ],
+      [
+        "done",
+        1.0
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "lower",
+      "close",
+      "lift"
+    ],
+    "selected_slot": "green_cylinder",
+    "target_confidence": 0.99978107213974,
+    "expected_target_peak_rise_mm": 60.4,
+    "expected_target_final_rise_mm": 60.4,
+    "jaw": 0.138,
+    "grasp_retries": 0,
+    "status": "Instruction complete",
+    "exception": null,
+    "finished": true,
+    "failed": false,
+    "pass": true,
+    "image": "control-low-friction.jpg"
+  },
+  {
+    "case": "control-sensor-noise-8",
+    "group": "control",
+    "seed": 321050,
+    "instruction": "lift the red cube",
+    "target_slot": "red_cube",
+    "condition": {},
+    "mask_count_initial": 4,
+    "predictions": [
+      [
+        "reach",
+        1.0
+      ],
+      [
+        "lower",
+        0.99
+      ],
+      [
+        "close",
+        1.0
+      ],
+      [
+        "lift",
+        1.0
+      ],
+      [
+        "done",
+        1.0
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "lower",
+      "close",
+      "lift"
+    ],
+    "selected_slot": "red_cube",
+    "target_confidence": 0.999671220779419,
+    "expected_target_peak_rise_mm": 58.0,
+    "expected_target_final_rise_mm": 58.0,
+    "jaw": 0.216,
+    "grasp_retries": 0,
+    "status": "Instruction complete",
+    "exception": null,
+    "finished": true,
+    "failed": false,
+    "pass": true,
+    "image": "control-sensor-noise-8.jpg"
+  },
+  {
+    "case": "control-sensor-noise-25",
+    "group": "control",
+    "seed": 321051,
+    "instruction": "lift the blue cube",
+    "target_slot": "blue_cube",
+    "condition": {},
+    "mask_count_initial": 4,
+    "predictions": [
+      [
+        "reach",
+        1.0
+      ],
+      [
+        "lower",
+        0.99
+      ],
+      [
+        "close",
+        1.0
+      ],
+      [
+        "lift",
+        1.0
+      ],
+      [
+        "done",
+        1.0
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "lower",
+      "close",
+      "lift"
+    ],
+    "selected_slot": "blue_cube",
+    "target_confidence": 0.9996521472930908,
+    "expected_target_peak_rise_mm": 56.8,
+    "expected_target_final_rise_mm": 56.8,
+    "jaw": 0.215,
+    "grasp_retries": 0,
+    "status": "Instruction complete",
+    "exception": null,
+    "finished": true,
+    "failed": false,
+    "pass": true,
+    "image": "control-sensor-noise-25.jpg"
+  },
+  {
+    "case": "control-blur",
+    "group": "control",
+    "seed": 321052,
+    "instruction": "lift the green cylinder",
+    "target_slot": "green_cylinder",
+    "condition": {},
+    "mask_count_initial": 4,
+    "predictions": [
+      [
+        "reach",
+        1.0
+      ],
+      [
+        "lower",
+        0.992
+      ],
+      [
+        "close",
+        1.0
+      ],
+      [
+        "lift",
+        1.0
+      ],
+      [
+        "done",
+        1.0
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "lower",
+      "close",
+      "lift"
+    ],
+    "selected_slot": "green_cylinder",
+    "target_confidence": 0.9991361498832703,
+    "expected_target_peak_rise_mm": 60.6,
+    "expected_target_final_rise_mm": 60.6,
+    "jaw": 0.139,
+    "grasp_retries": 0,
+    "status": "Instruction complete",
+    "exception": null,
+    "finished": true,
+    "failed": false,
+    "pass": true,
+    "image": "control-blur.jpg"
+  },
+  {
+    "case": "control-jpeg-25",
+    "group": "control",
+    "seed": 321053,
+    "instruction": "lift the yellow block",
+    "target_slot": "yellow_block",
+    "condition": {},
+    "mask_count_initial": 4,
+    "predictions": [
+      [
+        "reach",
+        1.0
+      ],
+      [
+        "lower",
+        0.982
+      ],
+      [
+        "close",
+        1.0
+      ],
+      [
+        "lift",
+        1.0
+      ],
+      [
+        "done",
+        1.0
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "lower",
+      "close",
+      "lift"
+    ],
+    "selected_slot": "yellow_block",
+    "target_confidence": 0.9995951056480408,
+    "expected_target_peak_rise_mm": 56.6,
+    "expected_target_final_rise_mm": 56.6,
+    "jaw": 0.123,
+    "grasp_retries": 0,
+    "status": "Instruction complete",
+    "exception": null,
+    "finished": true,
+    "failed": false,
+    "pass": true,
+    "image": "control-jpeg-25.jpg"
+  },
+  {
+    "case": "control-dark-noisy",
+    "group": "control",
+    "seed": 321054,
+    "instruction": "lift the red cube",
+    "target_slot": "red_cube",
+    "condition": {},
+    "mask_count_initial": 4,
+    "predictions": [
+      [
+        "reach",
+        1.0
+      ],
+      [
+        "lower",
+        0.99
+      ],
+      [
+        "close",
+        1.0
+      ],
+      [
+        "lift",
+        1.0
+      ],
+      [
+        "done",
+        1.0
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "lower",
+      "close",
+      "lift"
+    ],
+    "selected_slot": "red_cube",
+    "target_confidence": 0.9993143081665039,
+    "expected_target_peak_rise_mm": 56.9,
+    "expected_target_final_rise_mm": 56.9,
+    "jaw": 0.231,
+    "grasp_retries": 1,
+    "status": "Instruction complete",
+    "exception": null,
+    "finished": true,
+    "failed": false,
+    "pass": true,
+    "image": "control-dark-noisy.jpg"
+  },
+  {
+    "case": "control-wide-shift-noise",
+    "group": "control",
+    "seed": 321060,
+    "instruction": "lift the blue cube",
+    "target_slot": "blue_cube",
+    "condition": {},
+    "mask_count_initial": 4,
+    "predictions": [
+      [
+        "reach",
+        1.0
+      ],
+      [
+        "lower",
+        0.99
+      ],
+      [
+        "close",
+        1.0
+      ],
+      [
+        "lift",
+        1.0
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "lower",
+      "close"
+    ],
+    "selected_slot": "blue_cube",
+    "target_confidence": 0.999574601650238,
+    "expected_target_peak_rise_mm": 0.1,
+    "expected_target_final_rise_mm": 0.1,
+    "jaw": 1.55,
+    "grasp_retries": 3,
+    "status": "RGB grasp retry failed",
+    "exception": null,
+    "finished": false,
+    "failed": true,
+    "pass": false,
+    "image": "control-wide-shift-noise.jpg"
+  },
+  {
+    "case": "control-purple-ball-dim-jpeg",
+    "group": "control",
+    "seed": 321061,
+    "instruction": "lift the red cube",
+    "target_slot": "red_cube",
+    "condition": {},
+    "mask_count_initial": 4,
+    "predictions": [
+      [
+        "reach",
+        1.0
+      ],
+      [
+        "lower",
+        0.99
+      ],
+      [
+        "close",
+        1.0
+      ],
+      [
+        "lift",
+        1.0
+      ],
+      [
+        "done",
+        1.0
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "lower",
+      "close",
+      "lift"
+    ],
+    "selected_slot": "red_cube",
+    "target_confidence": 0.9997745156288147,
+    "expected_target_peak_rise_mm": 57.6,
+    "expected_target_final_rise_mm": 57.6,
+    "jaw": 0.214,
+    "grasp_retries": 0,
+    "status": "Instruction complete",
+    "exception": null,
+    "finished": true,
+    "failed": false,
+    "pass": true,
+    "image": "control-purple-ball-dim-jpeg.jpg"
+  }
+]
