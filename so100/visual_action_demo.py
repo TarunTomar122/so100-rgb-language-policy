@@ -16,7 +16,8 @@ from so100.ik_point_demo import serve
 from so100.train_rgb_target import setup_world
 from so100.train_visual_action import CHECKPOINT
 from so100.train_visual_action_recovery import RECOVERY_CHECKPOINT
-from so100.visual_action_head import SIZE, LanguagePrior, RecoveryActionHead, VisualActionHead, observe
+from so100.train_done_head import DONE_CHECKPOINT
+from so100.visual_action_head import SIZE, DoneCalibrator, LanguagePrior, RecoveryActionHead, VisualActionHead, observe
 
 
 class VisualActionDemo(ActionDemo):
@@ -30,6 +31,9 @@ class VisualActionDemo(ActionDemo):
         self.recovery_head = RecoveryActionHead().to(self.device).eval()
         self.recovery_head.load_state_dict(torch.load(
             RECOVERY_CHECKPOINT, map_location=self.device, weights_only=True)["state"])
+        self.done_head = DoneCalibrator().to(self.device).eval()
+        self.done_head.load_state_dict(torch.load(
+            DONE_CHECKPOINT, map_location=self.device, weights_only=True)["state"])
         self.world = setup_world()
         self.executor = Executor(self.world)
         self.seed = 289999
@@ -124,7 +128,8 @@ class VisualActionDemo(ActionDemo):
             prior = torch.from_numpy(self.prior.logits(self.world, history)).to(self.device)[None]
             base_logits = self.head(*inputs, prior)
             logits = (self.recovery_head(inputs[3], base_logits)
-                      if self.recovering else base_logits)
+                      if self.recovering else self.done_head(
+                          inputs[1], inputs[2], inputs[3], base_logits))
             probabilities = logits.softmax(-1)[0]
         index = int(probabilities.argmax().item())
         self.next_choice = (SKILLS[index], float(probabilities[index].item()))

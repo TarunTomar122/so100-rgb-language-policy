@@ -1,0 +1,1528 @@
+[
+  {
+    "case": "violet-cube",
+    "group": "new color",
+    "seed": 331100,
+    "instruction": "lift the violet cube",
+    "target_slot": "red_cube",
+    "condition": {
+      "object": [
+        "red_cube",
+        "box",
+        [
+          0.015,
+          0.015,
+          0.015
+        ],
+        0.015,
+        [
+          0.42,
+          0.18,
+          0.72,
+          1
+        ]
+      ]
+    },
+    "mask_count_initial": 4,
+    "mask_areas_initial": [
+      775,
+      446,
+      1075,
+      500
+    ],
+    "predictions": [
+      [
+        "reach",
+        0.999
+      ],
+      [
+        "lower",
+        0.709
+      ],
+      [
+        "close",
+        0.996
+      ],
+      [
+        "lift",
+        1.0
+      ],
+      [
+        "done",
+        0.989
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "lower",
+      "close",
+      "lift"
+    ],
+    "selected_slot": "red_cube",
+    "target_confidence": 0.6990554332733154,
+    "target_uv": [
+      192.316,
+      294.406
+    ],
+    "expected_target_initial_xyz": [
+      -0.0379,
+      -0.2828,
+      0.0249
+    ],
+    "grasp_estimates": [
+      {
+        "retry": false,
+        "xyz": [
+          -0.0374,
+          -0.2828,
+          0.025
+        ],
+        "yaw_deg": 23.9
+      }
+    ],
+    "grasp_xyz": [
+      -0.0374,
+      -0.2828,
+      0.025
+    ],
+    "expected_target_peak_rise_mm": 57.1,
+    "expected_target_final_rise_mm": 57.1,
+    "jaw": 0.223,
+    "grasp_retries": 0,
+    "status": "Model chose to stop",
+    "exception": null,
+    "lift_unverified": false,
+    "finished": true,
+    "failed": false,
+    "pass": true,
+    "image": "violet-cube.jpg",
+    "video": null,
+    "physical_pass": true
+  },
+  {
+    "case": "coral-block",
+    "group": "new color",
+    "seed": 331101,
+    "instruction": "pick up the coral block",
+    "target_slot": "yellow_block",
+    "condition": {
+      "object": [
+        "yellow_block",
+        "box",
+        [
+          0.012,
+          0.022,
+          0.015
+        ],
+        0.015,
+        [
+          0.92,
+          0.3,
+          0.28,
+          1
+        ]
+      ]
+    },
+    "mask_count_initial": 4,
+    "mask_areas_initial": [
+      853,
+      513,
+      1098,
+      376
+    ],
+    "predictions": [
+      [
+        "reach",
+        1.0
+      ],
+      [
+        "reach",
+        0.568
+      ],
+      [
+        "lower",
+        1.0
+      ],
+      [
+        "close",
+        0.995
+      ],
+      [
+        "lift",
+        0.998
+      ],
+      [
+        "open",
+        0.483
+      ],
+      [
+        "done",
+        0.971
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "reach",
+      "lower",
+      "close",
+      "lift",
+      "open"
+    ],
+    "selected_slot": "green_cylinder",
+    "target_confidence": 0.18388986587524414,
+    "target_uv": [
+      194.48930481283423,
+      294.88235294117646
+    ],
+    "expected_target_initial_xyz": [
+      0.0388,
+      -0.2787,
+      0.0249
+    ],
+    "grasp_estimates": [
+      {
+        "retry": false,
+        "xyz": [
+          -0.0367,
+          -0.2778,
+          0.025
+        ],
+        "yaw_deg": 0.0
+      },
+      {
+        "retry": true,
+        "xyz": [
+          -0.039,
+          -0.2786,
+          0.025
+        ],
+        "yaw_deg": 18.5
+      }
+    ],
+    "grasp_xyz": [
+      -0.039,
+      -0.2786,
+      0.025
+    ],
+    "expected_target_peak_rise_mm": 0.0,
+    "expected_target_final_rise_mm": 0.0,
+    "jaw": 1.522,
+    "grasp_retries": 0,
+    "status": "Model chose to stop",
+    "exception": null,
+    "lift_unverified": false,
+    "finished": true,
+    "failed": false,
+    "pass": false,
+    "image": "coral-block.jpg",
+    "video": null,
+    "physical_pass": false
+  },
+  {
+    "case": "lime-cylinder",
+    "group": "new color",
+    "seed": 331102,
+    "instruction": "lift the lime cylinder",
+    "target_slot": "green_cylinder",
+    "condition": {
+      "object": [
+        "green_cylinder",
+        "cylinder",
+        [
+          0.013,
+          0.015,
+          0
+        ],
+        0.015,
+        [
+          0.55,
+          0.85,
+          0.12,
+          1
+        ]
+      ]
+    },
+    "mask_count_initial": 4,
+    "mask_areas_initial": [
+      931,
+      420,
+      936,
+      786
+    ],
+    "predictions": [
+      [
+        "reach",
+        0.999
+      ],
+      [
+        "lower",
+        0.635
+      ],
+      [
+        "close",
+        0.995
+      ],
+      [
+        "lift",
+        0.999
+      ],
+      [
+        "done",
+        0.821
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "lower",
+      "close",
+      "lift"
+    ],
+    "selected_slot": "green_cylinder",
+    "target_confidence": 0.9388317465782166,
+    "target_uv": [
+      151.93333333333334,
+      296.8142857142857
+    ],
+    "expected_target_initial_xyz": [
+      -0.031,
+      -0.3368,
+      0.0249
+    ],
+    "grasp_estimates": [
+      {
+        "retry": false,
+        "xyz": [
+          -0.0305,
+          -0.3369,
+          0.025
+        ],
+        "yaw_deg": 0.0
+      }
+    ],
+    "grasp_xyz": [
+      -0.0305,
+      -0.3369,
+      0.025
+    ],
+    "expected_target_peak_rise_mm": 60.9,
+    "expected_target_final_rise_mm": 60.9,
+    "jaw": 0.145,
+    "grasp_retries": 0,
+    "status": "Model chose to stop",
+    "exception": null,
+    "lift_unverified": false,
+    "finished": true,
+    "failed": false,
+    "pass": true,
+    "image": "lime-cylinder.jpg",
+    "video": null,
+    "physical_pass": true
+  },
+  {
+    "case": "red-sphere-near-cube",
+    "group": "similar color",
+    "seed": 331103,
+    "instruction": "lift the red ball",
+    "target_slot": "blue_cube",
+    "condition": {
+      "object": [
+        "blue_cube",
+        "sphere",
+        [
+          0.018,
+          0,
+          0
+        ],
+        0.018,
+        [
+          0.8,
+          0.12,
+          0.12,
+          1
+        ]
+      ]
+    },
+    "mask_count_initial": 3,
+    "mask_areas_initial": [
+      1134,
+      1094,
+      356
+    ],
+    "predictions": [
+      [
+        "reach",
+        1.0
+      ],
+      [
+        "lower",
+        0.729
+      ],
+      [
+        "close",
+        0.998
+      ],
+      [
+        "lift",
+        1.0
+      ],
+      [
+        "open",
+        0.902
+      ],
+      [
+        "reach",
+        0.997
+      ],
+      [
+        "lower",
+        0.841
+      ],
+      [
+        "close",
+        0.989
+      ],
+      [
+        "lift",
+        0.99
+      ],
+      [
+        "reach",
+        0.707
+      ],
+      [
+        "lift",
+        0.5
+      ],
+      [
+        "lower",
+        0.833
+      ],
+      [
+        "lift",
+        0.821
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "lower",
+      "close",
+      "lift",
+      "open",
+      "reach",
+      "lower",
+      "close",
+      "lift",
+      "reach",
+      "lift",
+      "lower"
+    ],
+    "selected_slot": "red_cube",
+    "target_confidence": 0.9985964894294739,
+    "target_uv": [
+      78.85928961748634,
+      336.59016393442624
+    ],
+    "expected_target_initial_xyz": [
+      0.033,
+      -0.3355,
+      0.025
+    ],
+    "grasp_estimates": [
+      {
+        "retry": false,
+        "xyz": [
+          -0.0012,
+          -0.3408,
+          0.025
+        ],
+        "yaw_deg": 11.9
+      },
+      {
+        "retry": true,
+        "xyz": [
+          -0.009,
+          -0.3325,
+          0.025
+        ],
+        "yaw_deg": 18.4
+      },
+      {
+        "retry": true,
+        "xyz": [
+          0.1108,
+          -0.3899,
+          0.025
+        ],
+        "yaw_deg": 19.3
+      }
+    ],
+    "grasp_xyz": [
+      0.1108,
+      -0.3899,
+      0.025
+    ],
+    "expected_target_peak_rise_mm": 2.6,
+    "expected_target_final_rise_mm": -2.1,
+    "jaw": 0.173,
+    "grasp_retries": 0,
+    "status": "Stopped after 12 decisions",
+    "exception": null,
+    "lift_unverified": false,
+    "finished": false,
+    "failed": true,
+    "pass": false,
+    "image": "red-sphere-near-cube.jpg",
+    "video": null,
+    "physical_pass": false
+  },
+  {
+    "case": "blue-capsule",
+    "group": "new shape",
+    "seed": 331104,
+    "instruction": "lift the blue capsule",
+    "target_slot": "blue_cube",
+    "condition": {
+      "object": [
+        "blue_cube",
+        "capsule",
+        [
+          0.011,
+          0.012,
+          0
+        ],
+        0.023,
+        null
+      ]
+    },
+    "mask_count_initial": 4,
+    "mask_areas_initial": [
+      1099,
+      611,
+      569,
+      360
+    ],
+    "predictions": [
+      [
+        "reach",
+        1.0
+      ],
+      [
+        "reach",
+        0.868
+      ],
+      [
+        "lower",
+        1.0
+      ],
+      [
+        "close",
+        1.0
+      ],
+      [
+        "lift",
+        0.996
+      ],
+      [
+        "right",
+        0.334
+      ],
+      [
+        "done",
+        0.853
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "reach",
+      "lower",
+      "close",
+      "lift",
+      "right"
+    ],
+    "selected_slot": "blue_cube",
+    "target_confidence": 0.9454706311225891,
+    "target_uv": [
+      191.64088397790056,
+      294.91160220994476
+    ],
+    "expected_target_initial_xyz": [
+      -0.0387,
+      -0.2824,
+      0.0251
+    ],
+    "grasp_estimates": [
+      {
+        "retry": false,
+        "xyz": [
+          -0.0446,
+          -0.2838,
+          0.025
+        ],
+        "yaw_deg": 0.8
+      },
+      {
+        "retry": true,
+        "xyz": [
+          -0.0424,
+          -0.2827,
+          0.025
+        ],
+        "yaw_deg": 18.2
+      }
+    ],
+    "grasp_xyz": [
+      -0.0424,
+      -0.2827,
+      0.025
+    ],
+    "expected_target_peak_rise_mm": 60.0,
+    "expected_target_final_rise_mm": 59.7,
+    "jaw": 0.093,
+    "grasp_retries": 0,
+    "status": "Model chose to stop",
+    "exception": null,
+    "lift_unverified": false,
+    "finished": true,
+    "failed": false,
+    "pass": false,
+    "image": "blue-capsule.jpg",
+    "video": null,
+    "physical_pass": true
+  },
+  {
+    "case": "tall-cyan-tube",
+    "group": "new shape + height",
+    "seed": 331105,
+    "instruction": "pick up the cyan tube",
+    "target_slot": "green_cylinder",
+    "condition": {
+      "object": [
+        "green_cylinder",
+        "cylinder",
+        [
+          0.012,
+          0.028,
+          0
+        ],
+        0.028,
+        [
+          0.08,
+          0.62,
+          0.7,
+          1
+        ]
+      ]
+    },
+    "mask_count_initial": 4,
+    "mask_areas_initial": [
+      926,
+      570,
+      911,
+      587
+    ],
+    "predictions": [
+      [
+        "reach",
+        0.996
+      ],
+      [
+        "reach",
+        0.392
+      ],
+      [
+        "lower",
+        0.983
+      ],
+      [
+        "close",
+        1.0
+      ],
+      [
+        "lift",
+        0.982
+      ],
+      [
+        "lift",
+        0.394
+      ],
+      [
+        "reach",
+        0.434
+      ],
+      [
+        "lower",
+        0.994
+      ],
+      [
+        "lower",
+        0.547
+      ],
+      [
+        "lift",
+        0.681
+      ],
+      [
+        "lower",
+        0.781
+      ],
+      [
+        "lift",
+        0.491
+      ],
+      [
+        "lower",
+        0.793
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "reach",
+      "lower",
+      "close",
+      "lift",
+      "lift",
+      "reach",
+      "lower",
+      "lower",
+      "lift",
+      "lower",
+      "lift"
+    ],
+    "selected_slot": "green_cylinder",
+    "target_confidence": 0.9267953038215637,
+    "target_uv": [
+      165.77314814814815,
+      291.36728395061726
+    ],
+    "expected_target_initial_xyz": [
+      -0.0303,
+      -0.3419,
+      0.0302
+    ],
+    "grasp_estimates": [
+      {
+        "retry": false,
+        "xyz": [
+          -0.0546,
+          -0.3487,
+          0.025
+        ],
+        "yaw_deg": 13.5
+      },
+      {
+        "retry": true,
+        "xyz": [
+          -0.0546,
+          -0.3487,
+          0.025
+        ],
+        "yaw_deg": 13.5
+      },
+      {
+        "retry": true,
+        "xyz": [
+          -0.0567,
+          -0.3226,
+          0.025
+        ],
+        "yaw_deg": 15.6
+      }
+    ],
+    "grasp_xyz": [
+      -0.0567,
+      -0.3226,
+      0.025
+    ],
+    "expected_target_peak_rise_mm": 1.8,
+    "expected_target_final_rise_mm": 0.7,
+    "jaw": -0.1,
+    "grasp_retries": 0,
+    "status": "Stopped after 12 decisions",
+    "exception": null,
+    "lift_unverified": false,
+    "finished": false,
+    "failed": true,
+    "pass": false,
+    "image": "tall-cyan-tube.jpg",
+    "video": null,
+    "physical_pass": false
+  },
+  {
+    "case": "flat-amber-puck",
+    "group": "new shape + height",
+    "seed": 331106,
+    "instruction": "lift the amber puck",
+    "target_slot": "yellow_block",
+    "condition": {
+      "object": [
+        "yellow_block",
+        "cylinder",
+        [
+          0.018,
+          0.008,
+          0
+        ],
+        0.008,
+        [
+          0.83,
+          0.48,
+          0.07,
+          1
+        ]
+      ]
+    },
+    "mask_count_initial": 4,
+    "mask_areas_initial": [
+      594,
+      477,
+      937,
+      461
+    ],
+    "predictions": [
+      [
+        "reach",
+        1.0
+      ],
+      [
+        "lower",
+        0.756
+      ],
+      [
+        "close",
+        0.999
+      ],
+      [
+        "lift",
+        1.0
+      ],
+      [
+        "open",
+        0.819
+      ],
+      [
+        "reach",
+        0.993
+      ],
+      [
+        "lower",
+        0.911
+      ],
+      [
+        "close",
+        0.993
+      ],
+      [
+        "lift",
+        0.996
+      ],
+      [
+        "lift",
+        0.571
+      ],
+      [
+        "reach",
+        0.923
+      ],
+      [
+        "lower",
+        0.799
+      ],
+      [
+        "lift",
+        0.934
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "lower",
+      "close",
+      "lift",
+      "open",
+      "reach",
+      "lower",
+      "close",
+      "lift",
+      "lift",
+      "reach",
+      "lower"
+    ],
+    "selected_slot": "yellow_block",
+    "target_confidence": 0.9923993945121765,
+    "target_uv": [
+      125.1159420289855,
+      325.36553945249597
+    ],
+    "expected_target_initial_xyz": [
+      0.0322,
+      -0.3427,
+      0.0179
+    ],
+    "grasp_estimates": [
+      {
+        "retry": false,
+        "xyz": [
+          0.0649,
+          -0.3332,
+          0.025
+        ],
+        "yaw_deg": 0.0
+      },
+      {
+        "retry": true,
+        "xyz": [
+          0.0455,
+          -0.3436,
+          0.025
+        ],
+        "yaw_deg": 29.9
+      },
+      {
+        "retry": true,
+        "xyz": [
+          0.078,
+          -0.3419,
+          0.025
+        ],
+        "yaw_deg": 0.0
+      }
+    ],
+    "grasp_xyz": [
+      0.078,
+      -0.3419,
+      0.025
+    ],
+    "expected_target_peak_rise_mm": 10.7,
+    "expected_target_final_rise_mm": 0.0,
+    "jaw": -0.1,
+    "grasp_retries": 0,
+    "status": "Stopped after 12 decisions",
+    "exception": null,
+    "lift_unverified": false,
+    "finished": false,
+    "failed": true,
+    "pass": false,
+    "image": "flat-amber-puck.jpg",
+    "video": null,
+    "physical_pass": false
+  },
+  {
+    "case": "low-camera-purple-sphere",
+    "group": "combined",
+    "seed": 331107,
+    "instruction": "lift the purple sphere",
+    "target_slot": "red_cube",
+    "condition": {
+      "object": [
+        "red_cube",
+        "sphere",
+        [
+          0.018,
+          0,
+          0
+        ],
+        0.018,
+        [
+          0.55,
+          0.2,
+          0.65,
+          1
+        ]
+      ],
+      "camera": [
+        [
+          0.7,
+          -0.21,
+          0.22
+        ],
+        [
+          0,
+          -0.27,
+          0.05
+        ]
+      ]
+    },
+    "mask_count_initial": 4,
+    "mask_areas_initial": [
+      772,
+      770,
+      684,
+      638
+    ],
+    "predictions": [
+      [
+        "reach",
+        0.999
+      ],
+      [
+        "lower",
+        0.943
+      ],
+      [
+        "close",
+        0.998
+      ],
+      [
+        "lift",
+        0.999
+      ],
+      [
+        "done",
+        0.824
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "lower",
+      "close",
+      "lift"
+    ],
+    "selected_slot": "red_cube",
+    "target_confidence": 0.92335444688797,
+    "target_uv": [
+      191.27202072538861,
+      283.20854922279796
+    ],
+    "expected_target_initial_xyz": [
+      0.0369,
+      -0.3395,
+      0.025
+    ],
+    "grasp_estimates": [
+      {
+        "retry": false,
+        "xyz": [
+          0.0353,
+          -0.3403,
+          0.025
+        ],
+        "yaw_deg": 10.1
+      }
+    ],
+    "grasp_xyz": [
+      0.0353,
+      -0.3403,
+      0.025
+    ],
+    "expected_target_peak_rise_mm": 53.5,
+    "expected_target_final_rise_mm": 53.5,
+    "jaw": 0.118,
+    "grasp_retries": 0,
+    "status": "Model chose to stop",
+    "exception": null,
+    "lift_unverified": false,
+    "finished": true,
+    "failed": false,
+    "pass": true,
+    "image": "low-camera-purple-sphere.jpg",
+    "video": null,
+    "physical_pass": true
+  },
+  {
+    "case": "teal-table-yellow",
+    "group": "environment",
+    "seed": 331108,
+    "instruction": "lift the yellow block",
+    "target_slot": "yellow_block",
+    "condition": {
+      "table": [
+        0.18,
+        0.42,
+        0.34,
+        1
+      ]
+    },
+    "mask_count_initial": 4,
+    "mask_areas_initial": [
+      936,
+      477,
+      755,
+      368
+    ],
+    "predictions": [
+      [
+        "reach",
+        1.0
+      ],
+      [
+        "lower",
+        0.824
+      ],
+      [
+        "close",
+        0.996
+      ],
+      [
+        "lift",
+        0.999
+      ],
+      [
+        "done",
+        0.702
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "lower",
+      "close",
+      "lift"
+    ],
+    "selected_slot": "yellow_block",
+    "target_confidence": 0.5127767324447632,
+    "target_uv": [
+      147.125786163522,
+      293.50943396226415
+    ],
+    "expected_target_initial_xyz": [
+      -0.0304,
+      -0.3441,
+      0.0248
+    ],
+    "grasp_estimates": [
+      {
+        "retry": false,
+        "xyz": [
+          -0.0292,
+          -0.3441,
+          0.025
+        ],
+        "yaw_deg": 0.1
+      }
+    ],
+    "grasp_xyz": [
+      -0.0292,
+      -0.3441,
+      0.025
+    ],
+    "expected_target_peak_rise_mm": 57.7,
+    "expected_target_final_rise_mm": 57.7,
+    "jaw": 0.293,
+    "grasp_retries": 0,
+    "status": "Model chose to stop",
+    "exception": null,
+    "lift_unverified": false,
+    "finished": true,
+    "failed": false,
+    "pass": true,
+    "image": "teal-table-yellow.jpg",
+    "video": null,
+    "physical_pass": true
+  },
+  {
+    "case": "dim-violet-cube",
+    "group": "combined",
+    "seed": 331109,
+    "instruction": "lift the violet cube",
+    "target_slot": "red_cube",
+    "condition": {
+      "object": [
+        "red_cube",
+        "box",
+        [
+          0.015,
+          0.015,
+          0.015
+        ],
+        0.015,
+        [
+          0.42,
+          0.18,
+          0.72,
+          1
+        ]
+      ],
+      "light": 0.35
+    },
+    "mask_count_initial": 4,
+    "mask_areas_initial": [
+      410,
+      631,
+      950,
+      375
+    ],
+    "predictions": [
+      [
+        "reach",
+        0.999
+      ],
+      [
+        "lower",
+        0.401
+      ],
+      [
+        "close",
+        0.995
+      ],
+      [
+        "lift",
+        1.0
+      ],
+      [
+        "done",
+        0.987
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "lower",
+      "close",
+      "lift"
+    ],
+    "selected_slot": "red_cube",
+    "target_confidence": 0.9525658488273621,
+    "target_uv": [
+      148.5150554675119,
+      294.4310618066561
+    ],
+    "expected_target_initial_xyz": [
+      -0.0387,
+      -0.3437,
+      0.0249
+    ],
+    "grasp_estimates": [
+      {
+        "retry": false,
+        "xyz": [
+          -0.0374,
+          -0.3434,
+          0.025
+        ],
+        "yaw_deg": 44.9
+      }
+    ],
+    "grasp_xyz": [
+      -0.0374,
+      -0.3434,
+      0.025
+    ],
+    "expected_target_peak_rise_mm": 58.2,
+    "expected_target_final_rise_mm": 58.2,
+    "jaw": 0.2,
+    "grasp_retries": 0,
+    "status": "Model chose to stop",
+    "exception": null,
+    "lift_unverified": false,
+    "finished": true,
+    "failed": false,
+    "pass": true,
+    "image": "dim-violet-cube.jpg",
+    "video": null,
+    "physical_pass": true
+  },
+  {
+    "case": "jpeg-red-egg",
+    "group": "combined",
+    "seed": 331110,
+    "instruction": "pick up the red egg",
+    "target_slot": "red_cube",
+    "condition": {
+      "object": [
+        "red_cube",
+        "ellipsoid",
+        [
+          0.013,
+          0.013,
+          0.02
+        ],
+        0.02,
+        null
+      ],
+      "noise": "jpeg25"
+    },
+    "mask_count_initial": 4,
+    "mask_areas_initial": [
+      1308,
+      268,
+      544,
+      594
+    ],
+    "predictions": [
+      [
+        "reach",
+        1.0
+      ],
+      [
+        "lower",
+        0.769
+      ],
+      [
+        "close",
+        0.995
+      ],
+      [
+        "lift",
+        1.0
+      ],
+      [
+        "left",
+        0.557
+      ],
+      [
+        "open",
+        0.864
+      ],
+      [
+        "done",
+        0.997
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "lower",
+      "close",
+      "lift",
+      "left",
+      "open"
+    ],
+    "selected_slot": "green_cylinder",
+    "target_confidence": 0.3245830833911896,
+    "target_uv": [
+      185.38970588235293,
+      318.77941176470586
+    ],
+    "expected_target_initial_xyz": [
+      -0.032,
+      -0.3408,
+      0.025
+    ],
+    "grasp_estimates": [
+      {
+        "retry": false,
+        "xyz": [
+          0.0384,
+          -0.2761,
+          0.025
+        ],
+        "yaw_deg": 0.0
+      }
+    ],
+    "grasp_xyz": [
+      0.0384,
+      -0.2761,
+      0.025
+    ],
+    "expected_target_peak_rise_mm": 3.4,
+    "expected_target_final_rise_mm": -1.8,
+    "jaw": 1.522,
+    "grasp_retries": 0,
+    "status": "Model chose to stop",
+    "exception": null,
+    "lift_unverified": false,
+    "finished": true,
+    "failed": false,
+    "pass": false,
+    "image": "jpeg-red-egg.jpg",
+    "video": null,
+    "physical_pass": false
+  },
+  {
+    "case": "shift-extra-distractor",
+    "group": "combined",
+    "seed": 331111,
+    "instruction": "lift the blue cube",
+    "target_slot": "blue_cube",
+    "condition": {
+      "camera": [
+        [
+          0.63,
+          -0.09,
+          0.32
+        ],
+        [
+          0,
+          -0.23,
+          0.09
+        ]
+      ],
+      "marker": true
+    },
+    "mask_count_initial": 4,
+    "mask_areas_initial": [
+      1067,
+      1034,
+      1159,
+      1309
+    ],
+    "predictions": [
+      [
+        "reach",
+        1.0
+      ],
+      [
+        "reach",
+        0.721
+      ],
+      [
+        "lower",
+        1.0
+      ],
+      [
+        "close",
+        0.997
+      ],
+      [
+        "lift",
+        0.995
+      ],
+      [
+        "done",
+        0.758
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "reach",
+      "lower",
+      "close",
+      "lift"
+    ],
+    "selected_slot": "blue_cube",
+    "target_confidence": 0.9910268187522888,
+    "target_uv": [
+      149.9756554307116,
+      312.00468164794006
+    ],
+    "expected_target_initial_xyz": [
+      0.0325,
+      -0.3449,
+      0.0248
+    ],
+    "grasp_estimates": [
+      {
+        "retry": false,
+        "xyz": [
+          0.0328,
+          -0.3447,
+          0.025
+        ],
+        "yaw_deg": 12.5
+      },
+      {
+        "retry": true,
+        "xyz": [
+          0.034,
+          -0.3465,
+          0.025
+        ],
+        "yaw_deg": 12.5
+      }
+    ],
+    "grasp_xyz": [
+      0.034,
+      -0.3465,
+      0.025
+    ],
+    "expected_target_peak_rise_mm": 55.0,
+    "expected_target_final_rise_mm": 55.0,
+    "jaw": 0.213,
+    "grasp_retries": 0,
+    "status": "Model chose to stop",
+    "exception": null,
+    "lift_unverified": false,
+    "finished": true,
+    "failed": false,
+    "pass": false,
+    "image": "shift-extra-distractor.jpg",
+    "video": null,
+    "physical_pass": true
+  },
+  {
+    "case": "wide-noisy-blue",
+    "group": "combined",
+    "seed": 331112,
+    "instruction": "lift the blue cube",
+    "target_slot": "blue_cube",
+    "condition": {
+      "wide": true,
+      "noise": "gaussian8"
+    },
+    "mask_count_initial": 4,
+    "mask_areas_initial": [
+      1062,
+      697,
+      590,
+      605
+    ],
+    "predictions": [
+      [
+        "reach",
+        1.0
+      ],
+      [
+        "reach",
+        0.981
+      ],
+      [
+        "lower",
+        0.998
+      ],
+      [
+        "close",
+        0.999
+      ],
+      [
+        "lift",
+        0.995
+      ],
+      [
+        "done",
+        0.818
+      ]
+    ],
+    "actual_actions": [
+      "reach",
+      "reach",
+      "lower",
+      "close",
+      "lift"
+    ],
+    "selected_slot": "blue_cube",
+    "target_confidence": 0.8500151038169861,
+    "target_uv": [
+      156.7560975609756,
+      298.10473457675755
+    ],
+    "expected_target_initial_xyz": [
+      -0.0306,
+      -0.3295,
+      0.0248
+    ],
+    "grasp_estimates": [
+      {
+        "retry": false,
+        "xyz": [
+          -0.0287,
+          -0.3292,
+          0.025
+        ],
+        "yaw_deg": -3.7
+      },
+      {
+        "retry": true,
+        "xyz": [
+          -0.0293,
+          -0.3298,
+          0.025
+        ],
+        "yaw_deg": 9.3
+      }
+    ],
+    "grasp_xyz": [
+      -0.0293,
+      -0.3298,
+      0.025
+    ],
+    "expected_target_peak_rise_mm": 55.0,
+    "expected_target_final_rise_mm": 55.0,
+    "jaw": 0.214,
+    "grasp_retries": 0,
+    "status": "Model chose to stop",
+    "exception": null,
+    "lift_unverified": false,
+    "finished": true,
+    "failed": false,
+    "pass": false,
+    "image": "wide-noisy-blue.jpg",
+    "video": null,
+    "physical_pass": true
+  }
+]

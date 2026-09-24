@@ -1,0 +1,17 @@
+{
+  "train": 3259,
+  "validation": 630,
+  "best_rank": 528,
+  "varied_train": {
+    "episodes": 34,
+    "verified_done": 19,
+    "failed_grasp": 11,
+    "skipped": 14
+  },
+  "varied_validation": {
+    "episodes": 10,
+    "verified_done": 4,
+    "failed_grasp": 5,
+    "skipped": 2
+  }
+}

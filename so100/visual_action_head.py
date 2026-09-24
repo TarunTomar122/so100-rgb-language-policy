@@ -121,9 +121,29 @@ class RecoveryActionHead(nn.Module):
         return self.net(torch.cat((state, visual_logits), dim=-1))
 
 
+class DoneCalibrator(nn.Module):
+    """Learn when the instruction's observed outcome permits stopping."""
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.net = nn.Sequential(nn.Linear(FEATURES * 2 + STATE_DIM + len(SKILLS), 128),
+                                 nn.GELU(), nn.Linear(128, 1))
+        nn.init.zeros_(self.net[-1].weight)
+        nn.init.zeros_(self.net[-1].bias)
+
+    def forward(self, target: torch.Tensor, text: torch.Tensor,
+                state: torch.Tensor, logits: torch.Tensor) -> torch.Tensor:
+        correction = self.net(torch.cat((target, text, state, logits), dim=-1))
+        result = logits.clone()
+        result[..., SKILLS.index("done")] += correction[..., 0]
+        return result
+
+
 if __name__ == "__main__":
     head = VisualActionHead()
     logits = head(*(torch.zeros(2, n) for n in (FEATURES, FEATURES, FEATURES, STATE_DIM, len(SKILLS))))
     assert logits.shape == (2, len(SKILLS))
     assert RecoveryActionHead()(torch.zeros(2, STATE_DIM), logits).shape == logits.shape
+    assert DoneCalibrator()(torch.zeros(2, FEATURES), torch.zeros(2, FEATURES),
+                            torch.zeros(2, STATE_DIM), logits).shape == logits.shape
     print("visual action head ok")

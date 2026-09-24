@@ -104,10 +104,14 @@ def run(app, case: tuple, folder: Path, slip: bool = False) -> dict:
 
 def main() -> None:
     baseline = "--baseline" in sys.argv
-    if "--ood" in sys.argv:
-        from scripts.eval_ood import FRESH_CASES, run as run_ood
+    suite = next((name for name in ("ood", "holdout", "stress")
+                  if f"--{name}" in sys.argv), None)
+    if suite is not None:
+        from scripts.eval_ood import CASES as STRESS_CASES, FRESH_CASES, HOLDOUT_CASES, run as run_ood
 
-        folder = ROOT / "eval" / "visual-action-v1" / "ood"
+        cases = {"ood": FRESH_CASES, "holdout": HOLDOUT_CASES,
+                 "stress": STRESS_CASES}[suite]
+        folder = ROOT / "eval" / "visual-action-v2" / suite
         folder.mkdir(parents=True, exist_ok=True)
         app = VisualActionDemo()
         model = app.world.model
@@ -117,7 +121,7 @@ def main() -> None:
         original["headlight_diffuse"] = model.vis.headlight.diffuse.copy()
         original["headlight_ambient"] = model.vis.headlight.ambient.copy()
         rows = []
-        for case in FRESH_CASES:
+        for case in cases:
             row = run_ood(app, case, folder, original_render, original)
             near = case[3].startswith("go near")
             row["physical_pass"] = bool(row["finished"] and row["selected_slot"] == case[4]
@@ -128,7 +132,7 @@ def main() -> None:
         print(f"PHYSICAL {sum(row['physical_pass'] for row in rows)}/{len(rows)}", flush=True)
         return
     slip = "--slip" in sys.argv
-    folder = ROOT / "eval" / "visual-action-v1" / ("slip" if slip else "baseline" if baseline else "head")
+    folder = ROOT / "eval" / ("visual-action-v1" if baseline else "visual-action-v2") / ("slip" if slip else "baseline" if baseline else "head")
     folder.mkdir(parents=True, exist_ok=True)
     app = ActionDemo() if baseline else VisualActionDemo()
     cases = ((CASES[1], (280002, CASES[7][1], "red_cube", "drop-left", False), CASES[7])

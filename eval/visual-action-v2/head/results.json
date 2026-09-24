@@ -1,0 +1,314 @@
+[
+  {
+    "seed": 280001,
+    "command": "go near the blue cube",
+    "target": "blue_cube",
+    "task": "near",
+    "moved_mid_task": false,
+    "slipped_after_grasp": false,
+    "perturbed": false,
+    "actions": [
+      "reach"
+    ],
+    "reapproaches": 0,
+    "selected": "blue_cube",
+    "peak_rise_mm": 0.1,
+    "delta_mm": [
+      0.0,
+      0.0,
+      0.1
+    ],
+    "finished": true,
+    "failed": false,
+    "status": "Model chose to stop",
+    "pass": true,
+    "image": "280001.jpg"
+  },
+  {
+    "seed": 280002,
+    "command": "lift the red cube",
+    "target": "red_cube",
+    "task": "lift",
+    "moved_mid_task": false,
+    "slipped_after_grasp": false,
+    "perturbed": false,
+    "actions": [
+      "reach",
+      "lower",
+      "close",
+      "lift"
+    ],
+    "reapproaches": 0,
+    "selected": "red_cube",
+    "peak_rise_mm": 57.0,
+    "delta_mm": [
+      5.4,
+      -1.5,
+      57.0
+    ],
+    "finished": true,
+    "failed": false,
+    "status": "Model chose to stop",
+    "pass": true,
+    "image": "280002.jpg"
+  },
+  {
+    "seed": 280003,
+    "command": "lift the green cylinder and move left",
+    "target": "green_cylinder",
+    "task": "left",
+    "moved_mid_task": false,
+    "slipped_after_grasp": false,
+    "perturbed": false,
+    "actions": [
+      "reach",
+      "reach",
+      "lower",
+      "close",
+      "lift",
+      "left"
+    ],
+    "reapproaches": 1,
+    "selected": "green_cylinder",
+    "peak_rise_mm": 60.9,
+    "delta_mm": [
+      8.6,
+      -26.8,
+      59.8
+    ],
+    "finished": true,
+    "failed": false,
+    "status": "Model chose to stop",
+    "pass": true,
+    "image": "280003.jpg"
+  },
+  {
+    "seed": 280004,
+    "command": "lift the yellow block and move right then drop it",
+    "target": "yellow_block",
+    "task": "drop",
+    "moved_mid_task": false,
+    "slipped_after_grasp": false,
+    "perturbed": false,
+    "actions": [
+      "reach",
+      "lower",
+      "close",
+      "lift",
+      "right",
+      "open"
+    ],
+    "reapproaches": 0,
+    "selected": "blue_cube",
+    "peak_rise_mm": 0.1,
+    "delta_mm": [
+      0.0,
+      0.0,
+      0.1
+    ],
+    "finished": true,
+    "failed": false,
+    "status": "Model chose to stop",
+    "pass": false,
+    "image": "280004.jpg"
+  },
+  {
+    "seed": 280005,
+    "command": "shift the arm left",
+    "target": null,
+    "task": "arm-left",
+    "moved_mid_task": false,
+    "slipped_after_grasp": false,
+    "perturbed": false,
+    "actions": [
+      "left"
+    ],
+    "reapproaches": 0,
+    "selected": null,
+    "peak_rise_mm": 0.0,
+    "delta_mm": [
+      -0.0,
+      -29.8,
+      -0.2
+    ],
+    "finished": true,
+    "failed": false,
+    "status": "Model chose to stop",
+    "pass": true,
+    "image": "280005.jpg"
+  },
+  {
+    "seed": 280006,
+    "command": "raise the gripper a little",
+    "target": null,
+    "task": "arm-up",
+    "moved_mid_task": false,
+    "slipped_after_grasp": false,
+    "perturbed": false,
+    "actions": [
+      "up"
+    ],
+    "reapproaches": 0,
+    "selected": null,
+    "peak_rise_mm": 0.0,
+    "delta_mm": [
+      -0.0,
+      0.2,
+      29.5
+    ],
+    "finished": true,
+    "failed": false,
+    "status": "Model chose to stop",
+    "pass": true,
+    "image": "280006.jpg"
+  },
+  {
+    "seed": 280007,
+    "command": "close the gripper",
+    "target": null,
+    "task": "grip-close",
+    "moved_mid_task": false,
+    "slipped_after_grasp": false,
+    "perturbed": false,
+    "actions": [
+      "close"
+    ],
+    "reapproaches": 0,
+    "selected": null,
+    "peak_rise_mm": 0.0,
+    "delta_mm": [
+      0.0,
+      0.2,
+      -0.3
+    ],
+    "finished": true,
+    "failed": false,
+    "status": "Model chose to stop",
+    "pass": true,
+    "image": "280007.jpg"
+  },
+  {
+    "seed": 280008,
+    "command": "pick up the red cube, move left, then let go",
+    "target": "red_cube",
+    "task": "drop-left",
+    "moved_mid_task": false,
+    "slipped_after_grasp": false,
+    "perturbed": false,
+    "actions": [
+      "reach",
+      "lower",
+      "close",
+      "lift",
+      "left",
+      "open"
+    ],
+    "reapproaches": 0,
+    "selected": "red_cube",
+    "peak_rise_mm": 50.5,
+    "delta_mm": [
+      -16.3,
+      -38.9,
+      0.1
+    ],
+    "finished": true,
+    "failed": false,
+    "status": "Model chose to stop",
+    "pass": true,
+    "image": "280008.jpg"
+  },
+  {
+    "seed": 280009,
+    "command": "lift the blue cube and move right then drop it",
+    "target": "blue_cube",
+    "task": "drop",
+    "moved_mid_task": false,
+    "slipped_after_grasp": false,
+    "perturbed": false,
+    "actions": [
+      "reach",
+      "lower",
+      "close",
+      "lift",
+      "right",
+      "open"
+    ],
+    "reapproaches": 0,
+    "selected": "blue_cube",
+    "peak_rise_mm": 58.4,
+    "delta_mm": [
+      4.1,
+      18.7,
+      0.1
+    ],
+    "finished": true,
+    "failed": false,
+    "status": "Model chose to stop",
+    "pass": true,
+    "image": "280009.jpg"
+  },
+  {
+    "seed": 280101,
+    "command": "lift the blue cube",
+    "target": "blue_cube",
+    "task": "lift",
+    "moved_mid_task": true,
+    "slipped_after_grasp": false,
+    "perturbed": true,
+    "actions": [
+      "reach",
+      "reach",
+      "lower",
+      "close",
+      "lift",
+      "open",
+      "reach",
+      "lower",
+      "close",
+      "lift"
+    ],
+    "reapproaches": 2,
+    "selected": "blue_cube",
+    "peak_rise_mm": 55.0,
+    "delta_mm": [
+      29.6,
+      -5.2,
+      55.0
+    ],
+    "finished": true,
+    "failed": false,
+    "status": "Model chose to stop",
+    "pass": true,
+    "image": "280101.jpg"
+  },
+  {
+    "seed": 280102,
+    "command": "lift the red cube",
+    "target": "red_cube",
+    "task": "lift",
+    "moved_mid_task": true,
+    "slipped_after_grasp": false,
+    "perturbed": true,
+    "actions": [
+      "reach",
+      "reach",
+      "lower",
+      "close",
+      "lift",
+      "right"
+    ],
+    "reapproaches": 1,
+    "selected": "red_cube",
+    "peak_rise_mm": 58.8,
+    "delta_mm": [
+      30.1,
+      34.3,
+      58.8
+    ],
+    "finished": true,
+    "failed": false,
+    "status": "Model chose to stop",
+    "pass": true,
+    "image": "280102.jpg"
+  }
+]
