@@ -5,6 +5,7 @@
     "target": "blue_cube",
     "task": "near",
     "moved_mid_task": false,
+    "slipped_after_grasp": false,
     "perturbed": false,
     "actions": [
       "reach"
@@ -29,6 +30,7 @@
     "target": "red_cube",
     "task": "lift",
     "moved_mid_task": false,
+    "slipped_after_grasp": false,
     "perturbed": false,
     "actions": [
       "reach",
@@ -56,6 +58,7 @@
     "target": "green_cylinder",
     "task": "left",
     "moved_mid_task": false,
+    "slipped_after_grasp": false,
     "perturbed": false,
     "actions": [
       "reach",
@@ -85,6 +88,7 @@
     "target": "yellow_block",
     "task": "drop",
     "moved_mid_task": false,
+    "slipped_after_grasp": false,
     "perturbed": false,
     "actions": [
       "reach",
@@ -114,6 +118,7 @@
     "target": null,
     "task": "arm-left",
     "moved_mid_task": false,
+    "slipped_after_grasp": false,
     "perturbed": false,
     "actions": [
       "left"
@@ -138,6 +143,7 @@
     "target": null,
     "task": "arm-up",
     "moved_mid_task": false,
+    "slipped_after_grasp": false,
     "perturbed": false,
     "actions": [
       "up"
@@ -162,6 +168,7 @@
     "target": null,
     "task": "grip-close",
     "moved_mid_task": false,
+    "slipped_after_grasp": false,
     "perturbed": false,
     "actions": [
       "close"
@@ -186,6 +193,7 @@
     "target": "red_cube",
     "task": "drop-left",
     "moved_mid_task": false,
+    "slipped_after_grasp": false,
     "perturbed": false,
     "actions": [
       "reach",
@@ -215,6 +223,7 @@
     "target": "blue_cube",
     "task": "drop",
     "moved_mid_task": false,
+    "slipped_after_grasp": false,
     "perturbed": false,
     "actions": [
       "reach",
@@ -244,26 +253,32 @@
     "target": "blue_cube",
     "task": "lift",
     "moved_mid_task": true,
+    "slipped_after_grasp": false,
     "perturbed": true,
     "actions": [
       "reach",
       "reach",
       "lower",
       "close",
+      "lift",
+      "open",
+      "reach",
+      "lower",
+      "close",
       "lift"
     ],
-    "reapproaches": 1,
+    "reapproaches": 2,
     "selected": "blue_cube",
-    "peak_rise_mm": 2.1,
+    "peak_rise_mm": 55.0,
     "delta_mm": [
-      25.2,
-      1.4,
-      0.0
+      29.6,
+      -5.2,
+      55.0
     ],
     "finished": true,
     "failed": false,
     "status": "Model chose to stop",
-    "pass": false,
+    "pass": true,
     "image": "280101.jpg"
   },
   {
@@ -272,6 +287,7 @@
     "target": "red_cube",
     "task": "lift",
     "moved_mid_task": true,
+    "slipped_after_grasp": false,
     "perturbed": true,
     "actions": [
       "reach",

@@ -91,6 +91,10 @@ class ActionDemo:
             return None
         return (self.plan[len(self.history)] if len(self.history) < len(self.plan) else "done"), None
 
+    def _select_target(self, image: np.ndarray, masks: list[np.ndarray],
+                       crops: list[Image.Image], logits: torch.Tensor, retry: bool) -> int:
+        return int(logits.argmax().item())
+
     def _find_grasp(self, retry: bool = False) -> None:
         image = self.world.render(SIZE)
         masks = candidate_masks(image, background=self.background)
@@ -110,7 +114,7 @@ class ActionDemo:
             logits = self.eyes.model(**{key: value.to(self.device)
                                         for key, value in batch.items()}).logits_per_image[:, 0]
             prob = torch.softmax(logits, -1)
-            index = int(prob.argmax().item())
+            index = self._select_target(image, masks, crops, logits, retry)
             confidence = float(prob[index].item())
         ys, xs = np.nonzero(masks[index])
         self.target_uv = [float(xs.mean()), float(ys.mean())]

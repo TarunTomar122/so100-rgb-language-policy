@@ -45,7 +45,8 @@ def target_grasp(world, name: str, image: np.ndarray) -> dict | None:
         return None
 
 
-def collect(eyes: Siglip2, seeds: range, heldout: bool = False) -> tuple[list, dict]:
+def collect(eyes: Siglip2, seeds: range, heldout: bool = False,
+            slips: bool = False) -> tuple[list, dict]:
     world = setup_world()
     executor = Executor(world)
     prior = LanguagePrior(eyes.device)
@@ -57,6 +58,8 @@ def collect(eyes: Siglip2, seeds: range, heldout: bool = False) -> tuple[list, d
         background = empty[-1]
         start = world.snapshot()
         for obj_index, name in enumerate(MOVABLES):
+            if slips and obj_index != seed % len(MOVABLES):
+                continue
             world.restore(start)
             options = [None, (), ("left",), ("right",), ("open",), ("left", "open"), ("right", "open")]
             suffix = options[(seed * 4 + obj_index) % len(options)]
@@ -98,10 +101,37 @@ def collect(eyes: Siglip2, seeds: range, heldout: bool = False) -> tuple[list, d
                         if not last_ok:
                             break
                 record(skill)
+                if slips and skill == "lift":
+                    # Simulate an object slipping out just as the arm lifts.
+                    # The teacher sees the pose; the trained head only sees RGB.
+                    pose = world.object_pose(name)
+                    pose[0] = float(np.clip(pose[0] + 0.035, -0.085, 0.085))
+                    pose[2] = TABLE_TOP + 0.020
+                    world.set_object(name, pose[:3], pose[3:])
+                    mujoco.mj_forward(world.model, world.data)
                 last_ok = execute_skill(world, executor, skill, grasp)
                 history.append(skill)
                 if not last_ok:
                     break
+                if slips and skill == "lift" and world.object_xyz(name)[2] < TABLE_TOP + 0.045:
+                    last_ok = False
+                    record("open", recovery=True)
+                    executed = execute_skill(world, executor, "open", None)
+                    history.append("open")
+                    if not executed:
+                        break
+                    grasp = target_grasp(world, name, world.render(SIZE))
+                    if grasp is None:
+                        break
+                    for retry_skill in ("reach", "lower", "close", "lift"):
+                        record(retry_skill, recovery=True)
+                        executed = execute_skill(world, executor, retry_skill, grasp)
+                        history.append(retry_skill)
+                        if not executed:
+                            break
+                    if not executed or world.object_xyz(name)[2] < TABLE_TOP + 0.045:
+                        break
+                    last_ok = True
             else:
                 record("done")
 

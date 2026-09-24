@@ -228,21 +228,61 @@
         0.998
       ],
       [
-        "done",
-        0.989
+        "open",
+        0.941
+      ],
+      [
+        "reach",
+        0.998
+      ],
+      [
+        "lower",
+        0.817
+      ],
+      [
+        "close",
+        0.993
+      ],
+      [
+        "lift",
+        0.995
+      ],
+      [
+        "reach",
+        0.57
+      ],
+      [
+        "lift",
+        0.637
+      ],
+      [
+        "reach",
+        0.487
+      ],
+      [
+        "lower",
+        0.827
       ]
     ],
     "actual_actions": [
       "reach",
       "lower",
       "close",
-      "lift"
+      "lift",
+      "open",
+      "reach",
+      "lower",
+      "close",
+      "lift",
+      "reach",
+      "lift",
+      "reach"
     ],
     "selected_slot": "red_cube",
-    "target_confidence": 0.9708827137947083,
+    "target_confidence": 0.972785234451294,
     "target_uv": [
-      146.96656534954408,
-      292.8996960486322
+      186.77058823529413,
+      269.7852941176471
     ],
     "expected_target_initial_xyz": [
       -0.0348,
@@ -258,22 +298,49 @@
           0.025
         ],
         "yaw_deg": 13.7
+      },
+      {
+        "retry": true,
+        "xyz": [
+          -0.0257,
+          -0.328,
+          0.025
+        ],
+        "yaw_deg": 4.6
+      },
+      {
+        "retry": true,
+        "xyz": [
+          -0.0961,
+          -0.3096,
+          0.025
+        ],
+        "yaw_deg": 4.6
+      },
+      {
+        "retry": true,
+        "xyz": [
+          -0.124,
+          -0.3047,
+          0.025
+        ],
+        "yaw_deg": -9.8
       }
     ],
     "grasp_xyz": [
-      -0.0408,
-      -0.3459,
+      -0.124,
+      -0.3047,
       0.025
     ],
     "expected_target_peak_rise_mm": 0.8,
-    "expected_target_final_rise_mm": -4.6,
-    "jaw": -0.101,
+    "expected_target_final_rise_mm": -4.3,
+    "jaw": -0.1,
     "grasp_retries": 0,
-    "status": "Model chose to stop",
+    "status": "Stopped after 12 decisions",
     "exception": null,
     "lift_unverified": false,
-    "finished": true,
-    "failed": false,
+    "finished": false,
+    "failed": true,
     "pass": false,
     "image": "red-capsule.jpg",
     "video": null,
@@ -327,8 +394,36 @@
         0.952
       ],
       [
-        "done",
-        0.999
+        "open",
+        0.775
+      ],
+      [
+        "reach",
+        0.769
+      ],
+      [
+        "lower",
+        0.995
+      ],
+      [
+        "close",
+        0.996
+      ],
+      [
+        "lift",
+        0.984
+      ],
+      [
+        "lift",
+        0.697
+      ],
+      [
+        "lower",
+        0.637
+      ],
+      [
+        "lift",
+        0.88
       ]
     ],
     "actual_actions": [
@@ -336,13 +431,20 @@
       "reach",
       "lower",
       "close",
-      "lift"
+      "lift",
+      "open",
+      "reach",
+      "lower",
+      "close",
+      "lift",
+      "lift",
+      "lower"
     ],
     "selected_slot": "blue_cube",
-    "target_confidence": 0.8636571764945984,
+    "target_confidence": 0.8506445288658142,
     "target_uv": [
-      127.34558823529412,
-      299.19117647058823
+      108.44444444444444,
+      309.6732026143791
     ],
     "expected_target_initial_xyz": [
       -0.0304,
@@ -367,22 +469,31 @@
           0.025
         ],
         "yaw_deg": 0.0
+      },
+      {
+        "retry": true,
+        "xyz": [
+          0.0143,
+          -0.3837,
+          0.025
+        ],
+        "yaw_deg": -3.4
       }
     ],
     "grasp_xyz": [
-      0.0068,
-      -0.3585,
+      0.0143,
+      -0.3837,
       0.025
     ],
     "expected_target_peak_rise_mm": 3.0,
-    "expected_target_final_rise_mm": -0.6,
+    "expected_target_final_rise_mm": -2.4,
     "jaw": -0.1,
     "grasp_retries": 0,
-    "status": "Model chose to stop",
+    "status": "Stopped after 12 decisions",
     "exception": null,
     "lift_unverified": false,
-    "finished": true,
-    "failed": false,
+    "finished": false,
+    "failed": true,
     "pass": false,
     "image": "blue-ellipsoid.jpg",
     "video": null,
@@ -846,21 +957,61 @@
         0.998
       ],
       [
-        "done",
-        0.99
+        "open",
+        0.952
+      ],
+      [
+        "reach",
+        0.996
+      ],
+      [
+        "lower",
+        0.959
+      ],
+      [
+        "close",
+        0.994
+      ],
+      [
+        "lift",
+        0.996
+      ],
+      [
+        "lift",
+        0.58
+      ],
+      [
+        "reach",
+        0.843
+      ],
+      [
+        "lower",
+        0.498
+      ],
+      [
+        "lift",
+        0.875
       ]
     ],
     "actual_actions": [
       "reach",
       "lower",
       "close",
-      "lift"
+      "lift",
+      "open",
+      "reach",
+      "lower",
+      "close",
+      "lift",
+      "lift",
+      "reach",
+      "lower"
     ],
     "selected_slot": "blue_cube",
-    "target_confidence": 0.9744482636451721,
+    "target_confidence": 0.9955260157585144,
     "target_uv": [
-      209.94714587737843,
-      310.600422832981
+      318.97727272727275,
+      349.3099173553719
     ],
     "expected_target_initial_xyz": [
       0.0105,
@@ -876,22 +1027,40 @@
           0.025
         ],
         "yaw_deg": 8.9
+      },
+      {
+        "retry": true,
+        "xyz": [
+          0.0643,
+          -0.2174,
+          0.025
+        ],
+        "yaw_deg": 7.4
+      },
+      {
+        "retry": true,
+        "xyz": [
+          0.1088,
+          -0.1088,
+          0.025
+        ],
+        "yaw_deg": -17.4
       }
     ],
     "grasp_xyz": [
-      0.0053,
-      -0.2496,
+      0.1088,
+      -0.1088,
       0.025
     ],
     "expected_target_peak_rise_mm": 1.5,
-    "expected_target_final_rise_mm": -4.3,
+    "expected_target_final_rise_mm": -14.3,
     "jaw": -0.1,
     "grasp_retries": 0,
-    "status": "Model chose to stop",
+    "status": "Stopped after 12 decisions",
     "exception": null,
     "lift_unverified": false,
-    "finished": true,
-    "failed": false,
+    "finished": false,
+    "failed": true,
     "pass": false,
     "image": "wide-blue-capsule.jpg",
     "video": null,

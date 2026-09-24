@@ -109,8 +109,21 @@ class VisualActionHead(nn.Module):
         return prior * 0.5 + self.net(torch.cat((scene, target, text, state, prior * 0.1), dim=-1))
 
 
+class RecoveryActionHead(nn.Module):
+    """Small learned retry policy using RGB-derived state and the visual head's logits."""
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.net = nn.Sequential(nn.Linear(STATE_DIM + len(SKILLS), 64), nn.GELU(),
+                                 nn.Linear(64, len(SKILLS)))
+
+    def forward(self, state: torch.Tensor, visual_logits: torch.Tensor) -> torch.Tensor:
+        return self.net(torch.cat((state, visual_logits), dim=-1))
+
+
 if __name__ == "__main__":
     head = VisualActionHead()
     logits = head(*(torch.zeros(2, n) for n in (FEATURES, FEATURES, FEATURES, STATE_DIM, len(SKILLS))))
     assert logits.shape == (2, len(SKILLS))
+    assert RecoveryActionHead()(torch.zeros(2, STATE_DIM), logits).shape == logits.shape
     print("visual action head ok")

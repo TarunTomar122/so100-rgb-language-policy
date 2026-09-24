@@ -31,7 +31,7 @@ CASES = (
 )
 
 
-def run(app, case: tuple, folder: Path) -> dict:
+def run(app, case: tuple, folder: Path, slip: bool = False) -> dict:
     seed, text, target, task, moved = case
     app.seed = seed - 1
     app.reset()
@@ -55,10 +55,20 @@ def run(app, case: tuple, folder: Path) -> dict:
             world.set_object(target, pose[:3], pose[3:])
             mujoco.mj_forward(world.model, world.data)
             perturbed = True
+        if slip and not perturbed and app.history == ["reach", "lower", "close"]:
+            pose = world.object_pose(target)
+            pose[0] = float(np.clip(pose[0] + 0.035, -0.085, 0.085))
+            pose[2] = TABLE_TOP + 0.020
+            world.set_object(target, pose[:3], pose[3:])
+            mujoco.mj_forward(world.model, world.data)
+            # Slip occurs after the model picked lift, while that action begins.
+            app.last_frame = world.render(SIZE)
+            perturbed = True
         if app.finished or app.failed:
             break
     final = world.render(SIZE)
-    Image.fromarray(np.concatenate((first, final), axis=1)).save(folder / f"{seed}.jpg", quality=88)
+    image_name = f"{seed}-{task}.jpg" if slip else f"{seed}.jpg"
+    Image.fromarray(np.concatenate((first, final), axis=1)).save(folder / image_name, quality=88)
     delta = (world.object_xyz(target) - before) * 1000 if target is not None else (world.tcp() - before_tip) * 1000
     ok = bool(app.finished and (target is None or app.target_name == target))
     if task == "near":
@@ -79,13 +89,15 @@ def run(app, case: tuple, folder: Path) -> dict:
             ok &= delta[1] <= -15 and world.jaw() > 1.0
     if moved:
         ok &= perturbed
+    if slip:
+        ok &= perturbed and app.history.count("lift") >= 2
     row = {"seed": seed, "command": text, "target": target, "task": task,
-           "moved_mid_task": moved, "perturbed": perturbed,
+           "moved_mid_task": moved, "slipped_after_grasp": slip, "perturbed": perturbed,
            "actions": app.history, "reapproaches": max(0, app.history.count("reach") - 1),
            "selected": app.target_name,
            "peak_rise_mm": round(peak, 1), "delta_mm": np.round(delta, 1).tolist(),
            "finished": app.finished, "failed": app.failed, "status": app.status,
-           "pass": bool(ok), "image": f"{seed}.jpg"}
+           "pass": bool(ok), "image": image_name}
     print(json.dumps(row), flush=True)
     return row
 
@@ -115,11 +127,13 @@ def main() -> None:
         (folder / "results.json").write_text(json.dumps(rows, indent=2) + "\n")
         print(f"PHYSICAL {sum(row['physical_pass'] for row in rows)}/{len(rows)}", flush=True)
         return
-    folder = ROOT / "eval" / "visual-action-v1" / ("baseline" if baseline else "head")
+    slip = "--slip" in sys.argv
+    folder = ROOT / "eval" / "visual-action-v1" / ("slip" if slip else "baseline" if baseline else "head")
     folder.mkdir(parents=True, exist_ok=True)
     app = ActionDemo() if baseline else VisualActionDemo()
-    cases = CASES[7:9] if "--placements" in sys.argv else CASES
-    rows = [run(app, case, folder) for case in cases]
+    cases = ((CASES[1], (280002, CASES[7][1], "red_cube", "drop-left", False), CASES[7])
+             if slip else CASES[7:9] if "--placements" in sys.argv else CASES)
+    rows = [run(app, case, folder, slip=slip) for case in cases]
     filename = "placements.json" if "--placements" in sys.argv else "results.json"
     (folder / filename).write_text(json.dumps(rows, indent=2) + "\n")
     print(f"PASS {sum(row['pass'] for row in rows)}/{len(rows)}", flush=True)
