@@ -1,0 +1,30 @@
+{
+  "train": 2438,
+  "validation": 401,
+  "train_labels": {
+    "reach": 450,
+    "lower": 329,
+    "close": 335,
+    "lift": 327,
+    "left": 145,
+    "right": 145,
+    "up": 43,
+    "down": 15,
+    "open": 171,
+    "done": 478
+  },
+  "validation_labels": {
+    "reach": 75,
+    "lower": 55,
+    "close": 54,
+    "lift": 53,
+    "left": 22,
+    "right": 26,
+    "up": 6,
+    "down": 3,
+    "open": 29,
+    "done": 78
+  },
+  "best_weighted_score": 399,
+  "checkpoint": "/Users/tarat/Documents/personal/so100-rgb-language-policy/data/visual-action/head.pt"
+}

@@ -1,0 +1,129 @@
+"""Held-out physical rollouts for the visual action head and old baseline."""
+
+from __future__ import annotations
+
+import json
+import sys
+from pathlib import Path
+
+import mujoco
+import numpy as np
+from PIL import Image
+
+from so100.action_demo import ActionDemo
+from so100.sim import TABLE_TOP
+from so100.train_rgb_target import SIZE
+from so100.visual_action_demo import VisualActionDemo
+
+ROOT = Path(__file__).resolve().parents[1]
+CASES = (
+    (280001, "go near the blue cube", "blue_cube", "near", False),
+    (280002, "lift the red cube", "red_cube", "lift", False),
+    (280003, "lift the green cylinder and move left", "green_cylinder", "left", False),
+    (280004, "lift the yellow block and move right then drop it", "yellow_block", "drop", False),
+    (280005, "shift the arm left", None, "arm-left", False),
+    (280006, "raise the gripper a little", None, "arm-up", False),
+    (280007, "close the gripper", None, "grip-close", False),
+    (280008, "pick up the red cube, move left, then let go", "red_cube", "drop-left", False),
+    (280009, "lift the blue cube and move right then drop it", "blue_cube", "drop", False),
+    (280101, "lift the blue cube", "blue_cube", "lift", True),
+    (280102, "lift the red cube", "red_cube", "lift", True),
+)
+
+
+def run(app, case: tuple, folder: Path) -> dict:
+    seed, text, target, task, moved = case
+    app.seed = seed - 1
+    app.reset()
+    world = app.world
+    before = None if target is None else world.object_xyz(target)
+    before_tip = world.tcp()
+    first = world.render(SIZE)
+    app.command(text)
+    peak = 0.0
+    perturbed = False
+    for _ in range(13):
+        if app._predict() is None:
+            break
+        app.step()
+        if target is not None:
+            peak = max(peak, (world.object_xyz(target)[2] - before[2]) * 1000)
+        if moved and not perturbed and app.history == ["reach"]:
+            pose = world.object_pose(target)
+            pose[0] = float(np.clip(pose[0] + 0.03, -0.085, 0.085))
+            pose[2] = TABLE_TOP + 0.020
+            world.set_object(target, pose[:3], pose[3:])
+            mujoco.mj_forward(world.model, world.data)
+            perturbed = True
+        if app.finished or app.failed:
+            break
+    final = world.render(SIZE)
+    Image.fromarray(np.concatenate((first, final), axis=1)).save(folder / f"{seed}.jpg", quality=88)
+    delta = (world.object_xyz(target) - before) * 1000 if target is not None else (world.tcp() - before_tip) * 1000
+    ok = bool(app.finished and (target is None or app.target_name == target))
+    if task == "near":
+        ok &= app.history == ["reach"] and world.jaw() > 1.0
+    elif task == "arm-left":
+        ok &= delta[1] <= -15 and app.history == ["left"]
+    elif task == "arm-up":
+        ok &= delta[2] >= 15 and app.history == ["up"]
+    elif task == "grip-close":
+        ok &= world.jaw() < 0.1 and app.history == ["close"]
+    else:
+        ok &= peak >= 30
+        if task == "left":
+            ok &= delta[1] <= -15
+        if task == "drop":
+            ok &= delta[1] >= 15 and world.jaw() > 1.0
+        if task == "drop-left":
+            ok &= delta[1] <= -15 and world.jaw() > 1.0
+    if moved:
+        ok &= perturbed
+    row = {"seed": seed, "command": text, "target": target, "task": task,
+           "moved_mid_task": moved, "perturbed": perturbed,
+           "actions": app.history, "reapproaches": max(0, app.history.count("reach") - 1),
+           "selected": app.target_name,
+           "peak_rise_mm": round(peak, 1), "delta_mm": np.round(delta, 1).tolist(),
+           "finished": app.finished, "failed": app.failed, "status": app.status,
+           "pass": bool(ok), "image": f"{seed}.jpg"}
+    print(json.dumps(row), flush=True)
+    return row
+
+
+def main() -> None:
+    baseline = "--baseline" in sys.argv
+    if "--ood" in sys.argv:
+        from scripts.eval_ood import FRESH_CASES, run as run_ood
+
+        folder = ROOT / "eval" / "visual-action-v1" / "ood"
+        folder.mkdir(parents=True, exist_ok=True)
+        app = VisualActionDemo()
+        model = app.world.model
+        original_render = app.world.render
+        original = {key: getattr(model, key).copy() for key in
+                    ("geom_type", "geom_size", "geom_rgba", "geom_friction", "mat_rgba", "light_diffuse")}
+        original["headlight_diffuse"] = model.vis.headlight.diffuse.copy()
+        original["headlight_ambient"] = model.vis.headlight.ambient.copy()
+        rows = []
+        for case in FRESH_CASES:
+            row = run_ood(app, case, folder, original_render, original)
+            near = case[3].startswith("go near")
+            row["physical_pass"] = bool(row["finished"] and row["selected_slot"] == case[4]
+                                        and (row["expected_target_peak_rise_mm"] < 5 and row["jaw"] > 1
+                                             if near else row["expected_target_final_rise_mm"] >= 30))
+            rows.append(row)
+        (folder / "results.json").write_text(json.dumps(rows, indent=2) + "\n")
+        print(f"PHYSICAL {sum(row['physical_pass'] for row in rows)}/{len(rows)}", flush=True)
+        return
+    folder = ROOT / "eval" / "visual-action-v1" / ("baseline" if baseline else "head")
+    folder.mkdir(parents=True, exist_ok=True)
+    app = ActionDemo() if baseline else VisualActionDemo()
+    cases = CASES[7:9] if "--placements" in sys.argv else CASES
+    rows = [run(app, case, folder) for case in cases]
+    filename = "placements.json" if "--placements" in sys.argv else "results.json"
+    (folder / filename).write_text(json.dumps(rows, indent=2) + "\n")
+    print(f"PASS {sum(row['pass'] for row in rows)}/{len(rows)}", flush=True)
+
+
+if __name__ == "__main__":
+    main()

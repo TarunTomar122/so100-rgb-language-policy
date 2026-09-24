@@ -64,3 +64,7 @@ uv run --frozen python -m scripts.record_demos  # ffmpeg required
 ```
 
 See [EXPERIMENTS.md](EXPERIMENTS.md) for the path from click-to-IK to this policy and [NOTICE.md](NOTICE.md) for model and robot attribution.
+
+## Experimental visual action head
+
+A separate [closed-loop visual action experiment](eval/visual-action-v1/REPORT.md) feeds fresh RGB features to the earlier action head after every skill. It keeps object localization and IK responsible for coordinates. It recovered one moved-object pickup and completed both tested pick/carry/release commands, but scored **3/10** on pre-existing unfamiliar scenes versus **6/10** for the default policy. Run `uv run --frozen python -m so100.visual_action_demo` for its separate browser demo on port **8773**; it has not replaced the default policy.
