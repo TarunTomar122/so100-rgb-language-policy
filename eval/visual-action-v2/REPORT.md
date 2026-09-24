@@ -1,5 +1,7 @@
 # Visual action head: outcome-aware stopping and varied objects
 
+**Historical results:** The altered-shape scenes in this evaluation changed MuJoCo geometry after compilation, which produced unreliable contacts. See the [corrected v3 evaluation](../visual-action-v3/REPORT.md) for current physical results.
+
 The experimental visual action head now learns when to stop from **observed task outcomes**. Its new training scenes include boxes, spheres, cylinders, capsules, and ellipsoids with varied colors and descriptions. A lift is labeled `done` only if the intended simulator object actually rose at least 30 mm; a missed grasp becomes a non-`done` example. The simulator supplies training labels and evaluation grades, never runtime target coordinates or actions.
 
 | Seeded simulation check | Previous head | Current head |

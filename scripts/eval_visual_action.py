@@ -111,18 +111,12 @@ def main() -> None:
 
         cases = {"ood": FRESH_CASES, "holdout": HOLDOUT_CASES,
                  "stress": STRESS_CASES}[suite]
-        folder = ROOT / "eval" / "visual-action-v2" / suite
+        folder = ROOT / "eval" / "visual-action-v3" / suite
         folder.mkdir(parents=True, exist_ok=True)
         app = VisualActionDemo()
-        model = app.world.model
-        original_render = app.world.render
-        original = {key: getattr(model, key).copy() for key in
-                    ("geom_type", "geom_size", "geom_rgba", "geom_friction", "mat_rgba", "light_diffuse")}
-        original["headlight_diffuse"] = model.vis.headlight.diffuse.copy()
-        original["headlight_ambient"] = model.vis.headlight.ambient.copy()
         rows = []
         for case in cases:
-            row = run_ood(app, case, folder, original_render, original)
+            row = run_ood(app, case, folder)
             near = case[3].startswith("go near")
             row["physical_pass"] = bool(row["finished"] and row["selected_slot"] == case[4]
                                         and (row["expected_target_peak_rise_mm"] < 5 and row["jaw"] > 1
@@ -132,11 +126,13 @@ def main() -> None:
         print(f"PHYSICAL {sum(row['physical_pass'] for row in rows)}/{len(rows)}", flush=True)
         return
     slip = "--slip" in sys.argv
-    folder = ROOT / "eval" / ("visual-action-v1" if baseline else "visual-action-v2") / ("slip" if slip else "baseline" if baseline else "head")
+    folder = ROOT / "eval" / ("visual-action-v1" if baseline else "visual-action-v3") / ("slip" if slip else "baseline" if baseline else "head")
     folder.mkdir(parents=True, exist_ok=True)
     app = ActionDemo() if baseline else VisualActionDemo()
     cases = ((CASES[1], (280002, CASES[7][1], "red_cube", "drop-left", False), CASES[7])
-             if slip else CASES[7:9] if "--placements" in sys.argv else CASES)
+             if slip else (*CASES[7:9], (290000, "lift the red cube then move left then drop it",
+                                        "red_cube", "drop-left", False))
+             if "--placements" in sys.argv else CASES)
     rows = [run(app, case, folder, slip=slip) for case in cases]
     filename = "placements.json" if "--placements" in sys.argv else "results.json"
     (folder / filename).write_text(json.dumps(rows, indent=2) + "\n")

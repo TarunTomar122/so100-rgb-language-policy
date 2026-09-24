@@ -22,8 +22,8 @@ MOVABLES = ("red_cube", "blue_cube", "green_cylinder", "yellow_block")
 HALF_Z = {
     "red_cube": 0.015,
     "blue_cube": 0.015,
-    "green_cylinder": 0.02,
-    "yellow_block": 0.018,
+    "green_cylinder": 0.015,
+    "yellow_block": 0.015,
 }
 MOCAPS = ("bowl", "marker", "platform")
 FINGER_GEOMS = (
@@ -93,8 +93,8 @@ def look_quat(eye: np.ndarray, target: np.ndarray) -> np.ndarray:
 
 
 class Tabletop:
-    def __init__(self) -> None:
-        self.model = mujoco.MjModel.from_xml_path(str(XML))
+    def __init__(self, xml: Path = XML) -> None:
+        self.model = mujoco.MjModel.from_xml_path(str(xml))
         self.data = mujoco.MjData(self.model)
         self._cam = mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_CAMERA, "main")
         self._watch = mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_CAMERA, "watch")

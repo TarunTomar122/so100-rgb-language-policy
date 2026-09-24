@@ -29,11 +29,11 @@
     </body>
     <body name="green_cylinder" pos="0.12 -0.30 0.05">
       <freejoint name="green_cylinder_j"/>
-      <geom name="green_cylinder" type="cylinder" size="0.013 0.02" mass="0.04" rgba="0.15 0.65 0.25 1" condim="6" friction="1.0 0.05 0.02"/>
+      <geom name="green_cylinder" type="cylinder" size="0.013 0.015" mass="0.04" rgba="0.15 0.65 0.25 1" condim="6" friction="1.0 0.05 0.02"/>
     </body>
     <body name="yellow_block" pos="-0.12 -0.30 0.05">
       <freejoint name="yellow_block_j"/>
-      <geom name="yellow_block" type="box" size="0.018 0.018 0.018" mass="0.05" rgba="0.90 0.78 0.15 1" friction="1.2 0.05 0.001"/>
+      <geom name="yellow_block" type="box" size="0.012 0.022 0.015" mass="0.05" rgba="0.90 0.78 0.15 1" friction="1.2 0.05 0.001"/>
     </body>
 
     <body name="bowl" mocap="true" pos="0.16 -0.34 0.02">

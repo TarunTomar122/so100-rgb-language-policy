@@ -1,0 +1,106 @@
+[
+  {
+    "seed": 280002,
+    "command": "lift the red cube",
+    "target": "red_cube",
+    "task": "lift",
+    "moved_mid_task": false,
+    "slipped_after_grasp": true,
+    "perturbed": true,
+    "actions": [
+      "reach",
+      "lower",
+      "close",
+      "lift",
+      "open",
+      "reach",
+      "lower",
+      "close",
+      "lift"
+    ],
+    "reapproaches": 1,
+    "selected": "red_cube",
+    "peak_rise_mm": 49.9,
+    "delta_mm": [
+      52.6,
+      -16.4,
+      49.9
+    ],
+    "finished": true,
+    "failed": false,
+    "status": "Model chose to stop",
+    "pass": true,
+    "image": "280002-lift.jpg"
+  },
+  {
+    "seed": 280002,
+    "command": "pick up the red cube, move left, then let go",
+    "target": "red_cube",
+    "task": "drop-left",
+    "moved_mid_task": false,
+    "slipped_after_grasp": true,
+    "perturbed": true,
+    "actions": [
+      "reach",
+      "lower",
+      "close",
+      "lift",
+      "open",
+      "reach",
+      "lower",
+      "close",
+      "lift",
+      "left",
+      "open"
+    ],
+    "reapproaches": 1,
+    "selected": "red_cube",
+    "peak_rise_mm": 49.9,
+    "delta_mm": [
+      57.1,
+      -46.3,
+      0.1
+    ],
+    "finished": true,
+    "failed": false,
+    "status": "Model chose to stop",
+    "pass": true,
+    "image": "280002-drop-left.jpg"
+  },
+  {
+    "seed": 280008,
+    "command": "pick up the red cube, move left, then let go",
+    "target": "red_cube",
+    "task": "drop-left",
+    "moved_mid_task": false,
+    "slipped_after_grasp": true,
+    "perturbed": true,
+    "actions": [
+      "reach",
+      "lower",
+      "close",
+      "lift",
+      "open",
+      "reach",
+      "lower",
+      "close",
+      "lift",
+      "open",
+      "reach",
+      "lower"
+    ],
+    "reapproaches": 2,
+    "selected": "red_cube",
+    "peak_rise_mm": 0.1,
+    "delta_mm": [
+      39.2,
+      -2.0,
+      0.1
+    ],
+    "finished": false,
+    "failed": true,
+    "status": "Stopped after 12 decisions",
+    "pass": false,
+    "image": "280008-drop-left.jpg"
+  }
+]

@@ -1,0 +1,104 @@
+[
+  {
+    "seed": 280008,
+    "command": "pick up the red cube, move left, then let go",
+    "target": "red_cube",
+    "task": "drop-left",
+    "moved_mid_task": false,
+    "slipped_after_grasp": false,
+    "perturbed": false,
+    "actions": [
+      "reach",
+      "lower",
+      "close",
+      "lift",
+      "left",
+      "open",
+      "reach",
+      "lower",
+      "close",
+      "lift",
+      "left",
+      "open"
+    ],
+    "reapproaches": 1,
+    "selected": "red_cube",
+    "peak_rise_mm": 57.9,
+    "delta_mm": [
+      -12.2,
+      -72.7,
+      -0.1
+    ],
+    "finished": true,
+    "failed": false,
+    "status": "Model chose to stop",
+    "pass": true,
+    "image": "280008.jpg"
+  },
+  {
+    "seed": 280009,
+    "command": "lift the blue cube and move right then drop it",
+    "target": "blue_cube",
+    "task": "drop",
+    "moved_mid_task": false,
+    "slipped_after_grasp": false,
+    "perturbed": false,
+    "actions": [
+      "reach",
+      "lower",
+      "close",
+      "lift",
+      "right",
+      "open"
+    ],
+    "reapproaches": 0,
+    "selected": "blue_cube",
+    "peak_rise_mm": 58.4,
+    "delta_mm": [
+      4.1,
+      18.7,
+      0.1
+    ],
+    "finished": true,
+    "failed": false,
+    "status": "Model chose to stop",
+    "pass": true,
+    "image": "280009.jpg"
+  },
+  {
+    "seed": 290000,
+    "command": "lift the red cube then move left then drop it",
+    "target": "red_cube",
+    "task": "drop-left",
+    "moved_mid_task": false,
+    "slipped_after_grasp": false,
+    "perturbed": false,
+    "actions": [
+      "reach",
+      "lower",
+      "close",
+      "lift",
+      "left",
+      "open",
+      "reach",
+      "lower",
+      "close",
+      "lift",
+      "left",
+      "open"
+    ],
+    "reapproaches": 1,
+    "selected": "red_cube",
+    "peak_rise_mm": 49.4,
+    "delta_mm": [
+      14.4,
+      -28.7,
+      0.1
+    ],
+    "finished": true,
+    "failed": false,
+    "status": "Model chose to stop",
+    "pass": true,
+    "image": "290000.jpg"
+  }
+]

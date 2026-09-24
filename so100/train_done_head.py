@@ -18,7 +18,7 @@ from so100.train_visual_action_recovery import CACHE as SLIP_CACHE
 from so100.visual_action_head import SIZE, DoneCalibrator, LanguagePrior, VisualActionHead, observe
 
 DONE_CHECKPOINT = CHECKPOINT.with_name("done.pt")
-VARIED_CACHE = BASE_CACHE.with_name("so100-done-varied-v2.pt")
+VARIED_CACHE = BASE_CACHE.with_name("so100-done-varied-v3.pt")
 
 # Separate training scenes. Evaluation seeds and object combinations stay out.
 VARIANTS = (
@@ -34,23 +34,15 @@ VARIANTS = (
 
 
 def collect_varied(eyes: Siglip2, seeds: range) -> tuple[list, dict]:
-    world = setup_world()
-    executor = Executor(world)
     prior = LanguagePrior(eyes.device)
-    original = {key: getattr(world.model, key).copy() for key in ("geom_type", "geom_size", "geom_rgba")}
     rows = []
     counts = {"episodes": 0, "verified_done": 0, "failed_grasp": 0, "skipped": 0}
     for seed in seeds:
-        for key, value in original.items():
-            getattr(world.model, key)[:] = value
+        slot, noun, shape, dims, half_height, color = VARIANTS[seed % len(VARIANTS)]
+        world = setup_world((slot, shape, dims, half_height, color))
+        executor = Executor(world)
         empty = []
         scene(world, seed, on_empty=lambda _: empty.append(world.render(SIZE)))
-        slot, noun, shape, dims, half_height, color = VARIANTS[seed % len(VARIANTS)]
-        gid = world.obj_geom[slot]
-        world.model.geom_type[gid] = int(getattr(mujoco.mjtGeom, f"mjGEOM_{shape.upper()}"))
-        world.model.geom_size[gid] = dims
-        if color is not None:
-            world.model.geom_rgba[gid] = color
         pose = world.object_pose(slot)
         world.set_object(slot, np.array([pose[0], pose[1], TABLE_TOP + half_height + .004]), pose[3:])
         world.step(100)

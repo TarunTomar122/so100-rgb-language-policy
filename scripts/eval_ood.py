@@ -13,9 +13,10 @@ import numpy as np
 from PIL import Image
 
 from so100.action_demo import ActionDemo
+from so100.executor import Executor
 from so100.rgb_target import candidate_masks
 from so100.sim import TABLE_TOP
-from so100.train_rgb_target import SIZE, scene
+from so100.train_rgb_target import SIZE, scene, setup_world
 
 ROOT = Path(__file__).resolve().parents[1]
 PURPLE = (.55, .20, .65, 1)
@@ -156,29 +157,20 @@ def corrupt(image: np.ndarray, kind: str, rng: np.random.Generator) -> np.ndarra
     raise ValueError(kind)
 
 
-def run(app: ActionDemo, case: tuple, output: Path, original_render, original: dict, video: bool = False) -> dict:
+def run(app: ActionDemo, case: tuple, output: Path, video: bool = False) -> dict:
     slug, seed, group, instruction, target, change = case
+    app.world = setup_world(change.get("object"))
+    app.executor = Executor(app.world)
     world = app.world
     model = world.model
-    world.render = original_render
-    for key, value in original.items():
-        if key == "headlight_diffuse":
-            model.vis.headlight.diffuse[:] = value
-        elif key == "headlight_ambient":
-            model.vis.headlight.ambient[:] = value
-        else:
-            getattr(model, key)[:] = value
+    original_render = world.render
+    app.allow_merged_scene = "object" in change
     app.seed = seed - 1
     app.reset()
     if change.get("wide"):
         scene(world, seed, annotate=False, wide=True)
     if "object" in change:
         slot, shape, dims, half_height, rgba = change["object"]
-        gid = world.obj_geom[slot]
-        model.geom_type[gid] = int(getattr(mujoco.mjtGeom, f"mjGEOM_{shape.upper()}"))
-        model.geom_size[gid] = dims
-        if rgba is not None:
-            model.geom_rgba[gid] = rgba
         pose = world.object_pose(slot)
         world.set_object(slot, np.array([pose[0], pose[1], TABLE_TOP + half_height + .004]), pose[3:])
         world.step(100)
@@ -326,15 +318,9 @@ def main() -> None:
         cases = [case for case in cases if case[0] in args.select]
     args.output.mkdir(parents=True, exist_ok=True)
     app = ActionDemo()
-    model = app.world.model
-    original_render = app.world.render
-    original = {key: getattr(model, key).copy() for key in
-                ("geom_type", "geom_size", "geom_rgba", "geom_friction", "mat_rgba", "light_diffuse")}
-    original["headlight_diffuse"] = model.vis.headlight.diffuse.copy()
-    original["headlight_ambient"] = model.vis.headlight.ambient.copy()
     results = []
     for case in cases[:args.limit]:
-        results.append(run(app, case, args.output, original_render, original, args.video))
+        results.append(run(app, case, args.output, args.video))
         (args.output / "results.json").write_text(json.dumps(results, indent=2) + "\n")
     print(f"TOTAL {sum(row['pass'] for row in results)}/{len(results)}", flush=True)
 

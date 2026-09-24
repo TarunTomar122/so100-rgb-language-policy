@@ -58,6 +58,7 @@ class VisualActionDemo(ActionDemo):
         self.target_identity = None
         self.decision_history = []
         self.pick_start = 0
+        self.carrying = False
         return super().reset()
 
     def command(self, text: str) -> dict:
@@ -86,6 +87,7 @@ class VisualActionDemo(ActionDemo):
         self.target_identity = None
         self.decision_history = []
         self.pick_start = 0
+        self.carrying = False
         self.failed = False
         self.finished = False
         self.status = "Instruction received"
@@ -165,8 +167,18 @@ class VisualActionDemo(ActionDemo):
                 if lifted is False or (lifted is None and self.world.finger_gap() < 0.015):
                     self.last_ok = False
                     self.recovering = True
-                elif lifted is True:
+                    self.carrying = False
+                else:
                     self.recovering = False
+                    self.carrying = True
+            elif self.last_ok and self.carrying and skill in ("left", "right", "up", "down"):
+                lifted = self._visual_lifted()
+                if lifted is False or (lifted is None and self.world.finger_gap() < 0.015):
+                    self.last_ok = False
+                    self.recovering = True
+                    self.carrying = False
+            elif skill == "open":
+                self.carrying = False
             if was_recovering:
                 if not self.recovering and skill == "lift":
                     self.decision_history.extend(("reach", "lower", "close", "lift"))

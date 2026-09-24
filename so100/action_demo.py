@@ -42,7 +42,8 @@ class ActionDemo:
     def reset(self) -> dict:
         self.seed += 1
         scene(self.world, self.seed, annotate=False,
-              on_empty=lambda frame: setattr(self, "background", frame))
+              on_empty=lambda frame: setattr(self, "background", frame),
+              allow_merged=getattr(self, "allow_merged_scene", False))
         self.instruction = ""
         self.plan: list[str] | None = None
         self.history: list[str] = []

@@ -6,6 +6,8 @@ Run: source scripts/vulkan_env.sh && PYTHONPATH=. .venv/bin/python -m so100.trai
 from __future__ import annotations
 
 import json
+import tempfile
+import xml.etree.ElementTree as ET
 from pathlib import Path
 
 import mujoco
@@ -16,7 +18,7 @@ from scipy.optimize import linear_sum_assignment
 
 from so100.encode import Siglip2
 from so100.rgb_target import TargetHead, candidate_masks, pool_patches
-from so100.sim import MOVABLES, TABLE_TOP, Tabletop
+from so100.sim import MOVABLES, TABLE_TOP, XML, Tabletop
 from so100.vision import project_xyz
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -29,16 +31,29 @@ def command(name: str, verb: str = "pick up") -> str:
     return f"{verb} the {name.replace('_', ' ')}"
 
 
-def setup_world() -> Tabletop:
-    world = Tabletop()
+def setup_world(variant: tuple | None = None) -> Tabletop:
+    if variant is None:
+        world = Tabletop()
+    else:
+        # MuJoCo collision constants are compiled from XML. Mutating geom_type
+        # at runtime changes the rendering but leaves intermittent contacts.
+        tree = ET.parse(XML)
+        slot, shape, dims, _half_height, color = variant
+        geom = tree.find(f".//geom[@name='{slot}']")
+        assert geom is not None
+        geom.set("type", shape)
+        geom.set("size", " ".join(str(value) for value in dims if value != 0))
+        if color is not None:
+            geom.set("rgba", " ".join(str(value) for value in color))
+        with tempfile.NamedTemporaryFile(dir=ROOT, suffix=".xml") as source:
+            tree.write(source.name)
+            world = Tabletop(Path(source.name))
     world.model.site_pos[world._tcp] = [0.0089, -0.1064, 0.0]
-    world.model.geom_size[world.obj_geom["green_cylinder"], 1] = 0.015
-    world.model.geom_size[world.obj_geom["yellow_block"], :3] = [0.012, 0.022, 0.015]
     return world
 
 
 def scene(world: Tabletop, seed: int, annotate: bool = True, wide: bool = False,
-          on_empty=None) -> tuple[np.ndarray, list[np.ndarray], list[int] | None]:
+          on_empty=None, allow_merged: bool = False) -> tuple[np.ndarray, list[np.ndarray], list[int] | None]:
     rng = np.random.default_rng(seed)
     for _ in range(100 if wide else 30):
         world.home()
@@ -75,7 +90,7 @@ def scene(world: Tabletop, seed: int, annotate: bool = True, wide: bool = False,
         mujoco.mj_forward(world.model, world.data)
         image = world.render(SIZE)
         masks = candidate_masks(image)
-        if len(masks) != 4:
+        if len(masks) != 4 and not (allow_merged and not annotate):
             continue
         if not annotate:
             return image, masks, None

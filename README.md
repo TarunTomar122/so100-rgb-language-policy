@@ -11,10 +11,11 @@ Every MP4 below records the arm executing the current policy in MuJoCo. The stil
 | “go near the blue cube” — approaches with jaws open | [![Approach](media/go-near-blue.jpg)](media/go-near-blue.mp4) |
 | “lift the green tube and put it down on the right” — compound instruction | [![Move and release](media/move-green-right.jpg)](media/move-green-right.mp4) |
 | “lift the violet cube” — unseen color, succeeds | [![Violet cube](eval/ood-v2/clips/holdout/violet-cube.jpg)](eval/ood-v2/clips/holdout/violet-cube.mp4) |
-| “lift the blue capsule” — unseen shape, succeeds | [![Blue capsule](eval/ood-v2/clips/holdout/blue-capsule.jpg)](eval/ood-v2/clips/holdout/blue-capsule.mp4) |
+| “lift the blue capsule” — historical clip with invalid altered-shape collision | [![Blue capsule](eval/ood-v2/clips/holdout/blue-capsule.jpg)](eval/ood-v2/clips/holdout/blue-capsule.mp4) |
 | “lift the green cylinder” on a teal table — succeeds; held object becomes occluded | [![Teal table](eval/ood-v2/clips/stress/teal-table.jpg)](eval/ood-v2/clips/stress/teal-table.mp4) |
 | “pick up the coral block” — fails by selecting another object | [![Coral failure](eval/ood-v2/clips/holdout/coral-block.jpg)](eval/ood-v2/clips/holdout/coral-block.mp4) |
 | “pick up the cyan tube” — fails at contact | [![Tube failure](eval/ood-v2/clips/holdout/tall-cyan-tube.jpg)](eval/ood-v2/clips/holdout/tall-cyan-tube.mp4) |
+| “lift the red cube then move left then drop it” — recovers after a carry slip | [![Carry retry](media/carry-retry-red-left.jpg)](media/carry-retry-red-left.mp4) |
 
 ## Run
 
@@ -48,7 +49,7 @@ The earlier trained target and GRU action heads are retained in `data/` and thei
 | New holdout scenes | **8 / 13** |
 | Second fresh set | **6 / 10** |
 
-These are seeded simulation scenes, not real-world success rates. The detailed [evaluation report](eval/ood-v2/REPORT.md) links every result, failure frame, and recorded video; [research notes](docs/robustness-research.md) cite the primary sources and tested alternatives.
+These are historical seeded simulation results, not real-world success rates. Altered-shape trials in this older suite used invalid collision geometry; see the [corrected visual-action evaluation](eval/visual-action-v3/REPORT.md). The detailed [older evaluation report](eval/ood-v2/REPORT.md) links every result, failure frame, and recorded video; [research notes](docs/robustness-research.md) cite the primary sources and tested alternatives.
 
 The current proposal stage still expects four mostly distinct, saturated objects. Similar colors can merge, flat/tall objects break the fixed-height grasp, and the gripper can miss even when target selection and IK are correct. The single view can also lose sight of an object inside the jaws. The browser marks completion of the **plan**, not a verified physical success. An external simulator grader uses object poses only to score these experiments.
 
@@ -67,4 +68,4 @@ See [EXPERIMENTS.md](EXPERIMENTS.md) for the path from click-to-IK to this polic
 
 ## Experimental visual action head
 
-A separate [closed-loop visual action experiment](eval/visual-action-v2/REPORT.md) feeds fresh RGB features to the earlier action head after every skill. It keeps object localization and IK responsible for coordinates. A learned stop decision now uses training examples labeled by actual object lift, including varied shapes and descriptions. In seeded simulation it passes **10/11** fixed tasks, **2/3** induced-slip trials, **6/10** fresh-object trials, and **8/13** separate holdout trials. Exact requested action sequences pass **4/10** and **5/13** in the last two sets. Run `uv run --frozen python -m so100.visual_action_demo` for its separate browser demo on port **8773**; it has not replaced the default policy.
+The separate [closed-loop visual action experiment](eval/visual-action-v3/REPORT.md) feeds fresh RGB features to the action head after every skill. It also checks whether a carried object fell during a movement and can retry. The reported red-cube move-and-drop command now passes after one retry in simulation. With corrected object collisions, it passes **10/11** fixed commands, **3/3** selected placement checks, **2/3** deliberate slips, **5/10** fresh-object physical goals, and **7/13** separate holdout physical goals. It remains unreliable on arbitrary objects. Run `uv run --frozen python -m so100.visual_action_demo` for its browser demo on port **8773**; it has not replaced the default policy.

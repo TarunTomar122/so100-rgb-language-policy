@@ -1,5 +1,7 @@
 # RGB-only robustness revision — 23 September 2026
 
+**Historical results:** The altered-shape scenes changed MuJoCo geometry after compilation, which produced unreliable contacts. Treat the shape scores below as invalid physical evidence. See the [corrected visual-action evaluation](../visual-action-v3/REPORT.md); the default frozen policy has not been rerun on the full corrected suite.
+
 **Complete physical outcomes:** 21/28 on the previously inspected stress scenes, 8/13 on new combinations, and 6/10 on a second new set. The original frozen policy passed 16/28 on the first set. These are single seeded MuJoCo trials, not estimated real-world rates.
 
 No model was trained or fine-tuned for these scenes. The old target and GRU action checkpoints were not changed. The revision uses an empty-table RGB reference to filter foreground, frozen SigLIP 2 to rank object crops against the instruction, and frozen Qwen3-4B to plan from the existing ten skills. RGB grasp geometry and IK still execute the physical motion.
