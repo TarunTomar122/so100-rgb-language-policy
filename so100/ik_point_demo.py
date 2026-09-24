@@ -135,6 +135,8 @@ class Handler(BaseHTTPRequestHandler):
                 data = self.server.app.step()
             elif self.path == "/api/reset":
                 data = self.server.app.reset()
+            elif self.path == "/api/move" and hasattr(self.server.app, "move_click"):
+                data = self.server.app.move_click(float(body["u"]), float(body["v"]))
             else:
                 return self.reply({"error": "not found"}, 404)
             self.reply(data)

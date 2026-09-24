@@ -11,7 +11,7 @@ from torch import nn
 
 from so100.action_head import ActionHead, ActionText, SKILLS, state_vector
 from so100.encode import Siglip2
-from so100.rgb_target import candidate_masks, pool_patches
+from so100.rgb_target import TargetHead, candidate_masks, pool_patches
 from so100.sim import Tabletop
 from so100.vision import project_xyz
 
@@ -45,36 +45,66 @@ class LanguagePrior:
 def observe(world: Tabletop, eyes: Siglip2, instruction: str,
             background: np.ndarray, history: list[str], last_ok: bool,
             text_feature: np.ndarray | None = None,
-            previous_uv: np.ndarray | None = None) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, int | None, np.ndarray]:
+            previous_uv: np.ndarray | None = None,
+            target_identity: np.ndarray | None = None,
+            target_chroma: np.ndarray | None = None,
+            target_head: TargetHead | None = None) -> tuple:
     """Only RGB, the instruction, and robot sensors enter the learned decision."""
     image = world.render(SIZE)
-    if background.shape != image.shape:
-        background = cv2.resize(background, (SIZE, SIZE), interpolation=cv2.INTER_AREA)
-    masks = candidate_masks(image, background=background)
+    target_image = world.render(512) if target_head is not None else image
+    if background.shape != target_image.shape:
+        background = cv2.resize(background, target_image.shape[:2][::-1], interpolation=cv2.INTER_AREA)
+    masks = candidate_masks(target_image, background=background)
     patches = eyes.embed_image([Image.fromarray(image)])[0]
     scene = patches.mean(axis=0)
     target = np.zeros(FEATURES, np.float32)
     uv = np.zeros(2, np.float32)
     area = 0.0
     selected = None
-    if masks:
-        crops = []
-        for mask in masks:
-            ys, xs = np.nonzero(mask)
-            crops.append(Image.fromarray(image[max(0, ys.min()-12):min(SIZE, ys.max()+13),
-                                               max(0, xs.min()-12):min(SIZE, xs.max()+13)]))
-        batch = eyes.processor(images=crops, text=[instruction], padding="max_length",
-                               max_length=48, return_tensors="pt")
-        with torch.no_grad():
-            logits = eyes.model(**{key: value.to(eyes.device) for key, value in batch.items()}).logits_per_image[:, 0]
-        selected = int(logits.argmax().item())
-        mask = masks[selected]
-        target = pool_patches(patches, [mask])[0]
-        ys, xs = np.nonzero(mask)
-        uv = np.array([xs.mean() / SIZE, ys.mean() / SIZE], np.float32)
-        area = float(mask.mean())
+    selected_feature = None
     if text_feature is None:
         text_feature = eyes.embed_text_mean([instruction])[0]
+    if masks:
+        if target_head is not None:
+            target_patches = eyes.embed_image([Image.fromarray(target_image)])[0]
+            features = pool_patches(target_patches, masks)
+            with torch.no_grad():
+                scores = target_head(
+                    torch.from_numpy(features).to(eyes.device)[None],
+                    torch.from_numpy(text_feature).to(eyes.device)[None],
+                )[0].float().cpu().numpy()
+        else:
+            crops = []
+            for mask in masks:
+                ys, xs = np.nonzero(mask)
+                crops.append(Image.fromarray(image[max(0, ys.min()-12):min(SIZE, ys.max()+13),
+                                                   max(0, xs.min()-12):min(SIZE, xs.max()+13)]))
+            batch = eyes.processor(images=crops, text=[instruction], padding="max_length",
+                                   max_length=48, return_tensors="pt")
+            with torch.no_grad():
+                output = eyes.model(**{key: value.to(eyes.device) for key, value in batch.items()})
+            features = output.image_embeds.float().cpu().numpy()
+            scores = output.logits_per_image[:, 0].float().cpu().numpy()
+        features /= np.linalg.norm(features, axis=1, keepdims=True).clip(min=1e-6)
+        if target_identity is not None:
+            scores = features @ target_identity
+            if target_chroma is not None:
+                colors = np.array([target_image[mask].mean(axis=0) for mask in masks])
+                chromas = colors / np.maximum(colors.sum(axis=1, keepdims=True), 1)
+                distances = np.linalg.norm(chromas - target_chroma, axis=1)
+                matching = distances <= 0.08
+                if matching.any():
+                    scores = np.where(matching, scores, -np.inf)
+        selected = int(scores.argmax())
+        selected_feature = features[selected].copy()
+        mask = masks[selected]
+        action_mask = (cv2.resize(mask.astype(np.uint8), (SIZE, SIZE),
+                                  interpolation=cv2.INTER_AREA) > 0.5
+                       if target_head is not None else mask)
+        target = pool_patches(patches, [action_mask])[0]
+        ys, xs = np.nonzero(action_mask)
+        uv = np.array([xs.mean() / SIZE, ys.mean() / SIZE], np.float32)
+        area = float(mask.mean())
     tip_uv = project_xyz(world, world.tcp(), SIZE)
     tip_uv = np.asarray(tip_uv, np.float32) / SIZE if tip_uv is not None else np.zeros(2, np.float32)
     target_to_tip = (uv - tip_uv) * 5 if selected is not None else np.zeros(2, np.float32)
@@ -89,7 +119,8 @@ def observe(world: Tabletop, eyes: Siglip2, instruction: str,
                             uv, [area * 10], target_to_tip, target_motion,
                             counts, recent, [float(last_ok)])).astype(np.float32)
     assert state.shape == (STATE_DIM,)
-    return scene.astype(np.float32), target.astype(np.float32), text_feature.astype(np.float32), state, selected, uv
+    return (scene.astype(np.float32), target.astype(np.float32), text_feature.astype(np.float32),
+            state, selected, uv, None if selected is None else masks[selected], selected_feature)
 
 
 class VisualActionHead(nn.Module):

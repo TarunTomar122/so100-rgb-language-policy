@@ -96,27 +96,34 @@ class ActionDemo:
                        crops: list[Image.Image], logits: torch.Tensor, retry: bool) -> int:
         return int(logits.argmax().item())
 
-    def _find_grasp(self, retry: bool = False) -> None:
+    def _find_grasp(self, retry: bool = False, selected_mask: np.ndarray | None = None) -> None:
         image = self.world.render(SIZE)
-        masks = candidate_masks(image, background=self.background)
-        if not masks:
-            raise ValueError("RGB camera found no object candidates in this view")
-        # Frozen SigLIP compares each visible crop with the instruction.
-        crops = []
-        for mask in masks:
-            ys, xs = np.nonzero(mask)
-            x0, x1 = max(0, int(xs.min()) - 12), min(SIZE, int(xs.max()) + 13)
-            y0, y1 = max(0, int(ys.min()) - 12), min(SIZE, int(ys.max()) + 13)
-            crops.append(Image.fromarray(image[y0:y1, x0:x1]))
-        batch = self.eyes.processor(images=crops, text=[self.instruction],
-                                    padding="max_length", max_length=48,
-                                    return_tensors="pt")
-        with torch.no_grad():
-            logits = self.eyes.model(**{key: value.to(self.device)
-                                        for key, value in batch.items()}).logits_per_image[:, 0]
-            prob = torch.softmax(logits, -1)
-            index = self._select_target(image, masks, crops, logits, retry)
-            confidence = float(prob[index].item())
+        if selected_mask is None:
+            masks = candidate_masks(image, background=self.background)
+            if not masks:
+                raise ValueError("RGB camera found no object candidates in this view")
+            # Frozen SigLIP compares each visible crop with the instruction.
+            crops = []
+            for mask in masks:
+                ys, xs = np.nonzero(mask)
+                x0, x1 = max(0, int(xs.min()) - 12), min(SIZE, int(xs.max()) + 13)
+                y0, y1 = max(0, int(ys.min()) - 12), min(SIZE, int(ys.max()) + 13)
+                crops.append(Image.fromarray(image[y0:y1, x0:x1]))
+            batch = self.eyes.processor(images=crops, text=[self.instruction],
+                                        padding="max_length", max_length=48,
+                                        return_tensors="pt")
+            with torch.no_grad():
+                logits = self.eyes.model(**{key: value.to(self.device)
+                                            for key, value in batch.items()}).logits_per_image[:, 0]
+                prob = torch.softmax(logits, -1)
+                index = self._select_target(image, masks, crops, logits, retry)
+                confidence = float(prob[index].item())
+        else:
+            if selected_mask.shape != image.shape[:2]:
+                raise ValueError("Selected RGB mask has the wrong image size")
+            masks = [selected_mask]
+            index = 0
+            confidence = None
         ys, xs = np.nonzero(masks[index])
         self.target_uv = [float(xs.mean()), float(ys.mean())]
         self.target_confidence = confidence

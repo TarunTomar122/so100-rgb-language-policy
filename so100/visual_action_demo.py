@@ -4,26 +4,35 @@ from __future__ import annotations
 
 import sys
 
+import mujoco
 import numpy as np
 import torch
-from PIL import Image
 
 from so100.action_demo import ActionDemo, PAGE
 from so100.action_head import SKILLS, execute_skill
 from so100.encode import Siglip2
 from so100.executor import Executor
 from so100.ik_point_demo import serve
+from so100.rgb_target import TargetHead
+from so100.train_action_target import CHECKPOINT as TARGET_CHECKPOINT
+from so100.sim import MOVABLES, TABLE_TOP, TABLE_X, TABLE_Y
 from so100.train_rgb_target import setup_world
 from so100.train_visual_action import CHECKPOINT
 from so100.train_visual_action_recovery import RECOVERY_CHECKPOINT
 from so100.train_done_head import DONE_CHECKPOINT
 from so100.visual_action_head import SIZE, DoneCalibrator, LanguagePrior, RecoveryActionHead, VisualActionHead, observe
+from so100.vision import project_xyz, unproject_pixels
+
+FRAME_SIZE = 512
 
 
 class VisualActionDemo(ActionDemo):
     def __init__(self) -> None:
         self.device = "mps" if torch.backends.mps.is_available() else "cpu"
         self.eyes = Siglip2(self.device)
+        self.target_head = TargetHead().to(self.device).eval()
+        self.target_head.load_state_dict(torch.load(
+            TARGET_CHECKPOINT, map_location=self.device, weights_only=True)["state"])
         self.prior = LanguagePrior(self.device)
         self.head = VisualActionHead().to(self.device).eval()
         saved = torch.load(CHECKPOINT, map_location=self.device, weights_only=True)
@@ -44,6 +53,9 @@ class VisualActionDemo(ActionDemo):
         self.last_ok = True
         self.recovering = False
         self.target_identity: np.ndarray | None = None
+        self.selected_mask: np.ndarray | None = None
+        self.selected_feature: np.ndarray | None = None
+        self.move_selected: str | None = None
         self.decision_history: list[str] = []
         self.pick_start = 0
         self.reset()
@@ -56,6 +68,9 @@ class VisualActionDemo(ActionDemo):
         self.last_ok = True
         self.recovering = False
         self.target_identity = None
+        self.selected_mask = None
+        self.selected_feature = None
+        self.move_selected = None
         self.decision_history = []
         self.pick_start = 0
         self.carrying = False
@@ -85,6 +100,9 @@ class VisualActionDemo(ActionDemo):
         self.last_ok = True
         self.recovering = False
         self.target_identity = None
+        self.selected_mask = None
+        self.selected_feature = None
+        self.move_selected = None
         self.decision_history = []
         self.pick_start = 0
         self.carrying = False
@@ -97,31 +115,59 @@ class VisualActionDemo(ActionDemo):
     def _predict(self) -> tuple[str, float] | None:
         return self.next_choice
 
-    def _select_target(self, image: np.ndarray, masks: list[np.ndarray],
-                       crops: list[Image.Image], logits: torch.Tensor, retry: bool) -> int:
-        features = self.eyes.embed_image(crops).mean(axis=1)
-        features /= np.linalg.norm(features, axis=1, keepdims=True).clip(min=1e-6)
-        if retry and self.target_identity is not None:
-            scores = features @ self.target_identity
-            if self.target_chroma is not None:
-                colors = np.array([image[mask].mean(axis=0) for mask in masks])
-                chromas = colors / np.maximum(colors.sum(axis=1, keepdims=True), 1)
-                distances = np.linalg.norm(chromas - self.target_chroma, axis=1)
-                scores[distances > 0.08] = -np.inf
-                if np.isfinite(scores).any():
-                    return int(np.argmax(scores))
-            return int(np.argmax(features @ self.target_identity))
-        index = super()._select_target(image, masks, crops, logits, retry)
-        self.target_identity = features[index].copy()
-        return index
+    def move_click(self, u: float, v: float) -> dict:
+        """Simulator UI intervention; object poses never enter policy inference."""
+        if not np.isfinite(u) or not np.isfinite(v) or not (0 <= u < FRAME_SIZE and 0 <= v < FRAME_SIZE):
+            raise ValueError("Click inside the simulator image")
+        if self.move_selected is None:
+            projected = [(name, project_xyz(self.world, self.world.object_xyz(name), FRAME_SIZE))
+                         for name in MOVABLES]
+            visible = [(name, np.linalg.norm(np.array(point) - [u, v]))
+                       for name, point in projected if point is not None]
+            if not visible:
+                raise ValueError("No object is visible")
+            name, distance = min(visible, key=lambda item: item[1])
+            if distance > 28:
+                raise ValueError("Click a cube or other object first")
+            self.move_selected = name
+            self.status = "Click a new spot on the table"
+            return self.state()
+        xyz = unproject_pixels(self.world, np.array([u]), np.array([v]), TABLE_TOP, FRAME_SIZE)[0]
+        if not np.isfinite(xyz).all() or not (TABLE_X[0] + 0.02 <= xyz[0] <= TABLE_X[1] - 0.02
+                                             and TABLE_Y[0] + 0.02 <= xyz[1] <= TABLE_Y[1] - 0.02):
+            raise ValueError("Click an open spot on the table")
+        name = self.move_selected
+        pose = self.world.object_pose(name)
+        pose[:2] = xyz[:2]
+        self.world.set_object(name, pose[:3], pose[3:])
+        mujoco.mj_forward(self.world.model, self.world.data)
+        self.move_selected = None
+        self.status = f"Moved {name.replace('_', ' ')}"
+        if self.text_feature is not None and not self.finished and not self.failed:
+            self._infer()
+        return self.state()
+
+    def state(self) -> dict:
+        result = super().state()
+        result["can_move_objects"] = True
+        result["move_selected"] = self.move_selected
+        result["move_uv"] = (None if self.move_selected is None else
+                             project_xyz(self.world, self.world.object_xyz(self.move_selected), FRAME_SIZE))
+        return result
+
+    def _find_grasp(self, retry: bool = False) -> None:
+        if self.selected_mask is None:
+            raise ValueError("RGB camera found no selected target in this view")
+        super()._find_grasp(retry=retry, selected_mask=self.selected_mask)
 
     def _infer(self) -> None:
         assert self.text_feature is not None
         history = self.history if self.recovering else self.decision_history
-        scene, target, text, state, _, uv = observe(
+        scene, target, text, state, _, uv, self.selected_mask, self.selected_feature = observe(
             self.world, self.eyes, self.instruction, self.background,
             history, self.last_ok and not self.recovering,
-            self.text_feature, self.previous_uv,
+            self.text_feature, self.previous_uv, self.target_identity, self.target_chroma,
+            self.target_head,
         )
         self.previous_uv = uv
         self.last_frame = self.world.render(SIZE)
@@ -158,6 +204,7 @@ class VisualActionDemo(ActionDemo):
             if skill == "reach":
                 if self.grasp is None:
                     self.pick_start = len(self.decision_history)
+                    self.target_identity = self.selected_feature
                 self._find_grasp(retry=self.grasp is not None)
             was_recovering = self.recovering
             self.last_ok = execute_skill(self.world, self.executor, skill, self.grasp)
@@ -208,5 +255,18 @@ if __name__ == "__main__":
             if app.finished or app.failed:
                 break
         print(app.history, app.status)
+        app.seed = 280001
+        app.reset()
+        before = app.world.object_xyz("red_cube")
+        app.move_click(*project_xyz(app.world, before, FRAME_SIZE))
+        destination = before.copy()
+        destination[0] += 0.025
+        destination[2] = TABLE_TOP
+        app.move_click(*project_xyz(app.world, destination, FRAME_SIZE))
+        assert np.linalg.norm(app.world.object_xyz("red_cube")[:2] - destination[:2]) < 0.002
+        app.command("go near the red cube")
+        app.step()
+        assert app.target_name == "red_cube" and app.history == ["reach"]
+        print("click-to-move and RGB retarget ok")
     else:
         serve(app, PAGE, 8773)
